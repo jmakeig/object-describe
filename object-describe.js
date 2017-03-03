@@ -63,7 +63,36 @@ function getNonArrayLikeOwnPropertyNames(obj) {
   return props;
 }
 
+function serializePrimitiveXXX(obj, trunc) {
+  trunc = trunc || 50;
+  function truncate(str) {
+    let suffix = '';
+    if(str.length > trunc) suffix = '…';
+    return str.substring(0, trunc) + suffix;
+  }
+  if(null === obj) return 'null';
+  switch(typeof obj) {
+    case 'undefined':
+      return 'undefined';
+    case 'string':
+      return `"${truncate(obj)}"`;
+    case 'number':
+      if(Number.isNaN(obj)) return 'NaN';
+      return obj.toLocaleString();
+    case 'date':
+      return obj.toLocaleString();
+    case 'boolean':
+    case 'function':
+    case 'symbol':
+      return String(boolean);
+    case 'object':
+      throw new TypeError('Can’t format objects');
+  }
+}
+
+
 function describe(obj) {
+  const top = obj;
   const report = { 
     instanceOf: instanceType(obj), 
   };
@@ -74,7 +103,8 @@ function describe(obj) {
   do {
     // Capture properties and symbols
     const propsAndSymbols = [].concat(
-      getNonArrayLikeOwnPropertyNames(obj),
+      //getNonArrayLikeOwnPropertyNames(obj),
+      Object.getOwnPropertyNames(obj),
       Object.getOwnPropertySymbols(obj)
     );
     for (const prop of propsAndSymbols) {
@@ -86,11 +116,12 @@ function describe(obj) {
       } else {
         p.value = describe(value);
       }
- 
       
       p.instanceOf = instanceType(value); //p.value.instanceOf ? p.value.instanceOf : 'BLAH'
       // Where this property is declared
-      p.from = instanceType(obj);
+      if(top !== obj && obj !== Object.getPrototypeOf(obj)) {
+        p.from = instanceType(obj);
+      }
       p.isEnumerable = obj.propertyIsEnumerable
         ? obj.propertyIsEnumerable(prop)
         : undefined;
@@ -111,7 +142,30 @@ function describe(obj) {
   return report;
 }
 
-const obj = { a: 'A', b: [1, 2, 3], c: null, d: Date.now(), e: undefined, f: new Date() };
+
+function renderProperty(prop) {
+    return `<div class="property ${prop.isEnumerable ? 'is-enumerable' : ''} ${prop.overrideOf ? 'is-override' : ''} ${prop.isOverridden ? 'is-overridden' : ''} typeof-${prop.instanceOf}">
+  <span class="name">${prop.name}</span> 
+  ${prop.from ? `<span class="from">from ${prop.from}</span> ` : ''}
+  ${prop.overrideOf ? `<span class="override-of">overrides ${prop.overrideOf}</span> ` : ''}
+  <span class="instance-of">${prop.instanceOf}</span> 
+  <span class="value">${isPrimitiveOrNull(prop.value) ? prop.value : renderObject(prop.value, true)}</span>
+</div>`;
+}
+function renderObject(obj, hideType) {
+  return `<div class="object">
+  ${!hideType ? `<div class="instance-of">${obj.instanceOf}</div>` : ''}
+  <div class="properties">${obj.properties.map(renderProperty).join('')}</div>
+</div>`;  
+}
+
+function renderHTML(obj) {
+  return `<html><head><link type="text/css" rel="stylesheet" href="object-describe.css"/></head>
+<body><div>${renderObject(obj)}</div></body></html>`
+}
+
+
+const obj = { a: 'A', b: [1, 2, {'three': {'iii': [3]}}], c: null, d: Date.now(), e: undefined, f: new Date() };
 
 function Foo() {}
 Foo.prototype.fff = function() {};
@@ -131,27 +185,9 @@ bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-function renderProperty(prop) {
-    return `<div class="property ${prop.isEnumerable ? 'is-enumerable' : ''} ${prop.overrideOf ? 'is-override' : ''} ${prop.isOverridden ? 'is-overridden' : ''} typeof-${prop.instanceOf}">
-  <span class="name">${prop.name}</span> 
-  ${prop.overrideOf ? `<span class="override-of">overrides ${prop.overrideOf}</span> ` : ''}
-  <span class="instance-of">${prop.instanceOf}</span> 
-  <span class="value">${isPrimitiveOrNull(prop.value) ? prop.value : renderObject(prop.value)}</span>
-</div>`;
-}
-function renderObject(description) {
-  return `<div class="object">
-  <div class="properties">${description.properties.map(renderProperty).join('')}</div>
-</div>`;  
-}
+const seq = Sequence.from([1,2,3]);
 
-function renderHTML(obj) {
-  return `<html><head><link type="text/css" rel="stylesheet" href="object-describe.css"/></head>
-<body><div>${renderObject(obj)}</div></body></html>`
-}
-
-
-const descrip = describe(obj);
+const descrip = describe(seq);
 xdmp.save(
   '/Users/jmakeig/Workspaces/object-describe/rendered.html',
   xdmp.unquote(
@@ -159,4 +195,5 @@ xdmp.save(
   )
 );
 descrip;
+
 

@@ -32,7 +32,9 @@ div {
   color: red;
 }
 
-.property .instance-of {
+.object > .instance-of,
+.property > .instance-of
+ {
   font-style: italic;
   color: #ccc;
 }
@@ -44,5 +46,15 @@ div {
   content: '(';
 }
 .property .override-of::after {
+  content: ')';
+}
+
+.property .from {
+  color: green;
+}
+.property .from::before {
+  content: '(';
+}
+.property .from::after {
   content: ')';
 }
