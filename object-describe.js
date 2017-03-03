@@ -18,8 +18,7 @@ function instanceType(obj) {
   if (obj.constructor && obj.constructor.name) {
     return obj.constructor.name;
   }
-  return Object.prototype.toString.call(obj) // [object Object]
-    .match(/^\[object (.+)\]$/)[1]; // Object
+  return Object.prototype.toString.call(obj).match(/^\[object (.+)\]$/)[1]; // [object Object] // Object
 }
 
 function describe(obj) {
@@ -40,6 +39,8 @@ function describe(obj) {
         case 'boolean':
         case 'function':
         case 'symbol':
+          // Don’t recurse for primitive properties. Is this a feature or a bug?
+          // `describe(primitive)` will still recurse.
           p.value = String(value);
           break;
         case 'object':
@@ -51,21 +52,33 @@ function describe(obj) {
           break;
       }
 
-      p.type = typeof obj[prop];
+      p.typeOf = typeof obj[prop];
       p.from = instanceType(obj);
-      p.isEnumerable = obj.propertyIsEnumerable ? obj.propertyIsEnumerable(prop) : undefined;
-      
-      const overrides = props.filter(x => x.name === prop);
+      p.isEnumerable = obj.propertyIsEnumerable
+        ? obj.propertyIsEnumerable(prop)
+        : undefined;
+
+      // If there’s already a property lower on the prototype chain
+      // then this property has been overridden.
+      const overrides = props.filter(pr => pr.name === prop);
       if (overrides.length > 0) {
         p.overridden = true;
-        if(1 === overrides.length) {
+        if (1 === overrides.length) {
           overrides[0].overrideOf = p.from;
         }
       }
-      props.push(p);
+
+      // Ignore numeric properties for Arrays and Strings.
+      if (
+        ('string' === typeof obj || Array.isArray(obj)) &&
+        /\d+/.test(String(prop))
+      ) {
+      } else {
+        props.push(p);
+      }
     }
   } while (obj = Object.getPrototypeOf(obj));
-  return { instance: inst, properties: props };
+  return { instanceOf: inst, properties: props };
 }
 
 const obj = { a: 'A', b: [1, 2, 3], c: null, d: Date.now(), e: undefined };
@@ -88,6 +101,5 @@ bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-describe(bar.obj.a);
-
+describe(baz);
 
