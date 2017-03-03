@@ -1,0 +1,32 @@
+div {
+  outline: solid 1px #ccc;
+  margin: 0.25em;
+  padding: 0.1em;
+}
+
+.object {
+  font-family: "SF Mono", "Consolas", monospace;
+  line-height: 1.45;
+
+  outline: solid 1px red;
+}
+
+.property {
+  outline: solid 1px green;
+}
+
+.property .object {
+  margin-left: 1em;
+}
+
+.property .name {
+  border-radius: 0.5em;
+  padding: 0.25em;
+  background: #eee;
+  color: #333;
+}
+
+.property .instance-of {
+  font-style: italic;
+  color: #ccc;
+}

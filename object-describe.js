@@ -87,7 +87,9 @@ function describe(obj) {
         p.value = describe(value);
       }
  
-      p.typeOf = typeof obj[prop];
+      
+      p.instanceOf = instanceType(value); //p.value.instanceOf ? p.value.instanceOf : 'BLAH'
+      // Where this property is declared
       p.from = instanceType(obj);
       p.isEnumerable = obj.propertyIsEnumerable
         ? obj.propertyIsEnumerable(prop)
@@ -109,7 +111,7 @@ function describe(obj) {
   return report;
 }
 
-const obj = { a: 'A', b: [1, 2, 3], c: null, d: Date.now(), e: undefined };
+const obj = { a: 'A', b: [1, 2, 3], c: null, d: Date.now(), e: undefined, f: new Date() };
 
 function Foo() {}
 Foo.prototype.fff = function() {};
@@ -129,8 +131,31 @@ bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-const descrip = describe(obj.a);
-descrip
+function renderProperty(prop) {
+    return `<div class="property ${prop.isEnumerable ? 'is-enumerable' : ''} ${prop.overrideOf ? 'is-override' : ''} typeof-${prop.typeOf}">
+  <span class="name">${prop.name}</span> 
+  <span class="instance-of">${prop.instanceOf}</span> 
+  <span class="value">${isPrimitiveOrNull(prop.value) ? prop.value : renderObject(prop.value)}</span>
+</div>`;
+}
+function renderObject(description) {
+  return `<div class="object">
+  <div class="properties">${description.properties.map(renderProperty).join('')}</div>
+</div>`;  
+}
+
+function renderHTML(obj) {
+  return `<html><head><link type="text/css" rel="stylesheet" href="object-describe.css"/></head>
+<body><div>${renderObject(obj)}</div></body></html>`
+}
 
 
+const descrip = describe(obj);
+xdmp.save(
+  '/Users/jmakeig/Workspaces/object-describe/rendered.html',
+  xdmp.unquote(
+    renderHTML(descrip)
+  )
+);
+descrip;
 
