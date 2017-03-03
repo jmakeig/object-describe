@@ -1,18 +1,20 @@
+/*
 div {
-  outline: solid 1px #ccc;
+  outline: solid 0.5px #ccc;
   margin: 0.25em;
   padding: 0.1em;
 }
+.object { outline: solid 0.5px red;}
+.property {outline: solid 0.5px green;}
+*/
 
 .object {
   font-family: "SF Mono", "Consolas", monospace;
   line-height: 1.45;
-
-  outline: solid 1px red;
 }
 
 .property {
-  outline: solid 1px green;
+  margin: 0.5em 0;
 }
 
 .property .object {
@@ -26,7 +28,21 @@ div {
   color: #333;
 }
 
+.property.is-overridden .name {
+  color: red;
+}
+
 .property .instance-of {
   font-style: italic;
   color: #ccc;
+}
+
+.property .override-of {
+  color: blue;
+}
+.property .override-of::before {
+  content: '(';
+}
+.property .override-of::after {
+  content: ')';
 }

@@ -99,7 +99,7 @@ function describe(obj) {
       // then this property has been overridden.
       const overrides = props.filter(pr => pr.name === prop);
       if (overrides.length > 0) {
-        p.overridden = true;
+        p.isOverridden = true;
         if (1 === overrides.length) {
           overrides[0].overrideOf = p.from;
         }
@@ -132,8 +132,9 @@ bar.obj = obj;
 const baz = Object.create(Bar.prototype);
 
 function renderProperty(prop) {
-    return `<div class="property ${prop.isEnumerable ? 'is-enumerable' : ''} ${prop.overrideOf ? 'is-override' : ''} typeof-${prop.typeOf}">
+    return `<div class="property ${prop.isEnumerable ? 'is-enumerable' : ''} ${prop.overrideOf ? 'is-override' : ''} ${prop.isOverridden ? 'is-overridden' : ''} typeof-${prop.instanceOf}">
   <span class="name">${prop.name}</span> 
+  ${prop.overrideOf ? `<span class="override-of">overrides ${prop.overrideOf}</span> ` : ''}
   <span class="instance-of">${prop.instanceOf}</span> 
   <span class="value">${isPrimitiveOrNull(prop.value) ? prop.value : renderObject(prop.value)}</span>
 </div>`;
