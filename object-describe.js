@@ -107,7 +107,7 @@ function describe(obj, expandIterables) {
   const props = [];
   
   if(isIterable(obj) && expandIterables) {
-    const values = [];
+    report.iterableValues = [];
     if('boolean' === typeof expandIterables) { expandIterables = Number.POSITIVE_INFINITY; }
     if(!('number' === typeof expandIterables)) { throw new TypeError(); }
     if(!Number.isInteger(expandIterables) && Number.isFinite(expandIterables)) {
@@ -116,10 +116,12 @@ function describe(obj, expandIterables) {
     let j = 0;
     for(const item of obj) {
       if(j++ < expandIterables) {
-        values.push(describe(item));
-      } else { break; }
+        report.iterableValues.push(describe(item));
+      } else { 
+        report.iterableValues.truncated = true; 
+        break; 
+      }
     }
-    report.iterableValues = values;
   }
   
   do {
@@ -174,9 +176,19 @@ function renderProperty(prop) {
   <span class="value">${isPrimitiveOrNull(prop.value) ? prop.value : renderObject(prop.value, true)}</span>
 </div>`;
 }
+
+function renderIteratorValues(obj, i) {
+  return `<div class="iterator-value">
+  Value: ${i}  <span class="instance-of">${obj.instanceOf}</span> 
+  <span class="value">${isPrimitiveOrNull(obj) ? obj : renderObject(obj, true)}</span>
+  
+</div>`;
+
+}
 function renderObject(obj, hideType) {
   return `<div class="object">
   ${!hideType ? `<div class="instance-of">${obj.instanceOf}</div>` : ''}
+  ${obj.iterableValues ? `<div class="iterable-values">${obj.iterableValues.map(renderIteratorValues).join('')}</div>` : ''}
   <div class="properties">${obj.properties.map(renderProperty).join('')}</div>
 </div>`;  
 }
