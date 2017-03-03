@@ -2,6 +2,7 @@
 
 function instanceType(obj) {
   switch (typeof obj) {
+    case 'undefined':
     case 'number':
     case 'string':
     case 'boolean':
@@ -12,46 +13,80 @@ function instanceType(obj) {
   if (null === obj) {
     return 'null';
   }
-  if (undefined === obj) {
-    return 'undefined';
-  }
   if (obj.constructor && obj.constructor.name) {
     return obj.constructor.name;
   }
   return Object.prototype.toString.call(obj).match(/^\[object (.+)\]$/)[1]; // [object Object] // Object
 }
 
+/**
+ * Whether a value is a primitive or an `Object`.
+ *
+ * @param {any} value - the value to test
+ * @return {boolean}  
+ */
+function isPrimitiveOrNull(value) {
+  switch (typeof value) {
+    case 'undefined':
+    case 'string':
+    case 'number':
+    case 'date':
+    case 'boolean':
+    case 'function':
+    case 'symbol':
+      return true;
+    case 'object':
+      return null === value;
+  }
+}
+
+function isNullOrUndefined(value) {
+  return 'undefined' === typeof value || null === value;
+}
+
+/**
+ * Poor man’s Iterable interface. Captures `Array` and 
+ * `String` instances.
+ */
+function isArrayLike(obj) {
+  if(isNullOrUndefined(obj)) return false;
+  return 'number' === typeof obj.length;
+}
+
+function getNonArrayLikeOwnPropertyNames(obj) {
+  if(isNullOrUndefined(obj)) return [];
+  
+  const props = Object.getOwnPropertyNames(obj);
+  if(isArrayLike(obj)) {
+    return props.filter(prop => !(/\d+/.test(prop)));
+  }
+  return props;
+}
+
 function describe(obj) {
+  const report = { 
+    instanceOf: instanceType(obj), 
+  };
+  if(isPrimitiveOrNull(obj)) {
+    report.value = String(obj);
+  }
   const props = [];
-  const inst = instanceType(obj);
   do {
+    // Capture properties and symbols
     const propsAndSymbols = [].concat(
-      Object.getOwnPropertyNames(obj),
+      getNonArrayLikeOwnPropertyNames(obj),
       Object.getOwnPropertySymbols(obj)
     );
     for (const prop of propsAndSymbols) {
-      const p = { name: prop };
+      const p = { name: String(prop) };
       const value = obj[prop];
-      switch (typeof value) {
-        case 'string':
-        case 'number':
-        case 'date':
-        case 'boolean':
-        case 'function':
-        case 'symbol':
-          // Don’t recurse for primitive properties. Is this a feature or a bug?
-          // `describe(primitive)` will still recurse.
-          p.value = String(value);
-          break;
-        case 'object':
-          if (null === value || undefined === value) {
-            p.value = String(value);
-          } else {
-            p.value = describe(value);
-          }
-          break;
+      
+      if(isPrimitiveOrNull(value)) {
+        p.value = String(value);
+      } else {
+        p.value = describe(value);
       }
-
+ 
       p.typeOf = typeof obj[prop];
       p.from = instanceType(obj);
       p.isEnumerable = obj.propertyIsEnumerable
@@ -67,18 +102,11 @@ function describe(obj) {
           overrides[0].overrideOf = p.from;
         }
       }
-
-      // Ignore numeric properties for Arrays and Strings.
-      if (
-        ('string' === typeof obj || Array.isArray(obj)) &&
-        /\d+/.test(String(prop))
-      ) {
-      } else {
-        props.push(p);
-      }
+      props.push(p);
     }
   } while (obj = Object.getPrototypeOf(obj));
-  return { instanceOf: inst, properties: props };
+  report.properties = props;
+  return report;
 }
 
 const obj = { a: 'A', b: [1, 2, 3], c: null, d: Date.now(), e: undefined };
@@ -101,5 +129,8 @@ bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-describe(baz);
+const descrip = describe(obj.a);
+descrip
+
+
 
