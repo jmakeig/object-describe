@@ -63,6 +63,7 @@ function getNonArrayLikeOwnPropertyNames(obj) {
   return props;
 }
 
+// Segfault in Number.prototype.toLocaleString()
 function serializePrimitiveXXX(obj, trunc) {
   trunc = trunc || 50;
   function truncate(str) {
@@ -90,8 +91,12 @@ function serializePrimitiveXXX(obj, trunc) {
   }
 }
 
+function isIterable(obj) {
+  return 'function' === typeof obj[Symbol.iterator];
+}
 
-function describe(obj) {
+
+function describe(obj, expandIterables) {
   const top = obj;
   const report = { 
     instanceOf: instanceType(obj), 
@@ -100,6 +105,23 @@ function describe(obj) {
     report.value = String(obj);
   }
   const props = [];
+  
+  if(isIterable(obj) && expandIterables) {
+    const values = [];
+    if('boolean' === typeof expandIterables) { expandIterables = Number.POSITIVE_INFINITY; }
+    if(!('number' === typeof expandIterables)) { throw new TypeError(); }
+    if(!Number.isInteger(expandIterables) && Number.isFinite(expandIterables)) {
+      throw new TypeError('Must be a finite integer or infinity');
+    }
+    let j = 0;
+    for(const item of obj) {
+      if(j++ < expandIterables) {
+        values.push(describe(item));
+      } else { break; }
+    }
+    report.iterableValues = values;
+  }
+  
   do {
     // Capture properties and symbols
     const propsAndSymbols = [].concat(
@@ -185,9 +207,9 @@ bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-const seq = Sequence.from([1,2,3]);
+const seq = Sequence.from([1,2,3, [Sequence.from([1,2,3]), 'a']]);
 
-const descrip = describe(seq);
+const descrip = describe(seq, true);
 xdmp.save(
   '/Users/jmakeig/Workspaces/object-describe/rendered.html',
   xdmp.unquote(
