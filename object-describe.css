@@ -29,7 +29,7 @@ div {
 }
 
 .property.is-overridden .name {
-  color: red;
+  text-decoration: line-through;
 }
 
 .object > .instance-of,
