@@ -19,7 +19,7 @@ function instanceType(obj) {
       return typeOf;
   }
   if (null === obj) {
-    return 'null';
+    return 'Object'; // FIXME: Is this correct?
   }
   if (obj.constructor && obj.constructor.name) {
     return obj.constructor.name;
