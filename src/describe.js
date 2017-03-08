@@ -1,9 +1,7 @@
 'use strict';
 
-// FIXME: NO! NO! NO! Library modules *must* support relative imports using `./`
-const util = require('src/util.js');
-// FIXME: NO! NO! NO! Library modules *must* support relative imports using `./`
-const render = require('src/render.js');
+const util = require('./util.js');
+const render = require('./render.js');
 
 /**
  * Generates a report on an object’s properties and types, 
@@ -119,7 +117,7 @@ function describe(obj, expandIterables) {
   const top = obj;
   const report = {
     instanceOf: util.instanceType(obj),
-    properties: []
+    properties: [],
   };
   // Primitive
   if (util.isPrimitiveOrNull(obj)) {
@@ -192,7 +190,7 @@ function describe(obj, expandIterables) {
       }
       report.properties.push(p);
     }
-  } while (obj = Object.getPrototypeOf(obj));
+  } while ((obj = Object.getPrototypeOf(obj)));
   return report;
 }
 

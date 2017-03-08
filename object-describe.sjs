@@ -6,7 +6,7 @@ const obj = {
   c: null,
   d: Date.now(),
   e: undefined,
-  f: new Date()
+  f: new Date(),
 };
 
 function Foo() {}
@@ -19,26 +19,26 @@ dict['a'] = 'A';
 dict.constructor === undefined; // true
 
 class Bar extends Foo {
-  bbb() {
-  }
-  fff() {
-  }
+  bbb() {}
+  fff() {}
 }
 const bar = new Bar();
 bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
 
-//const seq = Sequence.from([1, 2, 3, [Sequence.from([1, 2, 3]), 'a']]);
+const seq = Sequence.from([1, 2, 3, [Sequence.from([1, 2, 3]), 'a']]);
+const seq2 = Sequence.from(['a', 'b', 'c']);
 
-const describe = require('src/describe.js').describe;
-const renderHTML = require('src/render.js').renderHTML;
+const describe = require('/src/describe.js').describe;
+const renderHTML = require('/src/render.js').renderHTML;
 
-const descrip = describe(bar, true);
+const descrip = describe(seq, true);
 
 xdmp.save(
   '/Users/jmakeig/Workspaces/object-describe/rendered.html',
   xdmp.unquote(renderHTML(descrip))
 );
 // console.log(descrip);
+xdmp.setResponseContentType('text/json');
 descrip;
