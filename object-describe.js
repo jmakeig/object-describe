@@ -34,7 +34,7 @@ const baz = Object.create(Bar.prototype);
 const describe = require('src/describe.js').describe;
 const renderHTML = require('src/render.js').renderHTML;
 
-const descrip = describe(bar);
+const descrip = describe(bar, true);
 
 xdmp.save(
   '/Users/jmakeig/Workspaces/object-describe/rendered.html',

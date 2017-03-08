@@ -76,12 +76,14 @@ function isArrayLike(obj) {
  * Whether an object is iterable.
  * 
  * @param {any} obj - any object
- * @param {boolean} [ignoreStrings=false] - don’t consider `string`s iterable
+ * @param {boolean} [includeStrings=false] - consider `string` instances iterable (probably not what you want)
  * @returns {boolean}
  */
-function isIterable(obj, ignoreStrings) {
+function isIterable(obj, includeStrings) {
   if (isNullOrUndefined(obj)) return false;
-  if (ignoreStrings && obj instanceof String) return false;
+  if (true === includeStrings && obj instanceof String) {
+    return 'function' === typeof obj[Symbol.iterator];
+  }
   return 'function' === typeof obj[Symbol.iterator];
 }
 
