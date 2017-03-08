@@ -118,11 +118,15 @@ const render = require('src/render.js');
 function describe(obj, expandIterables) {
   const top = obj;
   const report = {
-    instanceOf: util.instanceType(obj)
+    instanceOf: util.instanceType(obj),
+    properties: []
   };
   // Primitive
   if (util.isPrimitiveOrNull(obj)) {
     report.value = render.serializePrimitive(obj);
+    if (util.isNullOrUndefined(obj)) {
+      return report;
+    }
   }
 
   // Iterables
@@ -151,7 +155,6 @@ function describe(obj, expandIterables) {
   }
 
   // Properties
-  const props = [];
   do {
     // Capture properties and symbols
     const propsAndSymbols = [].concat(
@@ -180,17 +183,16 @@ function describe(obj, expandIterables) {
 
       // If there’s already a property lower on the prototype chain
       // then this property has been overridden.
-      const overrides = props.filter(pr => pr.name === prop);
+      const overrides = report.properties.filter(pr => pr.name === prop);
       if (overrides.length > 0) {
         p.isOverridden = true;
         if (1 === overrides.length) {
           overrides[0].overrideOf = p.from;
         }
       }
-      props.push(p);
+      report.properties.push(p);
     }
   } while (obj = Object.getPrototypeOf(obj));
-  report.properties = props;
   return report;
 }
 
