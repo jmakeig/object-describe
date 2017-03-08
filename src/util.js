@@ -81,10 +81,14 @@ function isArrayLike(obj) {
  */
 function isIterable(obj, includeStrings) {
   if (isNullOrUndefined(obj)) return false;
-  if (true === includeStrings && obj instanceof String) {
-    return 'function' === typeof obj[Symbol.iterator];
+
+  if ('function' === typeof obj[Symbol.iterator]) {
+    if ('string' === typeof obj) {
+      return Boolean(includeStrings);
+    }
+    return true;
   }
-  return 'function' === typeof obj[Symbol.iterator];
+  return false;
 }
 
 /**
