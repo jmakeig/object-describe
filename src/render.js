@@ -1,7 +1,6 @@
 'use strict';
 
-// FIXME: NO! NO! NO! Library modules *must* support relative imports using `./`
-const util = require('src/util.js');
+const util = require('./util.js');
 
 /**
  * Serializes a primitive value as a string. This is optimized for human
@@ -84,16 +83,13 @@ function renderProperty(prop) {
   const classNames = [
     iis(prop.isEnumerable, 'is-enumerable'),
     iis(prop.overrideOf, 'is-override'),
-    iis(prop.isOverridden, 'is-overridden')
+    iis(prop.isOverridden, 'is-overridden'),
   ];
   return `
 <div class="property typeof-${prop.instanceOf} ${classNames.join(' ')}">
   <span class="name">${prop.name}</span> 
   ${iis(prop.from, `<span class="from">from ${prop.from}</span>`)}
-  ${iis(
-    prop.overrideOf,
-    `<span class="override-of">overrides ${prop.overrideOf}</span> `
-  )}
+  ${iis(prop.overrideOf, `<span class="override-of">overrides ${prop.overrideOf}</span> `)}
   <span class="instance-of">${prop.instanceOf}</span> 
   <span class="value">${iif(
     util.isPrimitiveOrNull(prop.value),
@@ -106,11 +102,7 @@ function renderProperty(prop) {
 function renderIteratorValues(obj, i) {
   return `<div class="iterator-value">
   Value: ${i}  <span class="instance-of">${obj.instanceOf}</span> 
-  <span class="value">${iif(
-    util.isPrimitiveOrNull(obj),
-    obj,
-    renderObject(obj, true)
-  )}</span>
+  <span class="value">${iif(util.isPrimitiveOrNull(obj), obj, renderObject(obj, true))}</span>
   
 </div>`;
 }
@@ -118,13 +110,10 @@ function renderObject(obj, hideType) {
   return `<div class="object">
   ${iis(!hideType, `<div class="instance-of">${obj.instanceOf}</div>`)}
   <span class="value">${iis(obj.value, obj.value)}</span>
-  ${iis(
-    obj.iterableValues,
-    () =>
+  ${iis(obj.iterableValues, () =>
       `<div class="iterable-values">${obj.iterableValues
         .map(renderIteratorValues)
-        .join('\n')}</div>`
-  )}
+        .join('\n')}</div>`)}
   <div class="properties">${obj.properties.map(renderProperty).join('\n')}</div>
 </div>`;
 }
