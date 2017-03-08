@@ -1,6 +1,5 @@
 'use strict';
 
-
 // FIXME: NO! NO! NO! Library modules *must* support relative imports using `./`
 const util = require('src/util.js');
 // FIXME: NO! NO! NO! Library modules *must* support relative imports using `./`
@@ -113,7 +112,7 @@ const render = require('src/render.js');
  * }
  * 
  * @param {any} obj 
- * @param {boolean|number} [expandIterables] - whether to automatically expand
+ * @param {boolean|number} [expandIterables=50] - whether to automatically expand
  * @returns 
  */
 function describe(obj, expandIterables) {
@@ -121,15 +120,15 @@ function describe(obj, expandIterables) {
   const report = {
     instanceOf: util.instanceType(obj)
   };
+  // Primitive
   if (util.isPrimitiveOrNull(obj)) {
     report.value = render.serializePrimitive(obj);
   }
-  const props = [];
 
-  if (util.isIterable(obj) && expandIterables) {
-    report.iterableValues = [];
-    if ('boolean' === typeof expandIterables) {
-      expandIterables = Number.POSITIVE_INFINITY;
+  // Iterables
+  if (expandIterables && util.isIterable(obj)) {
+    if (undefined === expandIterables || true === expandIterables) {
+      expandIterables = 50; //Number.POSITIVE_INFINITY;
     }
     if (!('number' === typeof expandIterables)) {
       throw new TypeError();
@@ -139,10 +138,11 @@ function describe(obj, expandIterables) {
     ) {
       throw new TypeError('Must be a finite integer or infinity');
     }
+    report.iterableValues = [];
     let j = 0;
     for (const item of obj) {
       if (j++ < expandIterables) {
-        report.iterableValues.push(describe(item));
+        report.iterableValues.push(describe(item, expandIterables));
       } else {
         report.iterableValues.truncated = true;
         break;
@@ -150,6 +150,8 @@ function describe(obj, expandIterables) {
     }
   }
 
+  // Properties
+  const props = [];
   do {
     // Capture properties and symbols
     const propsAndSymbols = [].concat(
@@ -162,7 +164,7 @@ function describe(obj, expandIterables) {
       const value = obj[prop];
 
       if (util.isPrimitiveOrNull(value)) {
-        p.value = String(value);
+        p.value = render.serializePrimitive(value);
       } else {
         p.value = describe(value);
       }

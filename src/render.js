@@ -32,9 +32,11 @@ function serializePrimitive(obj, trunc) {
     case 'boolean':
     case 'function':
     case 'symbol':
-      return String(boolean);
+      return String(obj);
     case 'object':
-      if (obj instanceof Date) {
+      if (null === obj) {
+        return 'null';
+      } else if (obj instanceof Date) {
         return String(obj); // obj.toLocaleString();
       } else {
         throw new TypeError('Can’t format objects');
@@ -42,41 +44,86 @@ function serializePrimitive(obj, trunc) {
   }
 }
 
+function isCallable(obj) {
+  return 'function' === typeof obj;
+}
+
+/**
+ * 
+ * 
+ * @param {boolean} test         - whether to return `success` or `failure`
+ * @param {any|function} success - if `test` evaluates to `true` (or truth-y)
+ *                                 return the value, or if `success` is a function call that 
+ *                                 function and return its value
+ * @param {any|function} failure - if `test` evaluates to `false` (or false-y) 
+ *                                 return the value, or if `success` is a function call that 
+ *                                 function and return its value
+ * @returns {any}
+ */
+function iif(test, success, failure) {
+  if (test) {
+    return isCallable(success) ? success() : success;
+  } else {
+    return isCallable(failure) ? failure() : failure;
+  }
+}
+
+/**
+ * Like `iif`, but falls back to an empty `string`
+ * 
+ * @param {boolean} test 
+ * @param {any|function} success 
+ * @returns {any|string}
+ * @see iif
+ */
+function iis(test, success) {
+  return iif(test, success, '');
+}
+
 function renderProperty(prop) {
-  return `<div class="property ${prop.isEnumerable
-    ? 'is-enumerable'
-    : ''} ${prop.overrideOf ? 'is-override' : ''} ${prop.isOverridden
-    ? 'is-overridden'
-    : ''} typeof-${prop.instanceOf}">
+  const classNames = [
+    iis(prop.isEnumerable, 'is-enumerable'),
+    iis(prop.overrideOf, 'is-override'),
+    iis(prop.isOverridden, 'is-overridden')
+  ];
+  return `
+<div class="property typeof-${prop.instanceOf} ${classNames.join(' ')}">
   <span class="name">${prop.name}</span> 
-  ${prop.from ? `<span class="from">from ${prop.from}</span> ` : ''}
-  ${prop.overrideOf
-    ? `<span class="override-of">overrides ${prop.overrideOf}</span> `
-    : ''}
+  ${iis(prop.from, `<span class="from">from ${prop.from}</span>`)}
+  ${iis(
+    prop.overrideOf,
+    `<span class="override-of">overrides ${prop.overrideOf}</span> `
+  )}
   <span class="instance-of">${prop.instanceOf}</span> 
-  <span class="value">${util.isPrimitiveOrNull(prop.value)
-    ? prop.value
-    : renderObject(prop.value, true)}</span>
+  <span class="value">${iif(
+    util.isPrimitiveOrNull(prop.value),
+    prop.value,
+    () => renderObject(prop.value, true)
+  )}</span>
 </div>`;
 }
 
 function renderIteratorValues(obj, i) {
   return `<div class="iterator-value">
   Value: ${i}  <span class="instance-of">${obj.instanceOf}</span> 
-  <span class="value">${util.isPrimitiveOrNull(obj)
-    ? obj
-    : renderObject(obj, true)}</span>
+  <span class="value">${iif(
+    util.isPrimitiveOrNull(obj),
+    obj,
+    renderObject(obj, true)
+  )}</span>
   
 </div>`;
 }
 function renderObject(obj, hideType) {
   return `<div class="object">
   ${!hideType ? `<div class="instance-of">${obj.instanceOf}</div>` : ''}
-  ${obj.iterableValues
-    ? `<div class="iterable-values">${obj.iterableValues
+  ${iis(
+    obj.iterableValues,
+    () =>
+      `<div class="iterable-values">${obj.iterableValues
         .map(renderIteratorValues)
         .join('')}</div>`
-    : ''}
+  )}
   <div class="properties">${obj.properties.map(renderProperty).join('')}</div>
 </div>`;
 }
@@ -85,7 +132,8 @@ function renderHTML(obj) {
   return `
 <html>
   <head>
-    <link type="text/css" rel="stylesheet" href="object-describe.css"/>
+    <link type="text/css" rel="stylesheet" href="object-describe.css" />
+    <script type="text/javascript" src="ui.js">//</script>
   </head>
   <body>
     <div>${renderObject(obj)}</div>
@@ -94,3 +142,4 @@ function renderHTML(obj) {
 }
 
 module.exports.renderHTML = renderHTML;
+module.exports.serializePrimitive = serializePrimitive;
