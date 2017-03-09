@@ -35,19 +35,7 @@ function instanceType(obj) {
  * @return {boolean}  
  */
 function isPrimitiveOrNull(value) {
-  switch (typeof value) {
-    case 'undefined':
-    case 'number':
-    case 'string':
-    case 'boolean':
-    case 'function':
-    case 'symbol':
-      return true;
-    case 'object':
-      return null === value;
-    default:
-      throw new TypeError(`${typeof value} is not a valid type`);
-  }
+  return null === value || 'object' !== typeof value;
 }
 
 /**
