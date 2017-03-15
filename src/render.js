@@ -13,6 +13,8 @@ const util = require('./util.js');
  * @throws {TypeError} - non-primitive
  */
 function serializePrimitive(obj, trunc) {
+  // TODO: Handle synthetic Symbol.for('Restricted function property')
+
   trunc = trunc || 50;
   function truncate(str) {
     let suffix = '';
