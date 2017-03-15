@@ -153,59 +153,84 @@ function describe(obj, expandIterables) {
   }
 
   // Properties
-  do {
-    // Capture properties and symbols
-    const propsAndSymbols = [].concat(
-      //getNonArrayLikeOwnPropertyNames(obj),
-      Object.getOwnPropertyNames(obj),
-      Object.getOwnPropertySymbols(obj)
-    );
-    for (const prop of propsAndSymbols) {
-      const p = { name: String(prop) };
-      let value;
+  //do {
+  // Capture properties and symbols
+  const propsAndSymbols = [].concat(
+    //getNonArrayLikeOwnPropertyNames(obj),
+    Object.getOwnPropertyNames(obj),
+    Object.getOwnPropertySymbols(obj)
+  );
+  for (const prop of propsAndSymbols) {
+    const p = { name: String(prop) };
+    let value;
 
-      try {
-        value = obj[prop];
-      } catch (error) {
-        // TypeError: 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context.
-        if (
-          error instanceof TypeError &&
-          /restricted function properties/.test(error.message)
-        ) {
-          value = Symbol.for('Restricted function property');
-        } else {
-          throw error;
-        }
-      }
-
-      if (util.isPrimitiveOrNull(value)) {
-        p.value = render.serializePrimitive(value);
+    try {
+      value = obj[prop];
+    } catch (error) {
+      // TypeError: 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context.
+      if (
+        error instanceof TypeError &&
+        /restricted function properties/.test(error.message)
+      ) {
+        value = Symbol.for('Restricted function property');
       } else {
-        p.value = describe(value);
+        throw error;
       }
-
-      p.instanceOf = util.instanceType(value); //p.value.instanceOf ? p.value.instanceOf : 'BLAH'
-      // Where this property is declared
-      if (top !== obj && obj !== Object.getPrototypeOf(obj)) {
-        p.from = util.instanceType(obj);
-      }
-      p.isEnumerable = obj.propertyIsEnumerable
-        ? obj.propertyIsEnumerable(prop)
-        : undefined;
-
-      // If there’s already a property lower on the prototype chain
-      // then this property has been overridden.
-      const overrides = report.properties.filter(pr => pr.name === prop);
-      if (overrides.length > 0) {
-        p.isOverridden = true;
-        if (1 === overrides.length) {
-          overrides[0].overrideOf = p.from;
-        }
-      }
-      report.properties.push(p);
     }
-  } while ((obj = Object.getPrototypeOf(obj)));
+
+    if (util.isPrimitiveOrNull(value)) {
+      p.value = render.serializePrimitive(value);
+    } else {
+      p.value = describe(value);
+    }
+
+    p.instanceOf = util.instanceType(value);
+    // Where this property is declared
+    if (top !== obj && obj !== Object.getPrototypeOf(obj)) {
+      p.from = util.instanceType(obj);
+    }
+
+    const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
+
+    p.enumerable = descriptor.enumerable;
+    p.configurable = descriptor.configurable;
+    p.getter = parseFunctionSignature(descriptor.get);
+    p.setter = parseFunctionSignature(descriptor.set);
+
+    // If there’s already a property lower on the prototype chain
+    // then this property has been overridden.
+    const overrides = report.properties.filter(pr => pr.name === prop);
+    if (overrides.length > 0) {
+      p.isOverridden = true;
+      if (1 === overrides.length) {
+        overrides[0].overrideOf = p.from;
+      }
+    }
+    report.properties.push(p);
+  }
+  const proto = Object.getPrototypeOf(obj);
+  if (proto) report.proto = describe(proto);
+  //} while ((obj = Object.getPrototypeOf(obj)));
   return report;
+}
+
+/**
+ * Parse the signature of a function.
+ * 
+ * @param {function} fct 
+ * @returns {object|undefined} - an object with `name` (`string`) and `parameters` (`string[]`) properties
+ * @see serializeFunctionSignature
+ */
+function parseFunctionSignature(fct) {
+  const fstr = String(fct);
+  const matches = fstr.match(/^(?:function)? ?(.*)\(([^\)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
+  if (matches && matches.length) {
+    return {
+      name: matches[1],
+      parameters: matches[2].split(/, */),
+    };
+  }
+  return undefined;
 }
 
 module.exports.describe = describe;

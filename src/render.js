@@ -29,7 +29,7 @@ function serializePrimitive(obj, trunc) {
       return `"${truncate(obj)}"`;
     case 'number':
       if (Number.isNaN(obj)) return 'NaN';
-      return String(obj); // obj.toLocaleString();
+      return obj.toLocaleString();
     case 'boolean':
     case 'function':
     case 'symbol':
@@ -38,7 +38,7 @@ function serializePrimitive(obj, trunc) {
       if (null === obj) {
         return 'null';
       } else if (obj instanceof Date) {
-        return String(obj); // obj.toLocaleString();
+        return obj.toLocaleString();
       } else {
         throw new TypeError('Can’t format objects');
       }
@@ -131,6 +131,17 @@ function renderHTML(obj) {
     <div>${renderObject(obj)}</div>
   </body>
 </html>`;
+}
+
+/**
+ * 
+ * 
+ * @param {object} signature - an object with `name` (`string`) and `parameters` (`string[]`) properties
+ * @returns {string}
+ * @see parseFunctionSignature
+ */
+function serializeFunctionSignature(signature) {
+  return `function ${signature.name} (${signature.parameters.join[', ']})`;
 }
 
 module.exports.renderHTML = renderHTML;
