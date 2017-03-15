@@ -14,10 +14,6 @@ Foo.prototype.fff = function() {};
 Foo.prototype[Symbol.toStringTag] = 'Foo';
 const foo = new Foo();
 
-const dict = Object.create(null);
-dict['a'] = 'A';
-dict.constructor === undefined; // true
-
 class Bar extends Foo {
   bbb() {}
   fff() {}
@@ -26,6 +22,10 @@ const bar = new Bar();
 bar.obj = obj;
 
 const baz = Object.create(Bar.prototype);
+
+const dict = Object.create(null);
+dict['a'] = 'A';
+dict.constructor === undefined; // true
 
 const seq = Sequence.from([1, 2, 3, [Sequence.from([1, 2, 3]), 'a']]);
 const seq2 = Sequence.from(['a', 'b', 'c']);
