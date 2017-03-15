@@ -162,7 +162,21 @@ function describe(obj, expandIterables) {
     );
     for (const prop of propsAndSymbols) {
       const p = { name: String(prop) };
-      const value = obj[prop];
+      let value;
+
+      try {
+        value = obj[prop];
+      } catch (error) {
+        // TypeError: 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context.
+        if (
+          error instanceof TypeError &&
+          /restricted function properties/.test(error.message)
+        ) {
+          value = Symbol.for('Restricted function property');
+        } else {
+          throw error;
+        }
+      }
 
       if (util.isPrimitiveOrNull(value)) {
         p.value = render.serializePrimitive(value);
