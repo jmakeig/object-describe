@@ -153,8 +153,6 @@ function describe(obj, expandIterables) {
   }
 
   // Properties
-  //do {
-  // Capture properties and symbols
   const propsAndSymbols = [].concat(
     //getNonArrayLikeOwnPropertyNames(obj),
     Object.getOwnPropertyNames(obj),
@@ -197,20 +195,22 @@ function describe(obj, expandIterables) {
     p.getter = parseFunctionSignature(descriptor.get);
     p.setter = parseFunctionSignature(descriptor.set);
 
+    // TODO: Figure out how to capture overrides
     // If there’s already a property lower on the prototype chain
     // then this property has been overridden.
-    const overrides = report.properties.filter(pr => pr.name === prop);
-    if (overrides.length > 0) {
-      p.isOverridden = true;
-      if (1 === overrides.length) {
-        overrides[0].overrideOf = p.from;
-      }
-    }
+    // const overrides = report.properties.filter(pr => pr.name === prop);
+    // if (overrides.length > 0) {
+    //   p.isOverridden = true;
+    //   if (1 === overrides.length) {
+    //     overrides[0].overrideOf = p.from;
+    //   }
+    // }
+
     report.properties.push(p);
   }
   const proto = Object.getPrototypeOf(obj);
-  if (proto) report.proto = describe(proto);
-  //} while ((obj = Object.getPrototypeOf(obj)));
+  if (proto) report.prototype = describe(proto);
+
   return report;
 }
 
