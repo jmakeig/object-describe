@@ -4,7 +4,8 @@
   "description": "A way to inspect the entire type hierarchy of an object, including properties inherited (and potentially overridden) from its prototype chain.",
   "main": "index.sjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mltap test/*.test.sjs",
+    "test-pretty": "npm run test | tap-notify"
   },
   "repository": {
     "type": "git",
@@ -22,12 +23,11 @@
   },
   "homepage": "https://github.com/jmakeig/object-describe#readme",
   "devDependencies": {
-    "eslint": "^3.17.1",
-    "tape": "^4.6.3",
-    "mltap": "git://github.com/jmakeig/mltap.git#develop"
+    "eslint": "^3.18.0",
+    "mltap": "git://github.com/jmakeig/mltap.git#develop",
+    "tape": "^4.6.3"
   },
   "optionalDependencies": {
-    "faucet": "^0.0.1",
     "tap-diff": "^0.1.1",
     "tap-notify": "^1.0.0"
   }
