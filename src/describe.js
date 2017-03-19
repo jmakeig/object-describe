@@ -8,113 +8,13 @@ const render = require('./render.js');
  * including along the prototype hierarchy.
  * 
  * @example <caption>Output for <code>{a: 'A', b: ['B', 'B']}</code></caption>
- * {
- *   "instanceOf": "Object",
- *   "properties": [
- *     {
- *       "name": "a",
- *       "value": "A",
- *       "instanceOf": "string",
- *       "isEnumerable": true
- *     },
- *     {
- *       "name": "b",
- *       "value": {
- *         "instanceOf": "Array",
- *         "properties": [
- *           {
- *             "name": "0",
- *             "value": "B",
- *             "instanceOf": "string",
- *             "isEnumerable": true
- *           },
- *           {
- *             "name": "1",
- *             "value": "B",
- *             "instanceOf": "string",
- *             "isEnumerable": true
- *           },
- *           {
- *             "name": "length",
- *             "value": "2",
- *             "instanceOf": "number",
- *             "isEnumerable": false,
- *             "overrideOf": "Array"
- *           },
- *           {
- *             "name": "length",
- *             "value": "0",
- *             "instanceOf": "number",
- *             "from": "Array",
- *             "isEnumerable": false,
- *             "isOverridden": true
- *           },
- *           {
- *             "name": "constructor",
- *             "value": "function Array() { [native code] }",
- *             "instanceOf": "function",
- *             "from": "Array",
- *             "isEnumerable": false,
- *             "overrideOf": "Object"
- *           },
- *           {
- *             "name": "toString",
- *             "value": "function toString() { [native code] }",
- *             "instanceOf": "function",
- *             "from": "Array",
- *             "isEnumerable": false,
- *             "overrideOf": "Object"
- *           },
- *           // …
- *           {
- *             "name": "Symbol(Symbol.unscopables)",
- *             "value": {
- *               "instanceOf": "Object",
- *               "properties": [
- *                 // …
- *               ]
- *             },
- *             "instanceOf": "Object",
- *             "from": "Array",
- *             "isEnumerable": false
- *           },
- *           {
- *             "name": "Symbol(Symbol.iterator)",
- *             "value": "function values() { [native code] }",
- *             "instanceOf": "function",
- *             "from": "Array",
- *             "isEnumerable": false
- *           },
- *           {
- *             "name": "__defineGetter__",
- *             "value": "function __defineGetter__() { [native code] }",
- *             "instanceOf": "function",
- *             "from": "Object",
- *             "isEnumerable": false
- *           },
- *           // …
- *         ]
- *       },
- *       "instanceOf": "Array",
- *       "isEnumerable": true
- *     },
- *     {
- *       "name": "__defineGetter__",
- *       "value": "function __defineGetter__() { [native code] }",
- *       "instanceOf": "function",
- *       "from": "Object",
- *       "isEnumerable": false
- *     },
- *     // …
- *   ]
- * }
+ * TODO
  * 
  * @param {any} obj 
  * @param {boolean|number} [expandIterables=50] - whether to automatically expand
  * @returns 
  */
 function describe(obj, expandIterables) {
-  const top = obj;
   const report = {
     instanceOf: util.instanceType(obj),
     properties: [],
@@ -130,7 +30,7 @@ function describe(obj, expandIterables) {
   // Iterables
   if (expandIterables && util.isIterable(obj)) {
     if (undefined === expandIterables || true === expandIterables) {
-      expandIterables = 50; //Number.POSITIVE_INFINITY;
+      expandIterables = 50;
     }
     if (!('number' === typeof expandIterables)) {
       throw new TypeError();
@@ -154,14 +54,12 @@ function describe(obj, expandIterables) {
 
   // Properties
   const propsAndSymbols = [].concat(
-    //getNonArrayLikeOwnPropertyNames(obj),
     Object.getOwnPropertyNames(obj),
     Object.getOwnPropertySymbols(obj)
   );
   for (const prop of propsAndSymbols) {
     const p = { name: String(prop) };
     let value;
-
     try {
       value = obj[prop];
     } catch (error) {
@@ -223,7 +121,7 @@ function describe(obj, expandIterables) {
  */
 function parseFunctionSignature(fct) {
   const fstr = String(fct);
-  const matches = fstr.match(/^(?:function)? ?(.*)\(([^\)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
+  const matches = fstr.match(/^(?:function)? ?(.*)\(([^)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
   if (matches && matches.length) {
     return {
       name: matches[1],

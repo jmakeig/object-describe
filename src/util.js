@@ -86,15 +86,15 @@ function isIterable(obj, includeStrings) {
  * @param {any} obj 
  * @returns {strng[]}
  */
-function getNonArrayLikeOwnPropertyNames(obj) {
-  if (isNullOrUndefined(obj)) return [];
+// function getNonArrayLikeOwnPropertyNames(obj) {
+//   if (isNullOrUndefined(obj)) return [];
 
-  const props = Object.getOwnPropertyNames(obj);
-  if (isArrayLike(obj)) {
-    return props.filter(prop => !/\d+/.test(prop));
-  }
-  return props;
-}
+//   const props = Object.getOwnPropertyNames(obj);
+//   if (isArrayLike(obj)) {
+//     return props.filter(prop => !/\d+/.test(prop));
+//   }
+//   return props;
+// }
 
 module.exports.instanceType = instanceType;
 module.exports.isPrimitiveOrNull = isPrimitiveOrNull;
