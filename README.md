@@ -10,10 +10,25 @@ Given any object or primitive, the `describe()` function lists the type of objec
 1. Configure and deploy mltap (*This isn’t automated yet*)
 1. `npm run test`
 
-## Development Set
+## Development Set-up
 
 ### VSCode
 
+### Settings
+```json
+{
+  "eslint.enable": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.js",
+    "ext": [
+      ".js",
+      ".sjs"
+    ]
+  }
+}
+```
+
+### Tasks
 ```json
 {
   "version": "0.1.0",
