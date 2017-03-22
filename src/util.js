@@ -11,21 +11,31 @@ function instanceType(obj) {
   const typeOf = typeof obj;
   switch (typeOf) {
     case 'undefined':
-    case 'number':
+    case 'number': // ironically also NaN
     case 'string':
     case 'boolean':
-    case 'function':
+    case 'function': // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
     case 'symbol':
       return typeOf;
   }
   if (null === obj) {
-    return 'Object'; // FIXME: Is this correct?
+    return 'null'; // FIXME: Is this correct?
+  }
+  // Custom constructors should override this with
+  //    Custom.prototype[Symbot.toStringTag] = 'Custom'; // [object Custom]
+  //    get [Symbol.toStringTag]() { return 'Custom'; } // [object Custom]
+  const stringified = Object.prototype.toString
+    .call(obj)
+    .match(/^\[object (.+)\]$/)[1]; // [object Object] // Object
+  if ('Object' !== stringified) {
+    return stringified;
   }
   if (obj.constructor && obj.constructor.name) {
     return obj.constructor.name;
   }
+
   // Note: `Object.create(null)` will not have a `constructor` property
-  return Object.prototype.toString.call(obj).match(/^\[object (.+)\]$/)[1]; // [object Object] // Object
+  return stringified;
 }
 
 /**
@@ -57,7 +67,7 @@ function isNullOrUndefined(value) {
 function isArrayLike(obj) {
   if (isNullOrUndefined(obj)) return false;
   if (Array.isArray(obj)) return true;
-  return 'number' === typeof obj.length;
+  return 'number' === typeof obj.length && obj.length >= 0;
 }
 
 /**

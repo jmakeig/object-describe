@@ -57,6 +57,13 @@ test('isArrayLike', assert => {
 
 test('isIterable', assert => {
   assert.true(isIterable([]));
+
+  const custom = {
+    *[Symbol.iterator]() {
+      yield 1;
+    },
+  };
+  assert.true(isIterable(custom));
   assert.end();
 });
 
@@ -68,7 +75,10 @@ test('instanceType', assert => {
   assert.equal(instanceType(true), 'boolean');
   assert.equal(instanceType(), 'undefined');
   assert.equal(instanceType(() => true), 'function');
-  assert.equal(instanceType(function() {}), 'function');
+  // eslint-disable-next-line no-empty-function
+  assert.equal(instanceType(function() {}), 'function'); // eslint-disable-line prefer-arrow-callback
+  // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
+  assert.equal(instanceType(function*() {}), 'function'); // eslint-disable-line no-empty-function
   assert.equal(instanceType(Symbol.for('symbol')), 'symbol');
 
   assert.equal(instanceType({}), 'Object');
@@ -80,10 +90,16 @@ test('instanceType', assert => {
   assert.equal(instanceType(new Foo()), 'Foo');
   assert.equal(instanceType(Object.create(Foo.prototype)), 'Foo');
 
-  function Bar() {}
-  Bar.prototype = Object.create(Foo.prototype);
+  function Bar() {} // eslint-disable-line no-empty-function
+  Bar.prototype = Object.assign(Bar.prototype, Object.create(Foo.prototype));
   assert.equal(instanceType(new Bar()), 'Bar');
   assert.equal(instanceType(Object.create(Bar.prototype)), 'Bar');
+
+  /* <https://gist.github.com/jmakeig/52337c191b8f4e176e56d796129cad25> */
+  function Baz() {} // eslint-disable-line no-empty-function
+  Baz.prototype = Object.create(Foo.prototype);
+  assert.equal(instanceType(new Baz()), 'Foo');
+  assert.equal(instanceType(Object.create(Baz.prototype)), 'Foo');
 
   assert.end();
 });
