@@ -14,14 +14,56 @@
  * limitations under the License.                                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 'use strict';
 const test = require('/mltap/test');
 const { describe } = require('../src/describe.js');
 
-test('', assert => {
-  assert.plan(1);
-  // assert.comment(describe({}));
-  assert.true(null !== describe({}));
+test('null', assert => {
+  const report = describe(null);
+  assert.equal(report.instanceOf, 'null');
+  assert.deepEqual(report.properties, []);
+  assert.equal(report.value, 'null');
+  assert.end();
+});
 
+test('undefined', assert => {
+  const report = describe(undefined);
+  assert.equal(report.instanceOf, 'undefined');
+  assert.deepEqual(report.properties, []);
+  assert.equal(report.value, 'undefined');
+  assert.end();
+});
+
+test('boolean', assert => {
+  const report = describe(true);
+  assert.equal(report.instanceOf, 'boolean');
+  assert.deepEqual(report.properties, []);
+  assert.equal(report.value, 'true');
+  assert.end();
+});
+
+test('boolean', assert => {
+  const report = describe(true);
+  assert.equal(report.instanceOf, 'boolean');
+  assert.deepEqual(report.properties, []);
+  assert.equal(report.value, 'true');
+  assert.equal(
+    report.prototype.instanceOf,
+    'Boolean',
+    'Boolean is prototype of boolean'
+  );
+  assert.true(
+    report.prototype.properties.length > 1,
+    'Boolean prototype has properties'
+  );
+  assert.end();
+});
+
+test('number', assert => {
+  const report = describe(123456);
+  assert.equal(report.instanceOf, 'number');
+  assert.deepEqual(report.properties, []);
+  assert.equal(report.value, (123456).toLocaleString());
+
+  assert.end();
 });
