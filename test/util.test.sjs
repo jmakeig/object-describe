@@ -64,6 +64,9 @@ test('isIterable', assert => {
     },
   };
   assert.true(isIterable(custom));
+
+  assert.false(isIterable(''));
+  assert.true(isIterable('', true));
   assert.end();
 });
 
