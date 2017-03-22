@@ -81,10 +81,7 @@ function describe(obj, expandIterables) {
     }
 
     p.instanceOf = util.instanceType(value);
-    // Where this property is declared
-    if (top !== obj && obj !== Object.getPrototypeOf(obj)) {
-      p.from = util.instanceType(obj);
-    }
+    p.from = util.instanceType(obj);
 
     const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
 
