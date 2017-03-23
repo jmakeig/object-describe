@@ -112,8 +112,7 @@ function renderObject(obj, hideType) {
   return `<div class="object">
   ${iis(!hideType, `<div class="instance-of">${obj.instanceOf}</div>`)}
   <span class="value">${iis(obj.value, obj.value)}</span>
-  ${iis(obj.iterableValues, () =>
-      `<div class="iterable-values">${obj.iterableValues
+  ${iis(obj.iterableValues, () => `<div class="iterable-values">${obj.iterableValues
         .map(renderIteratorValues)
         .join('\n')}</div>`)}
   <div class="properties">${obj.properties.map(renderProperty).join('\n')}</div>

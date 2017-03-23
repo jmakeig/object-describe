@@ -5,7 +5,8 @@
   "main": "index.sjs",
   "scripts": {
     "test": "mltap test/*.test.sjs",
-    "test-pretty": "npm run test | tap-notify"
+    "test-pretty": "npm run test | tap-notify",
+    "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'src/**.*js' && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'test/**.*js'"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "eslint": "^3.18.0",
     "mltap": "git://github.com/jmakeig/mltap.git#develop",
+    "prettier": "^0.22.0",
     "tape": "^4.6.3"
   },
   "optionalDependencies": {
