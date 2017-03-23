@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mltap test/*.test.sjs",
     "test-pretty": "npm run test | tap-notify",
-    "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'src/**.*js' && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'test/**.*js'"
+    "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'src/**.*js' && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'test/**.*js'",
+    "lint": "eslint --config .eslintrc.js src/ test/",
+    "pre-flight": "npm run format && npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
