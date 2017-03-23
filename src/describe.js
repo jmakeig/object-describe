@@ -27,6 +27,7 @@ function describe(obj, expandIterables) {
     }
   }
 
+/*
   // Iterables
   if (expandIterables && util.isIterable(obj)) {
     if (undefined === expandIterables || true === expandIterables) {
@@ -51,6 +52,7 @@ function describe(obj, expandIterables) {
       }
     }
   }
+*/
 
   // Properties
   const propsAndSymbols = [].concat(
