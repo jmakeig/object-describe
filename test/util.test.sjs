@@ -94,7 +94,8 @@ test('instanceType', assert => {
   assert.equal(instanceType(Object.create(Foo.prototype)), 'Foo');
 
   function Bar() {} // eslint-disable-line no-empty-function
-  Bar.prototype = Object.assign(Bar.prototype, Object.create(Foo.prototype));
+  Bar.prototype = Object.create(Foo.prototype);
+  Bar.prototype.constructor = Bar;
   assert.equal(instanceType(new Bar()), 'Bar');
   assert.equal(instanceType(Object.create(Bar.prototype)), 'Bar');
 

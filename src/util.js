@@ -24,18 +24,33 @@ function instanceType(obj) {
   // Custom constructors should override this with
   //    Custom.prototype[Symbot.toStringTag] = 'Custom'; // [object Custom]
   //    get [Symbol.toStringTag]() { return 'Custom'; } // [object Custom]
-  const stringified = Object.prototype.toString
-    .call(obj)
-    .match(/^\[object (.+)\]$/)[1]; // [object Object] // Object
-  if ('Object' !== stringified) {
+  const stringified = toStringTagImmediate(obj);
+  if (undefined !== stringified) {
     return stringified;
   }
   if (obj.constructor && obj.constructor.name) {
     return obj.constructor.name;
   }
-
   // Note: `Object.create(null)` will not have a `constructor` property
-  return stringified;
+  return Object.prototype.toString.call(obj).match(/^\[object (.+)\]$/)[1];
+}
+
+/**
+ * Looks at the instance and its immediate prototype for `Symbol.toStringTag`.
+ * The default behavior looks all the way up the prototype chain. This probably 
+ * isn’t the intent.
+ * 
+ * @param {any} obj - any object
+ * @returns {string|undefined} - the type name or `undefined`
+ */
+function toStringTagImmediate(obj) {
+  function tst(o) {
+    if (Object.getOwnPropertySymbols(o).indexOf(Symbol.toStringTag) > -1) {
+      return o[Symbol.toStringTag];
+    }
+    return undefined;
+  }
+  return tst(obj) ? tst(Object.getPrototypeOf(obj)) : undefined;
 }
 
 /**
