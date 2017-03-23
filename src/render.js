@@ -12,6 +12,7 @@ const util = require('./util.js');
  * @returns {string}
  * @throws {TypeError} - non-primitive
  */
+// eslint-disable-next-line consistent-return
 function serializePrimitive(obj, trunc) {
   // TODO: Handle synthetic Symbol.for('Restricted function property')
 
@@ -35,13 +36,12 @@ function serializePrimitive(obj, trunc) {
     case 'symbol':
       return String(obj);
     case 'object':
-      if (null === obj) {
-        return 'null';
-      } else if (obj instanceof Date) {
+      if (obj instanceof Date) {
         return obj.toLocaleString();
-      } else {
-        throw new TypeError('Can’t format objects');
       }
+      break;
+    default:
+      throw new TypeError('Can’t format objects');
   }
 }
 
@@ -64,9 +64,8 @@ function isCallable(obj) {
 function iif(test, success, failure) {
   if (test) {
     return isCallable(success) ? success() : success;
-  } else {
-    return isCallable(failure) ? failure() : failure;
   }
+  return isCallable(failure) ? failure() : failure;
 }
 
 /**
@@ -139,6 +138,7 @@ function renderHTML(obj) {
  * @returns {string}
  * @see parseFunctionSignature
  */
+// eslint-disable-next-line no-unused-vars
 function serializeFunctionSignature(signature) {
   return `function ${signature.name} (${signature.parameters.join[', ']})`;
 }

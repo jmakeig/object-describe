@@ -14,7 +14,7 @@ const render = require('./render.js');
  * @param {boolean|number} [expandIterables=50] - whether to automatically expand
  * @returns 
  */
-function describe(obj, expandIterables) {
+function describe(obj /* , expandIterables */) {
   const report = {
     instanceOf: util.instanceType(obj),
     properties: [],
