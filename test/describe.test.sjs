@@ -87,3 +87,52 @@ test('simple object', assert => {
   assert.true(descrip.prototype.properties.length > 1);
   assert.end();
 });
+
+test('array of primitives', assert => {
+  const obj = ['A', 'B', 'C'];
+  const descrip = describe(obj);
+
+  assert.equal(descrip.instanceOf, 'Array');
+  assert.equal(descrip.properties.length, 4); // 3 values + length
+  assert.equal(descrip.prototype.instanceOf, 'Array');
+  const props = [
+    'Symbol(Symbol.iterator)',
+    'Symbol(Symbol.unscopables)',
+    'concat',
+    'constructor',
+    'copyWithin',
+    'entries',
+    'every',
+    'fill',
+    'filter',
+    'find',
+    'findIndex',
+    'forEach',
+    'includes',
+    'indexOf',
+    'join',
+    'keys',
+    'lastIndexOf',
+    'length',
+    'map',
+    'pop',
+    'push',
+    'reduce',
+    'reduceRight',
+    'reverse',
+    'shift',
+    'slice',
+    'some',
+    'sort',
+    'splice',
+    'toLocaleString',
+    'toString',
+    'unshift',
+  ];
+  assert.deepEqual(
+    descrip.prototype.properties.map(item => item.name).sort(),
+    props
+  );
+  assert.equal(descrip.prototype.prototype.instanceOf, 'Object');
+  assert.end();
+});
