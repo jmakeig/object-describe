@@ -67,3 +67,23 @@ test('number', assert => {
 
   assert.end();
 });
+
+test('simple object', assert => {
+  const obj = { a: 'A' };
+  const descrip = describe(obj);
+
+  assert.equal(descrip.instanceOf, 'Object');
+  assert.equal(descrip.properties.length, 1);
+  const a = descrip.properties[0];
+
+  assert.equal(a.name, 'a');
+  assert.equal(a.value, '"A"');
+  assert.equal(a.instanceOf, 'string');
+  assert.true(a.enumerable);
+  assert.true(a.configurable);
+  assert.equal(a.from, 'Object'); // I don’t think this is correct
+
+  assert.equal(descrip.prototype.instanceOf, 'Object');
+  assert.true(descrip.prototype.properties.length > 1);
+  assert.end();
+});
