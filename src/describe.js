@@ -130,7 +130,6 @@ function parseFunctionSignature(fct) {
         : parameters,
     };
   }
-  return undefined;
 }
 
 module.exports.describe = describe;

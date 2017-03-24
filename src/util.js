@@ -48,7 +48,6 @@ function toStringTagImmediate(obj) {
     if (Object.getOwnPropertySymbols(o).indexOf(Symbol.toStringTag) > -1) {
       return o[Symbol.toStringTag];
     }
-    return undefined;
   }
   return tst(obj) ? tst(Object.getPrototypeOf(obj)) : undefined;
 }
