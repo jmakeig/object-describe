@@ -122,9 +122,12 @@ function parseFunctionSignature(fct) {
   const fstr = String(fct);
   const matches = fstr.match(/^(?:function)? ?(.*)\(([^)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
   if (matches && matches.length) {
+    const parameters = matches[2].split(/, */);
     return {
       name: matches[1],
-      parameters: matches[2].split(/, */),
+      parameters: 1 === parameters.length && '' === parameters[0]
+        ? []
+        : parameters,
     };
   }
   return undefined;

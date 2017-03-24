@@ -136,3 +136,24 @@ test('array of primitives', assert => {
   assert.equal(descrip.prototype.prototype.instanceOf, 'Object');
   assert.end();
 });
+
+test('getters and setters', assert => {
+  const obj = {};
+  Object.defineProperty(obj, 'a', {
+    get() {
+      return 'A';
+    },
+    set(value) {}, // eslint-disable-line no-unused-vars
+  });
+
+  const descrip = describe(obj);
+  assert.equal(descrip.properties.length, 1);
+  const a = descrip.properties[0];
+  assert.equal(a.name, 'a');
+  assert.equal(a.value, '"A"');
+  assert.equal(a.getter.name, 'get');
+  assert.equal(a.getter.parameters.length, 0);
+  assert.equal(a.setter.name, 'set');
+  assert.deepEqual(a.setter.parameters, ['value']);
+  assert.end();
+});
