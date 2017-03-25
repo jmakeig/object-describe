@@ -81,7 +81,7 @@ test('simple object', assert => {
   assert.equal(a.instanceOf, 'string');
   assert.true(a.enumerable);
   assert.true(a.configurable);
-  assert.equal(a.from, 'Object'); // I don’t think this is correct
+  assert.equal(a.from[0], 'Object'); // I don’t think this is correct
 
   assert.equal(descrip.prototype.instanceOf, 'Object');
   assert.true(descrip.prototype.properties.length > 1);
@@ -155,5 +155,62 @@ test('getters and setters', assert => {
   assert.equal(a.getter.parameters.length, 0);
   assert.equal(a.setter.name, 'set');
   assert.deepEqual(a.setter.parameters, ['value']);
+  assert.end();
+});
+
+test('overridden and inherited properties', assert => {
+  function Animal() {}
+  Animal.prototype.speak = function() {
+    return 'hmm';
+  };
+  Animal.prototype.run = function() {
+    return 'run';
+  };
+  Object.defineProperty(Animal.prototype, 'legs', {
+    get() {
+      return 4;
+    },
+  });
+
+  function Dog() {}
+  Dog.prototype = Object.create(Animal.prototype);
+  Dog.prototype.constructor = Dog;
+  Dog.prototype.speak = function speak() {
+    return 'bark';
+  };
+  Dog.prototype.fetch = function fetch() {
+    Error.captureStackTrace(this);
+    return top(this.stack);
+  };
+  const dog = new Dog();
+
+  const descrip = describe(dog);
+
+  const pred = name => prop => name === prop.name;
+
+  assert.deepEqual(
+    descrip.prototype.properties.filter(pred('constructor'))[0].from,
+    ['Dog', 'Animal', 'Object']
+  );
+  assert.deepEqual(
+    descrip.prototype.prototype.properties.filter(pred('constructor'))[0].from,
+    ['Dog', 'Animal', 'Object']
+  );
+  assert.deepEqual(
+    descrip.prototype.prototype.prototype.properties.filter(
+      pred('constructor')
+    )[0].from,
+    ['Dog', 'Animal', 'Object']
+  );
+  assert.deepEqual(descrip.prototype.properties.filter(pred('speak'))[0].from, [
+    'Dog',
+    'Animal',
+  ]);
+  assert.deepEqual(descrip.prototype.properties.filter(pred('fetch'))[0].from, [
+    'Dog',
+  ]);
+  const legs = descrip.prototype.prototype.properties.filter(pred('legs'))[0];
+  assert.deepEqual(legs.from, ['Animal']);
+  assert.equal(legs.getter.name, 'get');
   assert.end();
 });

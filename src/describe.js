@@ -12,17 +12,18 @@ const render = require('./render.js');
  * 
  * @param {any} obj 
  * @param {boolean|number} [expandIterables=50] - whether to automatically expand
- * @param {Map} [cumulativeProperties={}]
+ * @param {object} [cumulativeProperties={}]
  * @returns 
  */
 function describe(
   obj /* , expandIterables */,
   cumulativeProperties = Object.create(null)
 ) {
-  const report = {
+  const report = Object.assign(Object.create(null), {
     instanceOf: util.instanceType(obj),
     properties: [],
-  };
+  });
+
   // Primitive
   if (util.isPrimitiveOrNull(obj)) {
     report.value = render.serializePrimitive(obj);
@@ -87,14 +88,14 @@ function describe(
     }
 
     p.instanceOf = util.instanceType(value);
-    p.from = util.instanceType(obj);
 
+    const from = util.instanceType(obj);
     if (Array.isArray(cumulativeProperties[p.name])) {
-      cumulativeProperties[p.name].push(p.from);
+      cumulativeProperties[p.name].push(from);
     } else {
-      cumulativeProperties[p.name] = [p.from];
+      cumulativeProperties[p.name] = [from];
     }
-    console.log(cumulativeProperties);
+    p.from = cumulativeProperties[p.name];
 
     const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
 
