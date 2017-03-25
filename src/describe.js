@@ -12,13 +12,18 @@ const render = require('./render.js');
  * 
  * @param {any} obj 
  * @param {boolean|number} [expandIterables=50] - whether to automatically expand
+ * @param {object} [cumulativeProperties={}]
  * @returns 
  */
-function describe(obj /* , expandIterables */) {
-  const report = {
+function describe(
+  obj /* , expandIterables */,
+  cumulativeProperties = Object.create(null)
+) {
+  const report = Object.assign(Object.create(null), {
     instanceOf: util.instanceType(obj),
     properties: [],
-  };
+  });
+
   // Primitive
   if (util.isPrimitiveOrNull(obj)) {
     report.value = render.serializePrimitive(obj);
@@ -79,11 +84,18 @@ function describe(obj /* , expandIterables */) {
     if (util.isPrimitiveOrNull(value)) {
       p.value = render.serializePrimitive(value);
     } else {
-      p.value = describe(value);
+      p.value = describe(value, cumulativeProperties);
     }
 
     p.instanceOf = util.instanceType(value);
-    p.from = util.instanceType(obj);
+
+    const from = util.instanceType(obj);
+    if (Array.isArray(cumulativeProperties[p.name])) {
+      cumulativeProperties[p.name].push(from);
+    } else {
+      cumulativeProperties[p.name] = [from];
+    }
+    p.from = cumulativeProperties[p.name];
 
     const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
 
@@ -106,7 +118,7 @@ function describe(obj /* , expandIterables */) {
     report.properties.push(p);
   }
   const proto = Object.getPrototypeOf(obj);
-  if (proto) report.prototype = describe(proto);
+  if (proto) report.prototype = describe(proto, cumulativeProperties);
 
   return report;
 }
