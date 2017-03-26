@@ -1,4 +1,4 @@
-/*
+/**/
 div {
   outline: solid 0.5px #ccc;
   margin: 0.25em;
@@ -6,7 +6,7 @@ div {
 }
 .object { outline: solid 0.5px red;}
 .property {outline: solid 0.5px green;}
-*/
+/**/
 
 .object {
   font-family: "SF Mono", "Consolas", monospace;

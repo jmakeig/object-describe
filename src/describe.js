@@ -1,7 +1,11 @@
 'use strict';
 
-const util = require('./util.js');
-const render = require('./render.js');
+const {
+  isPrimitiveOrNull,
+  isNullOrUndefined,
+  instanceType,
+  serializePrimitive,
+} = require('./util.js');
 
 /**
  * Generates a report on an object’s properties and types, 
@@ -19,22 +23,25 @@ function describe(
   obj /* , expandIterables */,
   cumulativeProperties = Object.create(null)
 ) {
-  const report = Object.assign(Object.create(null), {
-    instanceOf: util.instanceType(obj),
+  const report = {
+    // <https://bugtrack.marklogic.com/45293>
+    // Object.assign(Object.create(null), {
+    instanceOf: instanceType(obj),
     properties: [],
-  });
+    // });
+  };
 
   // Primitive
-  if (util.isPrimitiveOrNull(obj)) {
-    report.value = render.serializePrimitive(obj);
-    if (util.isNullOrUndefined(obj)) {
+  if (isPrimitiveOrNull(obj)) {
+    report.value = serializePrimitive(obj);
+    if (isNullOrUndefined(obj)) {
       return report;
     }
   }
 
   /*
   // Iterables
-  if (expandIterables && util.isIterable(obj)) {
+  if (expandIterables && isIterable(obj)) {
     if (undefined === expandIterables || true === expandIterables) {
       expandIterables = 50;
     }
@@ -81,15 +88,15 @@ function describe(
       }
     }
 
-    if (util.isPrimitiveOrNull(value)) {
-      p.value = render.serializePrimitive(value);
+    if (isPrimitiveOrNull(value)) {
+      p.value = serializePrimitive(value);
     } else {
       p.value = describe(value, cumulativeProperties);
     }
 
-    p.instanceOf = util.instanceType(value);
+    p.instanceOf = instanceType(value);
 
-    const from = util.instanceType(obj);
+    const from = instanceType(obj);
     if (Array.isArray(cumulativeProperties[p.name])) {
       cumulativeProperties[p.name].push(from);
     } else {

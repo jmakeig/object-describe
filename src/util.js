@@ -104,25 +104,52 @@ function isIterable(obj, includeStrings) {
 }
 
 /**
- * Get the property names that aren’t numeric using
- * `Object.getOwnPropetyNames()`.
+ * Serializes a primitive value as a string. This is optimized for human
+ * consumption, not machine interoperability. Thus, it uses `.toLocaleString()`
+ * for `number` and `date` instances.
  * 
  * @param {any} obj 
- * @returns {strng[]}
+ * @param {number} trunc - maximum length of `string` serialization 
+ * @returns {string}
+ * @throws {TypeError} - non-primitive
  */
-// function getNonArrayLikeOwnPropertyNames(obj) {
-//   if (isNullOrUndefined(obj)) return [];
+// eslint-disable-next-line consistent-return
+function serializePrimitive(obj, trunc) {
+  // TODO: Handle synthetic Symbol.for('Restricted function property')
 
-//   const props = Object.getOwnPropertyNames(obj);
-//   if (isArrayLike(obj)) {
-//     return props.filter(prop => !/\d+/.test(prop));
-//   }
-//   return props;
-// }
+  trunc = trunc || 50;
+  function truncate(str) {
+    let suffix = '';
+    if (str.length > trunc) suffix = '…';
+    return str.substring(0, trunc) + suffix;
+  }
+  if (null === obj) return 'null';
+  switch (typeof obj) {
+    case 'undefined':
+      return 'undefined';
+    case 'string':
+      return `"${truncate(obj)}"`;
+    case 'number':
+      if (Number.isNaN(obj)) return 'NaN';
+      return obj.toLocaleString();
+    case 'boolean':
+    case 'function':
+    case 'symbol':
+      return String(obj);
+    case 'object':
+      if (obj instanceof Date) {
+        return obj.toLocaleString();
+      }
+      break;
+    default:
+      throw new TypeError('Can’t format objects');
+  }
+}
 
 module.exports.instanceType = instanceType;
 module.exports.isPrimitiveOrNull = isPrimitiveOrNull;
 module.exports.isNullOrUndefined = isNullOrUndefined;
 module.exports.isArrayLike = isArrayLike;
 module.exports.isIterable = isIterable;
+module.exports.serializePrimitive = serializePrimitive;
 // module.exports.getNonArrayLikeOwnPropertyNames = getNonArrayLikeOwnPropertyNames;
