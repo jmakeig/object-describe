@@ -36,6 +36,12 @@ Given any object or primitive, the `describe()` function lists the type of objec
   "isShellCommand": true,
   "showOutput": "silent",
   "suppressTaskName": true,
+  "options": {
+    "env": {
+      "MLTAP_USER": "admin",
+      "MLTAP_PASSWORD": "********"
+    }
+  },
   "tasks": [
     {
       "taskName": "test",
