@@ -21,7 +21,8 @@ const {
  */
 function describe(
   obj /* , expandIterables */,
-  cumulativeProperties = Object.create(null)
+  cumulativeProperties = Object.create(null),
+  shallow = false
 ) {
   const report = {
     // <https://bugtrack.marklogic.com/45293>
@@ -72,7 +73,8 @@ function describe(
     Object.getOwnPropertySymbols(obj)
   );
   for (const prop of propsAndSymbols) {
-    const p = { name: String(prop) };
+    const p = Object.assign(Object.create(null), { name: String(prop) });
+
     let value;
     try {
       value = obj[prop];
@@ -88,13 +90,26 @@ function describe(
       }
     }
 
-    if (isPrimitiveOrNull(value)) {
+    p.instanceOf = instanceType(value);
+
+    if (shallow || isPrimitiveOrNull(value) || isNullOrUndefined(value)) {
       p.value = serializePrimitive(value);
+    } else if (
+      'function' === typeof value ||
+      'Generator' === p.instanceOf ||
+      'GeneratorFunction' === p.instanceOf
+    ) {
+      // FIXME: This needs to be generic, not just for a function
+      p.value = describe(value, cumulativeProperties, true);
     } else {
-      p.value = describe(value, cumulativeProperties);
+      p.value = describe(value, cumulativeProperties, false);
     }
 
-    p.instanceOf = instanceType(value);
+    const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
+    p.enumerable = descriptor.enumerable;
+    p.configurable = descriptor.configurable;
+    p.getter = parseFunctionSignature(descriptor.get);
+    p.setter = parseFunctionSignature(descriptor.set);
 
     const from = instanceType(obj);
     if (Array.isArray(cumulativeProperties[p.name])) {
@@ -104,29 +119,12 @@ function describe(
     }
     p.from = cumulativeProperties[p.name];
 
-    const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
-
-    p.enumerable = descriptor.enumerable;
-    p.configurable = descriptor.configurable;
-    p.getter = parseFunctionSignature(descriptor.get);
-    p.setter = parseFunctionSignature(descriptor.set);
-
-    // TODO: Figure out how to capture overrides
-    // If there’s already a property lower on the prototype chain
-    // then this property has been overridden.
-    // const overrides = report.properties.filter(pr => pr.name === prop);
-    // if (overrides.length > 0) {
-    //   p.isOverridden = true;
-    //   if (1 === overrides.length) {
-    //     overrides[0].overrideOf = p.from;
-    //   }
-    // }
-
     report.properties.push(p);
   }
-  const proto = Object.getPrototypeOf(obj);
-  if (proto) report.prototype = describe(proto, cumulativeProperties);
-
+  if (!shallow) {
+    const proto = Object.getPrototypeOf(obj);
+    if (proto) report.prototype = describe(proto, cumulativeProperties, false);
+  }
   return report;
 }
 
@@ -139,7 +137,7 @@ function describe(
  */
 function parseFunctionSignature(fct) {
   const fstr = String(fct);
-  const matches = fstr.match(/^(?:function)? ?(.*)\(([^)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
+  const matches = fstr.match(/^(?:function\*?)? ?(.*)\(([^\)]*)\)/); // <https://www.debuggex.com/r/QOLiKGnAqzzq5-x7>
   if (matches && matches.length) {
     const parameters = matches[2].split(/, */);
     return {

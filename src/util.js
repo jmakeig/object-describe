@@ -14,7 +14,7 @@ function instanceType(obj) {
     case 'number': // ironically also NaN
     case 'string':
     case 'boolean':
-    case 'function': // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
+    // case 'function': // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
     case 'symbol':
       return typeOf;
   }
@@ -59,7 +59,15 @@ function toStringTagImmediate(obj) {
  * @return {boolean}  
  */
 function isPrimitiveOrNull(value) {
-  return null === value || 'object' !== typeof value;
+  if (null === value) return true;
+  switch (typeof value) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+    case 'symbol':
+      return true;
+  }
+  return false;
 }
 
 /**
