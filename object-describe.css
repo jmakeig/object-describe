@@ -1,11 +1,13 @@
 /**/
 div {
-  outline: solid 0.5px #ccc;
-  margin: 0.25em;
-  padding: 0.1em;
+  /*outline: solid 0.5px #ccc;*/
+  margin: 0.5em;
+  padding: 0.5em;
 }
-.object { outline: solid 0.5px red;}
-.property {outline: solid 0.5px green;}
+
+.object { background: orange; }
+.properties { background: rosybrown; }
+.property { background: mediumpurple; }
 /**/
 
 .object {
@@ -14,7 +16,6 @@ div {
 }
 
 .property {
-  margin: 0.5em 0;
 }
 
 .property .object {
@@ -36,11 +37,9 @@ div {
 .property > .instance-of
  {
   font-style: italic;
-  color: #ccc;
 }
 
 .property .override-of {
-  color: blue;
 }
 .property .override-of::before {
   content: '(';
@@ -50,7 +49,6 @@ div {
 }
 
 .property .from {
-  color: green;
 }
 .property .from::before {
   content: '(';
