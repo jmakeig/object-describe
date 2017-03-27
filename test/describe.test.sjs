@@ -20,51 +20,79 @@ const { describe } = require('../src/describe.js');
 
 test('null', assert => {
   const report = describe(null);
-  assert.equal(report.instanceOf, 'null');
-  assert.deepEqual(report.properties, []);
+  assert.equal(report.is, 'null');
+  assert.equal(report.properties, undefined);
   assert.equal(report.value, 'null');
   assert.end();
 });
 
 test('undefined', assert => {
   const report = describe(undefined);
-  assert.equal(report.instanceOf, 'undefined');
-  assert.deepEqual(report.properties, []);
+  assert.equal(report.is, 'undefined');
+  assert.equal(report.properties, undefined);
   assert.equal(report.value, 'undefined');
   assert.end();
 });
 
 test('boolean', assert => {
   const report = describe(true);
-  assert.equal(report.instanceOf, 'boolean');
-  assert.deepEqual(report.properties, []);
+  assert.equal(report.is, 'boolean');
   assert.equal(report.value, 'true');
-  assert.end();
-});
-
-test('boolean', assert => {
-  const report = describe(true);
-  assert.equal(report.instanceOf, 'boolean');
-  assert.deepEqual(report.properties, []);
-  assert.equal(report.value, 'true');
-  assert.equal(
-    report.prototype.instanceOf,
-    'Boolean',
-    'Boolean is prototype of boolean'
-  );
-  assert.true(
-    report.prototype.properties.length > 1,
-    'Boolean prototype has properties'
-  );
+  assert.equal(report.properties, undefined);
+  assert.equal(report.prototype, undefined);
   assert.end();
 });
 
 test('number', assert => {
   const report = describe(123456);
-  assert.equal(report.instanceOf, 'number');
-  assert.deepEqual(report.properties, []);
+  assert.equal(report.is, 'number');
+  assert.deepEqual(report.properties, undefined);
   assert.equal(report.value, (123456).toLocaleString());
 
+  assert.end();
+});
+
+test('function, anonymous', assert => {
+  // eslint-disable-next-line prefer-arrow-callback
+  const descrip = describe(function() {});
+  assert.equal(descrip.is, 'Function');
+  assert.deepEqual(descrip.value, {
+    isGenerator: false,
+    name: '',
+    parameters: [],
+    body: '',
+    isNative: false,
+  });
+  assert.end();
+});
+
+test('function, named', assert => {
+  // eslint-disable-next-line prefer-arrow-callback
+  const descrip = describe(function asdf() {});
+  assert.equal(descrip.is, 'Function');
+  assert.deepEqual(descrip.value, {
+    isGenerator: false,
+    name: 'asdf',
+    parameters: [],
+    body: '',
+    isNative: false,
+  });
+  assert.end();
+});
+
+test('function, named, params', assert => {
+  // eslint-disable-next-line prefer-arrow-callback
+  const descrip = describe(function asdf(a, b = 55) {
+    return a + b;
+  });
+  assert.equal(descrip.is, 'Function');
+  assert.deepEqual(descrip.value, {
+    isGenerator: false,
+    name: 'asdf',
+    parameters: ['a', 'b = 55'],
+    body: '    return a + b;',
+    isNative: false,
+  });
   assert.end();
 });
 
@@ -72,18 +100,18 @@ test('simple object', assert => {
   const obj = { a: 'A' };
   const descrip = describe(obj);
 
-  assert.equal(descrip.instanceOf, 'Object');
+  assert.equal(descrip.is, 'Object');
   assert.equal(descrip.properties.length, 1);
   const a = descrip.properties[0];
 
   assert.equal(a.name, 'a');
   assert.equal(a.value, '"A"');
-  assert.equal(a.instanceOf, 'string');
+  assert.equal(a.is, 'string');
   assert.true(a.enumerable);
   assert.true(a.configurable);
-  assert.equal(a.from[0], 'Object'); // I don’t think this is correct
+  assert.equal(a.from, 'Object');
 
-  assert.equal(descrip.prototype.instanceOf, 'Object');
+  assert.equal(descrip.prototype.is, 'Object');
   assert.true(descrip.prototype.properties.length > 1);
   assert.end();
 });
@@ -92,9 +120,9 @@ test('array of primitives', assert => {
   const obj = ['A', 'B', 'C'];
   const descrip = describe(obj);
 
-  assert.equal(descrip.instanceOf, 'Array');
+  assert.equal(descrip.is, 'Array');
   assert.equal(descrip.properties.length, 4); // 3 values + length
-  assert.equal(descrip.prototype.instanceOf, 'Array');
+  assert.equal(descrip.prototype.is, 'Array');
   const props = [
     'Symbol(Symbol.iterator)',
     'Symbol(Symbol.unscopables)',
@@ -133,7 +161,7 @@ test('array of primitives', assert => {
     descrip.prototype.properties.map(item => item.name).sort(),
     props
   );
-  assert.equal(descrip.prototype.prototype.instanceOf, 'Object');
+  assert.equal(descrip.prototype.prototype.is, 'Object');
   assert.end();
 });
 
@@ -190,27 +218,42 @@ test('overridden and inherited properties', assert => {
 
   assert.deepEqual(
     descrip.prototype.properties.filter(pred('constructor'))[0].from,
-    ['Dog', 'Animal', 'Object']
+    'Dog'
   );
   assert.deepEqual(
     descrip.prototype.prototype.properties.filter(pred('constructor'))[0].from,
-    ['Dog', 'Animal', 'Object']
+    'Animal'
   );
   assert.deepEqual(
     descrip.prototype.prototype.prototype.properties.filter(
       pred('constructor')
     )[0].from,
-    ['Dog', 'Animal', 'Object']
+    'Object'
   );
-  assert.deepEqual(descrip.prototype.properties.filter(pred('speak'))[0].from, [
-    'Dog',
-    'Animal',
-  ]);
-  assert.deepEqual(descrip.prototype.properties.filter(pred('fetch'))[0].from, [
-    'Dog',
-  ]);
+
+  assert.deepEqual(
+    descrip.prototype.properties.filter(pred('speak'))[0].from,
+    'Dog'
+  );
+  assert.deepEqual(
+    descrip.prototype.properties.filter(pred('fetch'))[0].from,
+    'Dog'
+  );
   const legs = descrip.prototype.prototype.properties.filter(pred('legs'))[0];
-  assert.deepEqual(legs.from, ['Animal']);
+  assert.deepEqual(legs.from, 'Animal');
   assert.equal(legs.getter.name, 'get');
+
+  assert.end();
+});
+
+test('circular', assert => {
+  const a = { b: {} };
+  const b = { a: a };
+  a.b = b;
+
+  const descrip = describe(a);
+  assert.true(
+    descrip.properties[0].value.properties[0].value.properties[0].isCircular
+  );
   assert.end();
 });

@@ -172,7 +172,7 @@ module.exports = {
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
     'no-var': 'error',
-    'no-void': 'error',
+    'no-void': 'off',
     'no-warning-comments': 'off',
     'no-whitespace-before-property': 'error',
     'no-with': 'error',

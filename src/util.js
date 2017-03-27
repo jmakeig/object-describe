@@ -14,7 +14,6 @@ function instanceType(obj) {
     case 'number': // ironically also NaN
     case 'string':
     case 'boolean':
-    case 'function': // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
     case 'symbol':
       return typeOf;
   }
@@ -53,13 +52,27 @@ function toStringTagImmediate(obj) {
 }
 
 /**
- * Whether a value is a primitive or an `Object`.
+ * A pragmatic, not strictly correct interpretation of “primitive”.
+ * The difference here is that `Function` and `Date` instances are
+ * considered primitive. 
  *
  * @param {any} value - the value to test
  * @return {boolean}  
  */
 function isPrimitiveOrNull(value) {
-  return null === value || 'object' !== typeof value;
+  if (null === value) return true;
+  switch (typeof value) {
+    case 'undefined':
+    case 'string':
+    case 'number':
+    case 'boolean':
+    case 'symbol':
+    case 'function':
+      return true;
+    case 'object':
+      return value instanceof Date;
+  }
+  return false;
 }
 
 /**
@@ -114,7 +127,7 @@ function isIterable(obj, includeStrings) {
  * @throws {TypeError} - non-primitive
  */
 // eslint-disable-next-line consistent-return
-function serializePrimitive(obj, trunc) {
+function serialize(obj, trunc) {
   // TODO: Handle synthetic Symbol.for('Restricted function property')
 
   trunc = trunc || 50;
@@ -132,8 +145,9 @@ function serializePrimitive(obj, trunc) {
     case 'number':
       if (Number.isNaN(obj)) return 'NaN';
       return obj.toLocaleString();
-    case 'boolean':
     case 'function':
+      return parseFunctionSignature(obj);
+    case 'boolean': // Intentional fall-through
     case 'symbol':
       return String(obj);
     case 'object':
@@ -146,10 +160,134 @@ function serializePrimitive(obj, trunc) {
   }
 }
 
-module.exports.instanceType = instanceType;
-module.exports.isPrimitiveOrNull = isPrimitiveOrNull;
-module.exports.isNullOrUndefined = isNullOrUndefined;
-module.exports.isArrayLike = isArrayLike;
-module.exports.isIterable = isIterable;
-module.exports.serializePrimitive = serializePrimitive;
-// module.exports.getNonArrayLikeOwnPropertyNames = getNonArrayLikeOwnPropertyNames;
+/**
+ * Whether the object is a function, using `instanceof`.
+ * 
+ * @example
+ * Object.getPrototypeOf(       // null
+ *   Object.getPrototypeOf(     // Object
+ *     Object.getPrototypeOf(   // Function
+ *       Object.getPrototypeOf( // (Generator)Function
+ *         function(){}
+ *       )
+ *     )
+ *   )
+ * )
+ * 
+ * @param {any} obj 
+ * @returns {boolean}
+ */
+function isFunction(obj) {
+  return obj instanceof Function;
+}
+
+function requiredParameter(msg = 'Missing required parameter') {
+  throw new ReferenceError(msg);
+}
+/**
+ * Adds a `toString()` method to the instance.
+ * 
+ * @param {any} obj 
+ * @param {any} toString 
+ * @returns 
+ */
+function toStringifyInstance(
+  obj,
+  toString = requiredParameter('toString as a function')
+) {
+  return Object.defineProperty(obj, 'toString', {
+    enumerable: false,
+    value: toString,
+  });
+}
+
+/**
+ * Parse the signature of a function.
+ * 
+ * @param {function} fct 
+ * @returns {object|undefined} - an object with `name` (`string`) and `parameters` (`string[]`) properties
+ * @throws {TypeError} - for a non-function
+ * @see serializeFunctionSignature
+ */
+function parseFunctionSignature(fct) {
+  if (undefined === fct) return undefined;
+  if ('function' !== typeof fct) {
+    throw new TypeError(`${typeof fct} is not a function`);
+  }
+  const fstr = String(fct);
+  const matches = fstr.match(/^(?:function(\*?) )?(.*)\((.*)\) {\n?(.*)?/); // TODO: I don’t know why the final `}` doesn’t work
+  if (matches && matches.length) {
+    const parameters = matches[3].split(/, */);
+    const body = matches[4].replace(/\s?}\s*$/, ''); // Fix for RegExp issue above
+    return toStringifyInstance(
+      {
+        isGenerator: '*' === matches[1],
+        name: matches[2],
+        parameters: 1 === parameters.length && '' === parameters[0]
+          ? []
+          : parameters,
+        body: body,
+        isNative: /\[native code]/.test(body),
+      },
+      () => fstr
+    );
+  }
+  // Should this throw an Error?
+  return fstr;
+}
+/**
+ * Gets a descriptor using `Object.getOwnPropertyDescriptor()` 
+ * for an object’s property.
+ * 
+ * @param {any} obj 
+ * @param {string} property 
+ * @returns {object}
+ */
+function getPropertyDescriptor(obj, property) {
+  const descriptor = Object.getOwnPropertyDescriptor(obj, property);
+  return {
+    name: String(property), // Casts Symbols as strings, `Symbol(Symbol.iterator)`
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    getter: parseFunctionSignature(descriptor.get),
+    setter: parseFunctionSignature(descriptor.set),
+  };
+}
+
+/**
+ * Gets the value of a property `obj[property]`. Wraps in a 
+ * try/catch for the corner case where `caller` and `arguments`
+ * properties aren’t available in certain contexts. 
+ * 
+ * @param {any} obj - any object
+ * @param {string} property - a property name
+ * @returns {any} - any value or `undefined` if the 
+ *                  property doesn’t exist or throws an error
+ * @throws {Error} - any errors that aren’t “restricted function properties”
+ */
+function getPropertyValue(obj, property) {
+  try {
+    return obj[property];
+  } catch (error) {
+    if (
+      error instanceof TypeError &&
+      /restricted function properties/.test(error.message)
+    ) {
+      return undefined;
+    }
+    throw error;
+  }
+}
+
+module.exports = {
+  instanceType,
+  isPrimitiveOrNull,
+  isNullOrUndefined,
+  isArrayLike,
+  isIterable,
+  isFunction,
+  serialize,
+  parseFunctionSignature,
+  getPropertyDescriptor,
+  getPropertyValue,
+};

@@ -4,151 +4,105 @@ const {
   isPrimitiveOrNull,
   isNullOrUndefined,
   instanceType,
-  serializePrimitive,
-} = require('./util.js');
+  getPropertyDescriptor,
+  getPropertyValue,
+  serialize,
+} = require('./util');
+
+const DEFAULT_IGNORE = [];
 
 /**
- * Generates a report on an object’s properties and types, 
- * including along the prototype hierarchy.
+ * Recursively traverses an object’s properties, including along
+ * its prototype chain. Handles cycles 
  * 
- * @example <caption>Output for <code>{a: 'A', b: ['B', 'B']}</code></caption>
- * TODO
- * 
- * @param {any} obj 
- * @param {boolean|number} [expandIterables=50] - whether to automatically expand
- * @param {object} [cumulativeProperties={}]
- * @returns 
+ * @param {any} obj - any object or primitive
+ * @param {Array<Object>} [ignore=DEFAULT_IGNORE] - prototypes to ignore
+ * @param {Array<Object>} [history=[]] - a record of the traversal used to idenify cycles
+ * @returns {Object} - a report of the types
  */
-function describe(
-  obj /* , expandIterables */,
-  cumulativeProperties = Object.create(null)
-) {
-  const report = {
-    // <https://bugtrack.marklogic.com/45293>
-    // Object.assign(Object.create(null), {
-    instanceOf: instanceType(obj),
-    properties: [],
-    // });
-  };
+function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
+  /**
+   * 
+   * @param {Obejct} instance 
+   * @returns {boolean} - whether the instance’s constructor is in the ignored list
+   */
+  const isIgnored = instance =>
+    ignore.some(o => {
+      if (instance.constructor) {
+        return instance.constructor === o;
+      }
+      return false;
+    });
 
-  // Primitive
-  if (isPrimitiveOrNull(obj)) {
-    report.value = serializePrimitive(obj);
-    if (isNullOrUndefined(obj)) {
-      return report;
-    }
+  const object = { is: instanceType(obj) };
+
+  if (isNullOrUndefined(obj) || isPrimitiveOrNull(obj)) {
+    object.value = serialize(obj);
+    return object;
   }
 
-  /*
-  // Iterables
-  if (expandIterables && isIterable(obj)) {
-    if (undefined === expandIterables || true === expandIterables) {
-      expandIterables = 50;
-    }
-    if (!('number' === typeof expandIterables)) {
-      throw new TypeError();
-    }
-    if (
-      !Number.isInteger(expandIterables) && Number.isFinite(expandIterables)
-    ) {
-      throw new TypeError('Must be a finite integer or infinity');
-    }
-    report.iterableValues = [];
-    let j = 0;
-    for (const item of obj) {
-      if (j++ < expandIterables) {
-        report.iterableValues.push(describe(item, expandIterables));
-      } else {
-        report.iterableValues.truncated = true;
-        break;
-      }
-    }
-  }
-*/
+  // If we’ve already proccessed this exact object
+  const isCycle = history.some(o => o === obj);
+  history = [...history, obj];
 
-  // Properties
-  const propsAndSymbols = [].concat(
-    Object.getOwnPropertyNames(obj),
-    Object.getOwnPropertySymbols(obj)
-  );
-  for (const prop of propsAndSymbols) {
-    const p = { name: String(prop) };
-    let value;
-    try {
-      value = obj[prop];
-    } catch (error) {
-      // TypeError: 'caller' and 'arguments' are restricted function properties and cannot be accessed in this context.
-      if (
-        error instanceof TypeError &&
-        /restricted function properties/.test(error.message)
-      ) {
-        value = Symbol.for('Restricted function property');
-      } else {
-        throw error;
-      }
-    }
-
+  object.properties = [];
+  for (const name of [
+    ...Object.getOwnPropertyNames(obj),
+    ...Object.getOwnPropertySymbols(obj),
+  ]) {
+    const property = getPropertyDescriptor(obj, name);
+    property.from = instanceType(obj); // What is this really supposed to convey?
+    // console.log(`${obj.constructor.name}: ${name}`);
+    const value = getPropertyValue(obj, name);
     if (isPrimitiveOrNull(value)) {
-      p.value = serializePrimitive(value);
+      property.value = serialize(value);
+      property.is = instanceType(value);
+    } else if (isCycle) {
+      property.value = CircularReference(value);
+      property.isCircular = true;
+      // } else if (isIgnored(value)) {
+      //   // throw new Error('ignored');
+      //   property.value = 'IGNORED';
     } else {
-      p.value = describe(value, cumulativeProperties);
+      property.value = describe(value, ignore, history);
     }
-
-    p.instanceOf = instanceType(value);
-
-    const from = instanceType(obj);
-    if (Array.isArray(cumulativeProperties[p.name])) {
-      cumulativeProperties[p.name].push(from);
-    } else {
-      cumulativeProperties[p.name] = [from];
-    }
-    p.from = cumulativeProperties[p.name];
-
-    const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
-
-    p.enumerable = descriptor.enumerable;
-    p.configurable = descriptor.configurable;
-    p.getter = parseFunctionSignature(descriptor.get);
-    p.setter = parseFunctionSignature(descriptor.set);
-
-    // TODO: Figure out how to capture overrides
-    // If there’s already a property lower on the prototype chain
-    // then this property has been overridden.
-    // const overrides = report.properties.filter(pr => pr.name === prop);
-    // if (overrides.length > 0) {
-    //   p.isOverridden = true;
-    //   if (1 === overrides.length) {
-    //     overrides[0].overrideOf = p.from;
-    //   }
-    // }
-
-    report.properties.push(p);
+    object.properties.push(property);
   }
   const proto = Object.getPrototypeOf(obj);
-  if (proto) report.prototype = describe(proto, cumulativeProperties);
-
-  return report;
+  if (proto && !isIgnored(proto)) {
+    // Concat the prototype properties to the current object’s
+    // object.properties = [
+    //   ...object.properties,
+    //   ...describe(proto, ignore, history).properties,
+    // ];
+    object.prototype = describe(proto, ignore, history);
+  }
+  return object;
 }
 
 /**
- * Parse the signature of a function.
+ * @constructor
  * 
- * @param {function} fct 
- * @returns {object|undefined} - an object with `name` (`string`) and `parameters` (`string[]`) properties
- * @see serializeFunctionSignature
+ * @param {any} reference 
+ * @returns 
  */
-function parseFunctionSignature(fct) {
-  const fstr = String(fct);
-  const matches = fstr.match(/^(?:function)? ?(.*)\(([^)]*)\)/); // <https://www.debuggex.com/r/_Xe44X7puf9pODB1>
-  if (matches && matches.length) {
-    const parameters = matches[2].split(/, */);
-    return {
-      name: matches[1],
-      parameters: 1 === parameters.length && '' === parameters[0]
-        ? []
-        : parameters,
-    };
+function CircularReference(reference) {
+  if (!(this instanceof CircularReference)) {
+    return new CircularReference(reference);
   }
+  Object.defineProperty(this, 'reference', {
+    get() {
+      return reference;
+    },
+  });
 }
+CircularReference.prototype.constructor = CircularReference;
+CircularReference.prototype.toString = function toString() {
+  return 'Circular: ' + serialize(this.reference);
+};
 
-module.exports.describe = describe;
+// Prevent external function from calling `describe` with more
+// than two arguments, i.e. overriding the `history` parameter.
+module.exports.describe = function(obj, ignore = []) {
+  return describe(obj, ignore);
+};

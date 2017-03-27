@@ -61,7 +61,7 @@ function renderProperty(prop, objInstance) {
   const overriddenBy = current > 0 ? prop.from[current - 1] : undefined;
   const classNames = [
     'property',
-    `typeof-${prop.instanceOf}`,
+    `typeof-${prop.is}`,
     iis(prop.enumerable, 'is-enumerable'),
     iis(prop.configurable, 'is-configurable'),
     iis(overriddenBy, 'is-overridden'),
@@ -71,7 +71,7 @@ function renderProperty(prop, objInstance) {
 <div class="${classNames.join(' ')}">
   <span class="name" title="${title}">${prop.name}</span> 
   ${iis(next, `<span class="override-of">overrides ${next}</span> `)}
-  <span class="instance-of">${prop.instanceOf}</span> 
+  <span class="instance-of">${prop.is}</span> 
   <span class="value">
     ${iif(isPrimitiveOrNull(prop.value), prop.value, () =>
     renderObject(prop.value, true))}</span>
@@ -80,7 +80,7 @@ function renderProperty(prop, objInstance) {
 
 // function renderIteratorValues(obj, i) {
 //   return `<div class="iterator-value">
-//   Value: ${i}  <span class="instance-of">${obj.instanceOf}</span>
+//   Value: ${i}  <span class="instance-of">${obj.is}</span>
 //   <span class="value">${iif(isPrimitiveOrNull(obj), obj, renderObject(obj, true))}</span>
 
 // </div>`;
@@ -90,10 +90,10 @@ function renderObject(obj, hideType) {
   if (undefined === obj) return '';
   return `<div class="object">
   <div class="properties">
-    ${obj.properties.map(prop => renderProperty(prop, obj.instanceOf)).join('')}
+    ${obj.properties.map(prop => renderProperty(prop, obj.is)).join('')}
   </div>
   ${obj.prototype ? `<div class="prototype">
-    Prototype: ${obj.prototype.instanceOf} 
+    Prototype: ${obj.prototype.is} 
     ${renderObject(obj.prototype)}
   </div>` : ''}
 </div>`;
