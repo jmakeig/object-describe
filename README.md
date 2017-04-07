@@ -67,3 +67,4 @@ Given any object or primitive, the `describe()` function lists the type of objec
   ]
 }
 ```
+&copy; 2017 MarkLogic
