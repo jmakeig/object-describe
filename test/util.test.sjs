@@ -22,6 +22,8 @@ const {
   isNullOrUndefined,
   isArrayLike,
   isIterable,
+  getPropertyValue,
+  RESTRICTED_FUNCTION_PROPERTY,
   parseFunctionSignature,
   serialize,
 } = require('../src/util.js');
@@ -224,5 +226,27 @@ test('parseFunctionSignature', assert => {
     },
     'lambda'
   );
+  assert.end();
+});
+
+test('getPropertyValue', assert => {
+  const a = { a: 'A' };
+  assert.equal(getPropertyValue(a, 'a'), 'A');
+  assert.throws(
+    () => {
+      getPropertyValue(null, 'a');
+    },
+    TypeError
+  );
+  assert.throws(
+    () => {
+      getPropertyValue(a);
+    },
+    ReferenceError
+  );
+  assert.equal(typeof getPropertyValue('', 'toString'), 'function');
+  const f = () => undefined;
+  assert.equal(getPropertyValue(f, 'caller'), RESTRICTED_FUNCTION_PROPERTY);
+  assert.equal(getPropertyValue(f, 'arguments'), RESTRICTED_FUNCTION_PROPERTY);
   assert.end();
 });

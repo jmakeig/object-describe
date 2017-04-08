@@ -14,6 +14,10 @@
  * limitations under the License.                                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
+/**
+ * @constant
+ */
+const RESTRICTED_FUNCTION_PROPERTY = Symbol('RESTRICTED_FUNCTION_PROPERTY');
 
 /**
  * Get the type of any object. Primitives return primitive name.
@@ -281,6 +285,7 @@ function getPropertyDescriptor(obj, property) {
  * @throws {Error} - any errors that aren’t “restricted function properties”
  */
 function getPropertyValue(obj, property) {
+  if (undefined === property) throw new ReferenceError('property must be defined');
   try {
     return obj[property];
   } catch (error) {
@@ -288,7 +293,7 @@ function getPropertyValue(obj, property) {
       error instanceof TypeError &&
       /restricted function properties/.test(error.message)
     ) {
-      return undefined;
+      return RESTRICTED_FUNCTION_PROPERTY;
     }
     throw error;
   }
@@ -305,4 +310,5 @@ module.exports = {
   parseFunctionSignature,
   getPropertyDescriptor,
   getPropertyValue,
+  RESTRICTED_FUNCTION_PROPERTY,
 };

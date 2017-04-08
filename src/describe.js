@@ -21,6 +21,7 @@ const {
   instanceType,
   getPropertyDescriptor,
   getPropertyValue,
+  RESTRICTED_FUNCTION_PROPERTY,
   serialize,
 } = require('./util');
 
@@ -70,7 +71,11 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
     // console.log(`${obj.constructor.name}: ${name}`);
     const value = getPropertyValue(obj, name);
     if (isPrimitiveOrNull(value)) {
-      property.value = serialize(value);
+      if (RESTRICTED_FUNCTION_PROPERTY === value) {
+        property.value = value;
+      } else {
+        property.value = serialize(value);
+      }
       property.is = instanceType(value);
     } else if (isCycle) {
       property.value = CircularReference(value);
