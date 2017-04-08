@@ -32,7 +32,7 @@ const seq2 = Sequence.from(['a', 'b', 'c']);
 */
 
 const { describe } = require('./describe');
-const renderHTML = require('./render.js').renderHTML;
+const { renderHTML } = require('./render.js');
 
 const descrip = describe(['A', 'B', 'C'], [Object, Function, Array]);
 
