@@ -147,7 +147,7 @@ test('parseFunctionSignature', assert => {
       isGenerator: false,
       name: 'f2',
       parameters: ['a', 'bbbbb', 'c = true'],
-      body: '    a = bbbbb++ - c;',
+      body: '    a = bbbbb++ - c;\n    return 0;',
       isNative: false,
     },
     'with parameters'
@@ -164,7 +164,7 @@ test('parseFunctionSignature', assert => {
       name: '',
       parameters: ['a'],
       // eslint-disable-next-line no-template-curly-in-string
-      body: '    `Here is a really long string that includes ${a} and a bunch of other stuff`;',
+      body: '    `Here is a really long string that includes ${a} and a bunch of other stuff`;\n    return 0;',
       isNative: false,
     },
     'anonymous'
@@ -199,21 +199,44 @@ test('parseFunctionSignature', assert => {
     },
     'anonymous generator'
   );
-  /*
-  // TODO: Implement lambda parsing
+
   const f6 = (things, stuff) => things || stuff;
   assert.deepEqual(
     parseFunctionSignature(f6),
     {
-      isGenerator: true,
-      name: '',
       parameters: ['things', 'stuff'],
-      body: '    yield 0;',
-      isNative: false,
+      body: 'things || stuff',
+      isLambda: true,
     },
     'lambda'
   );
-*/
+
+  const f7 = (things, stuff) => {
+    const x = '';
+    x || things || stuff;
+  };
+  assert.deepEqual(
+    parseFunctionSignature(f7),
+    {
+      parameters: ['things', 'stuff'],
+      // eslint-disable-next-line quotes
+      body: "    const x = '';\n    x || things || stuff;",
+      isLambda: true,
+    },
+    'lambda'
+  );
+  const f7a = things => things;
+  assert.deepEqual(
+    parseFunctionSignature(f7a),
+    {
+      parameters: ['things'],
+      // eslint-disable-next-line quotes
+      body: 'things',
+      isLambda: true,
+    },
+    'lambda, no parens'
+  );
+
   const f8 = Array.prototype[Symbol.iterator];
   assert.deepEqual(
     parseFunctionSignature(f8),
@@ -221,11 +244,25 @@ test('parseFunctionSignature', assert => {
       isGenerator: false, // duck-typed
       name: 'values',
       parameters: [],
-      body: ' [native code]',
+      body: '[native code]',
       isNative: true,
     },
-    'lambda'
+    'isNative'
   );
+
+  const itarable = {
+    *[Symbol.iterator]() {
+      yield 1;
+    },
+  };
+  assert.deepEqual(parseFunctionSignature(itarable[Symbol.iterator]), {
+    name: '',
+    isGenerator: true,
+    body: '      yield 1;',
+    isNative: false,
+    parameters: [],
+  });
+
   assert.end();
 });
 

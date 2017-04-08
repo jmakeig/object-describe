@@ -14,37 +14,9 @@
  * limitations under the License.                                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
-
-const test = require('/mltap/test');
-const { describe } = require('../src/describe.js');
-const { renderHTML } = require('../src/render.js');
-
-/**
- * XPath helper
- * 
- * @param {Node} node 
- * @param {string} path 
- * @returns {Array<Node>}
- */
-function xpath(node, path) {
-  if (node instanceof Node) {
-    return Array.from(node.xpath(path));
+document.body.addEventListener('click', evt => {
+  // console.log(evt.target.classList);
+  if (evt.target && evt.target.matches('.toggleable')) {
+    evt.target.classList.toggle('toggle-none');
   }
-  throw new Error('Global XPath is not implemented yet.');
-}
-
-test('html', assert => {
-  const obj = { a: 'A' };
-  const html = renderHTML(describe(obj));
-  const node = fn.head(xdmp.unquote(html));
-  assert.true(undefined !== node);
-  assert.true(xpath(node, '//div').length > 0);
-  // assert.equal(
-  //   xpath(
-  //     node,
-  //     '(//div[@class eq "object"])[1]/span[@class eq "is" and @class="is-Object"]'
-  //   ).length,
-  //   1
-  // );
-  assert.end();
 });

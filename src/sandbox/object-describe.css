@@ -1,0 +1,141 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Copyright 2017 MarkLogic Corp.                                             *
+ *                                                                            *
+ * Licensed under the Apache License, Version 2.0 (the "License");            *
+ * you may not use this file except in compliance with the License.           *
+ * You may obtain a copy of the License at                                    *
+ *                                                                            *
+ *     http://www.apache.org/licenses/LICENSE-2.0                             *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+body {
+  font-family: Helvetica;
+  color: #333;
+  font-size: 12pt;
+}
+
+.toggleable:before {
+  content: '▾';
+  color: #ccc;
+  display: inline-block;
+  width: 0.75em;
+}
+
+.is,
+.name,
+.value {
+  font-family: "SF Mono", "Consolas", monospace;
+  color: #000;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.is {
+  background: #eee;
+  padding: 0.25em 0.5em;
+  border-radius: 0.5em;
+}
+
+.value {
+  font-style: italic;
+}
+
+.toggleable.toggle-none:before {
+  content: '▸';
+  font-family: monosapce;
+  cursor: pointer;
+}
+
+.toggle-none>.toggle-group {
+  display: none;
+}
+
+.object {
+  line-height: 1.45;
+}
+
+.properties,
+.prototype,
+.accessors {
+  margin-left: 1em;
+}
+
+.property {
+  margin-left: 1em;
+  margin-bottom: 0.25em;
+  margin-top: 0.25em;
+}
+
+.property.is-overridden .name {
+  text-decoration: line-through;
+}
+
+.is-Date:before,
+.is-Function:before,
+.is-GeneratorFunction:before,
+.is-string:before,
+.is-null:before,
+.is-boolean:before,
+.is-Date:before,
+.is-number:before,
+.iterable>.is+span:after {
+  display: inline-block;
+  width: 1em;
+  border-radius: 4em;
+  padding: 0.1em 0.45em;
+  text-align: center;
+  font-size: 60%;
+  border-width: 0.5px;
+  border-style: solid;
+  line-height: 1.25;
+  font-weight: bold;
+  position: relative;
+  top: -0.1em;
+  color: #fff;
+  font-family: "SF Mono", "Consolas", monospace;
+}
+
+.is-string:before {
+  content: 'S';
+  background: #FF715B;
+}
+
+.is-Function:before,
+.is-GeneratorFunction:before {
+  content: 'F';
+  background: #BCED09;
+}
+
+.is-null:before {
+  content: 'N';
+  background: #2F52E0;
+}
+
+.is-boolean:before {
+  content: 'B';
+  background: #F9CB40;
+}
+
+.is-Date:before {
+  content: 'D';
+  background: #4C5B5C;
+}
+
+.is-number:before {
+  content: '#';
+  background: #DBB4AD;
+}
+
+.iterable>.is+span:after {
+  content: 'I';
+  background: darkslateblue;
+  margin-left: 0.75em;
+}

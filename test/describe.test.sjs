@@ -255,5 +255,19 @@ test('circular', assert => {
   assert.true(
     descrip.properties[0].value.properties[0].value.properties[0].isCircular
   );
+
+  assert.end();
+});
+
+test('iterable', assert => {
+  assert.equal(describe([1, 2, 3]).prototype.isIterable, true);
+  assert.equal(
+    describe(
+      (function*() {
+        yield 1;
+      })()
+    ).prototype.prototype.prototype.isIterable,
+    true
+  );
   assert.end();
 });

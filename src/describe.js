@@ -18,6 +18,8 @@
 const {
   isPrimitiveOrNull,
   isNullOrUndefined,
+  isIterable,
+  isIterator,
   instanceType,
   getPropertyDescriptor,
   getPropertyValue,
@@ -57,6 +59,14 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
     return object;
   }
 
+  if (isIterable(obj)) {
+    object.isIterable = true;
+  }
+  
+  if(isIterator(obj)) {
+    object.isIterator = true;
+  }
+
   // If we’ve already proccessed this exact object
   const isCycle = history.some(o => o === obj);
   history = [...history, obj];
@@ -70,13 +80,14 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
     property.from = instanceType(obj); // What is this really supposed to convey?
     // console.log(`${obj.constructor.name}: ${name}`);
     const value = getPropertyValue(obj, name);
+    property.is = instanceType(value);
+
     if (isPrimitiveOrNull(value)) {
       if (RESTRICTED_FUNCTION_PROPERTY === value) {
         property.value = value;
       } else {
         property.value = serialize(value);
       }
-      property.is = instanceType(value);
     } else if (isCycle) {
       property.value = CircularReference(value);
       property.isCircular = true;

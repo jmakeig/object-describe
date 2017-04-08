@@ -123,7 +123,7 @@ function isArrayLike(obj) {
  * @param {boolean} [includeStrings=false] - consider `string` instances iterable (probably not what you want)
  * @returns {boolean}
  */
-function isIterable(obj, includeStrings) {
+function isIterable(obj, includeStrings = false) {
   if (isNullOrUndefined(obj)) return false;
 
   if ('function' === typeof obj[Symbol.iterator]) {
@@ -134,6 +134,17 @@ function isIterable(obj, includeStrings) {
   }
   return false;
 }
+/**
+ * Duck types an object with a `next()` method.
+ * 
+ * @param {any} obj 
+ * @returns {boolean}
+ */
+function isIterator(obj) {
+  if (isNullOrUndefined(obj)) return false;
+  if ('function' === obj.next) return true;
+  return false;
+}
 
 /**
  * Serializes a primitive value as a string. This is optimized for human
@@ -141,15 +152,14 @@ function isIterable(obj, includeStrings) {
  * for `number` and `date` instances.
  * 
  * @param {any} obj 
- * @param {number} trunc - maximum length of `string` serialization 
+ * @param {number} [trunc=50] - maximum length of `string` serialization 
  * @returns {string}
  * @throws {TypeError} - non-primitive
  */
 // eslint-disable-next-line consistent-return
-function serialize(obj, trunc) {
+function serialize(obj, trunc = 50) {
   // TODO: Handle synthetic Symbol.for('Restricted function property')
 
-  trunc = trunc || 50;
   function truncate(str) {
     let suffix = '';
     if (str.length > trunc) suffix = '…';
@@ -212,7 +222,7 @@ function requiredParameter(msg = 'Missing required parameter') {
  */
 function toStringifyInstance(
   obj,
-  toString = requiredParameter('toString as a function')
+  toString = requiredParameter('Missing toString as a function')
 ) {
   return Object.defineProperty(obj, 'toString', {
     enumerable: false,
@@ -234,25 +244,45 @@ function parseFunctionSignature(fct) {
     throw new TypeError(`${typeof fct} is not a function`);
   }
   const fstr = String(fct);
-  const matches = fstr.match(/^(?:function(\*?) )?(.*)\((.*)\) {\n?(.*)?/); // TODO: I don’t know why the final `}` doesn’t work
-  if (matches && matches.length) {
-    const parameters = matches[3].split(/, */);
-    const body = matches[4].replace(/\s?}\s*$/, ''); // Fix for RegExp issue above
+
+  const FUNCTION = /^(\*|function\*|function)? ?(.*)\((.*)\) \{? ?\n?((?:.|\n)+)/; // TODO: I don’t know why the final `}` doesn’t work
+  const LAMBDA = /^(?:\((.*)\)|([^(]*)) => \{? ?\n?((?:.|\n)+)/;
+
+  const parseParams = str => {
+    const params = str.split(/, */);
+    if (1 === params.length && '' === params[0]) return [];
+    return params;
+  };
+
+  // Fix for RegExp issue above
+  const parseBody = str => str.replace(/(?:\n|\s)*}\s*$/, '');
+
+  const lambdas = fstr.match(LAMBDA);
+  if (lambdas && lambdas.length) {
     return toStringifyInstance(
       {
-        isGenerator: '*' === matches[1],
-        name: matches[2],
-        parameters: 1 === parameters.length && '' === parameters[0]
-          ? []
-          : parameters,
-        body: body,
-        isNative: /\[native code]/.test(body),
+        parameters: parseParams(lambdas[1] ? lambdas[1] : lambdas[2]),
+        body: parseBody(lambdas[3]),
+        isLambda: true,
       },
       () => fstr
     );
   }
-  // Should this throw an Error?
-  return fstr;
+  const matches = fstr.match(FUNCTION);
+  if (matches && matches.length) {
+    const body = parseBody(matches[4]);
+    return toStringifyInstance(
+      {
+        name: matches[2],
+        parameters: parseParams(matches[3]),
+        body: body,
+        isNative: /\[native code]/.test(body),
+        isGenerator: '*' === matches[1] || 'function*' === matches[1],
+      },
+      () => fstr
+    );
+  }
+  throw new Error(`Unable to parse ${fstr}`);
 }
 /**
  * Gets a descriptor using `Object.getOwnPropertyDescriptor()` 
@@ -285,7 +315,8 @@ function getPropertyDescriptor(obj, property) {
  * @throws {Error} - any errors that aren’t “restricted function properties”
  */
 function getPropertyValue(obj, property) {
-  if (undefined === property) throw new ReferenceError('property must be defined');
+  if (undefined === property)
+    throw new ReferenceError('property must be defined');
   try {
     return obj[property];
   } catch (error) {
@@ -299,16 +330,49 @@ function getPropertyValue(obj, property) {
   }
 }
 
+/**
+ * Group a flat `Iterable` into fixed-sized buckets, truncating for 
+ * conveniece/efficiency.
+ * 
+ * @param {Iterable<any>} itr - any `Iterable`
+ * @param {number} [size=25] - the size of each bucket
+ * @param {number} [maxTotal=100] - the total number items in all buckets
+ * @returns {Array<Array>} - two-dimensional `Array` of buckets and values
+ * @throws {TypeError} - non-`Iterable`
+ */
+function groupByBuckets(itr, size = 25, maxTotal = 100) {
+  if (!isIterable(itr)) throw new TypeError('Must be Iterable');
+  const buckets = [];
+  buckets.truncated = false;
+  let i = 0;
+  for (const item of itr) {
+    if (i >= maxTotal) {
+      buckets.truncated = true;
+      break;
+    }
+    const bucket = Math.floor(i / size);
+    if (buckets[bucket]) {
+      buckets[bucket].push(item);
+    } else {
+      buckets[bucket] = [item];
+    }
+    i++;
+  }
+  return buckets;
+}
+
 module.exports = {
   instanceType,
   isPrimitiveOrNull,
   isNullOrUndefined,
   isArrayLike,
   isIterable,
+  isIterator,
   isFunction,
   serialize,
   parseFunctionSignature,
   getPropertyDescriptor,
   getPropertyValue,
   RESTRICTED_FUNCTION_PROPERTY,
+  groupByBuckets,
 };
