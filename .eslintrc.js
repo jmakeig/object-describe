@@ -21,6 +21,16 @@ module.exports = {
     es6: true,
     node: true,
   },
+  globals: {
+    admin: true,
+    cts: true,
+    fn: true,
+    xdmp: true,
+    Sequence: true,
+    NodeBuilder: true,
+    Node: true,
+    Document: true,
+  },
   extends: 'eslint:recommended',
   rules: {
     'accessor-pairs': 'error',
