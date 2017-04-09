@@ -1,3 +1,5 @@
+# `describe(obj)`
+
 A way to inspect the entire type hierarchy of an object, including properties inherited (and potentially overridden) from its prototype chain. 
 
 Given any object or primitive, the `describe()` function lists the type of object and its value, if it’s a primitive. Then, for each of the original object’s properties, their types and values recursively. Finally, it moves up the prototype chain to capture all of the objec’s inherited properties as well.
@@ -8,6 +10,7 @@ Given any object or primitive, the `describe()` function lists the type of objec
 
 1. `npm install`
 1. Configure and deploy mltap (*This isn’t automated yet*)
+1. `export MLTAP_USER='tester' && export MLTAP_PASSWORD='********'`
 1. `npm run test`
 
 ## Development Set-up
@@ -38,7 +41,7 @@ Given any object or primitive, the `describe()` function lists the type of objec
   "suppressTaskName": true,
   "options": {
     "env": {
-      "MLTAP_USER": "admin",
+      "MLTAP_USER": "tester",
       "MLTAP_PASSWORD": "********"
     }
   },
