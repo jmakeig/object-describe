@@ -340,8 +340,11 @@ function getPropertyValue(obj, property) {
  * @returns {Array<Array>} - two-dimensional `Array` of buckets and values
  * @throws {TypeError} - non-`Iterable`
  */
-function groupByBuckets(itr, size = 25, maxTotal = 100) {
+function groupByBuckets(itr, size = 10, maxTotal = 50) {
   if (!isIterable(itr)) throw new TypeError('Must be Iterable');
+  size = Math.floor(size);
+  if (size < 1) throw new TypeError('size must be positive');
+
   const buckets = [];
   buckets.truncated = false;
   let i = 0;
@@ -352,9 +355,13 @@ function groupByBuckets(itr, size = 25, maxTotal = 100) {
     }
     const bucket = Math.floor(i / size);
     if (buckets[bucket]) {
-      buckets[bucket].push(item);
+      buckets[bucket].items.push(item);
     } else {
-      buckets[bucket] = [item];
+      buckets[bucket] = {
+        // Zero-based index boundaries of the bucket relative to the original iterator
+        bounds: [bucket * size, Math.min((bucket + 1) * size, maxTotal) - 1],
+        items: [item],
+      };
     }
     i++;
   }

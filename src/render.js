@@ -193,6 +193,46 @@ function renderAccessors(prop) {
 }
 
 /**
+ * 
+ * 
+ * @param {any} iterables 
+ * @returns {string}
+ */
+function renderIterables(iterables) {
+  if (undefined === iterables) return '';
+  return `
+    <div class="iterables toggleable">
+      <span class="name">Iterables</span>
+      <div class="buckets toggle-group">
+        ${iterables.map(renderBucket).join('')}
+        <div class="truncated" title="Values truncated for display">${iis(iterables.truncated, '<div class="truncated">…</div>')}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderBucket(bucket) {
+  const lower = bucket.bounds[0];
+  const upper = bucket.bounds[1];
+  return `
+    <div class="bucket toggleable toggle-none">
+      <span class="name">${lower}–${Math.min(upper, lower + bucket.items.length - 1)}</span>
+      <div class="toggle-group">
+        ${bucket.items
+    .map((item, index) => `<div class="item">${renderObject(
+          item,
+          String(lower + index),
+          {
+            toggle: 'none',
+          }
+        )}</div>`)
+    .join('')}
+      </div>
+    </div>
+  `;
+}
+
+/**
  * @param {Object} prop 
  * @returns {boolean}
  */
@@ -218,24 +258,26 @@ function renderFunction(fct) {
   return `<span class="value">${fct}</span>`;
 }
 
-function renderObject(obj, name) {
+function renderObject(obj, name, state = {}) {
   if (undefined === obj) return '';
   // TODO: Implement primitives
   const classNames = [
     'object',
     'toggleable',
+    iis('none' === state.toggle, 'toggle-none'),
     iis(PROTOTYPE === name, 'prototype toggle-none'),
     iis(obj.isIterable, 'iterable'),
   ];
   return `
   <div class="${classNames.join(' ')}">
-    ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, 'Prototype'))}
+    ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, `<span class="name" title="Prototype">Proto</span>`))}
     <span class="is is-${obj.is}">${obj.is}</span><!-- iterable--><span></span>
     <div class="toggle-group">
       ${iis(obj.properties, () => `
         <div class="properties">
           ${obj.properties.map(prop => renderProperty(prop, obj.is)).join('')}
         </div>`)}
+      ${renderIterables(obj.iterables)}
       ${iis(obj.prototype, () => `${renderObject(obj.prototype, PROTOTYPE)}`)}
     </div>
   </div>`;
@@ -252,8 +294,12 @@ function renderHTML(obj) {
   <body>
     <div id="describe-object">${renderObject(obj)}</div>
     <script type="text/javascript" src="ui.js">//</script>
-    <h2>Raw Report</h2>
-    <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${JSON.stringify(obj, null, 2)}</pre>
+    <div class="toggleable toggle-none">
+      <h2 style="display: inline;">Raw Report</h2>
+      <div class="toggle-group">
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${JSON.stringify(obj, null, 2)}</pre>
+      </div>
+    </div>
   </body>
 </html>`;
 }

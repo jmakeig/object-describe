@@ -24,6 +24,7 @@ const {
   getPropertyDescriptor,
   getPropertyValue,
   RESTRICTED_FUNCTION_PROPERTY,
+  groupByBuckets,
   serialize,
 } = require('./util');
 
@@ -36,9 +37,10 @@ const DEFAULT_IGNORE = [];
  * @param {any} obj - any object or primitive
  * @param {Array<Object>} [ignore=DEFAULT_IGNORE] - prototypes to ignore
  * @param {Array<Object>} [history=[]] - a record of the traversal used to idenify cycles
+ * @param {Array<Object>} [prototypes=[]] - prototype chain
  * @returns {Object} - a report of the types
  */
-function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
+function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
   /**
    * 
    * @param {Obejct} instance 
@@ -58,27 +60,39 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
     object.value = serialize(obj);
     return object;
   }
-
-  if (isIterable(obj)) {
+  if (isIterable(obj) && 0 === history.length) {
     object.isIterable = true;
   }
-  
-  if(isIterator(obj)) {
+
+  if (isIterator(obj)) {
     object.isIterator = true;
   }
 
+  // const shouldIterate = history.reduceRight((prev, curr) => true, false);
+
   // If we’ve already proccessed this exact object
   const isCycle = history.some(o => o === obj);
+
   history = [...history, obj];
+  // console.log(history.map(instanceType).join(' | '));
+  // console.log(prototypes.map(instanceType).join(' > '));
+  /**
+   * Is `Array` and property is numeric.
+   * 
+   * @param {string} name
+   * @returns {boolean}
+   */
+  const nonNumericArrayProperties = name =>
+    !(obj instanceof Array && /\d+/.test(name));
 
   object.properties = [];
   for (const name of [
     ...Object.getOwnPropertyNames(obj),
     ...Object.getOwnPropertySymbols(obj),
-  ]) {
+  ].filter(nonNumericArrayProperties)) {
+    // console.log('  - ' + String(name));
     const property = getPropertyDescriptor(obj, name);
     property.from = instanceType(obj); // What is this really supposed to convey?
-    // console.log(`${obj.constructor.name}: ${name}`);
     const value = getPropertyValue(obj, name);
     property.is = instanceType(value);
 
@@ -91,24 +105,50 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = []) {
     } else if (isCycle) {
       property.value = CircularReference(value);
       property.isCircular = true;
-      // } else if (isIgnored(value)) {
-      //   // throw new Error('ignored');
-      //   property.value = 'IGNORED';
     } else {
       property.value = describe(value, ignore, history);
     }
     object.properties.push(property);
+
+    object.iterables = expandIterables(obj, prototypes, o =>
+      describe(o, ignore, history));
   }
+
   const proto = Object.getPrototypeOf(obj);
   if (proto && !isIgnored(proto)) {
-    // Concat the prototype properties to the current object’s
-    // object.properties = [
-    //   ...object.properties,
-    //   ...describe(proto, ignore, history).properties,
-    // ];
-    object.prototype = describe(proto, ignore, history);
+    object.prototype = describe(proto, ignore, history, [...prototypes, obj]);
   }
   return object;
+}
+
+/**
+ * 
+ * 
+ * @param {Object} obj 
+ * @param {Object[]} prototypes 
+ * @param {function} desc
+ * @returns {Iterable<any>}
+ */
+function expandIterables(obj, prototypes, desc) {
+  // console.log('      ' + prototypes.map(instanceType).join(' > '));
+
+  // Has something higher up on the prototype chain alredy implemented Iterable?
+  // If something higher isn’t Iterable and the current object is
+  // history[history.length - 1] === obj, necessarily
+  const shouldIterate = isIterable(obj);
+
+  if (shouldIterate) {
+    // TODO: There must be a cleaner way to do this
+    const buckets = groupByBuckets(obj);
+    return Object.assign(
+      buckets.map(bucket => ({
+        bounds: bucket.bounds,
+        items: bucket.items.map(item => desc(item)),
+      })),
+      { truncated: buckets.truncated }
+    );
+  }
+  return undefined;
 }
 
 /**

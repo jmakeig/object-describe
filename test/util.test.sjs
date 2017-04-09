@@ -26,6 +26,7 @@ const {
   RESTRICTED_FUNCTION_PROPERTY,
   parseFunctionSignature,
   serialize,
+  groupByBuckets,
 } = require('../src/util.js');
 
 test('isPrimitiveOrNull', assert => {
@@ -285,5 +286,25 @@ test('getPropertyValue', assert => {
   const f = () => undefined;
   assert.equal(getPropertyValue(f, 'caller'), RESTRICTED_FUNCTION_PROPERTY);
   assert.equal(getPropertyValue(f, 'arguments'), RESTRICTED_FUNCTION_PROPERTY);
+  assert.end();
+});
+
+test('groupByBuckets', assert => {
+  const arr = new Array(55).fill('0').map(() => Math.random());
+  const buckets = groupByBuckets(arr, 25, 100);
+  assert.equal(buckets.length, 3);
+  assert.equal(buckets[2].length, 5);
+
+  const buckets2 = groupByBuckets(arr, 25, 10);
+  assert.equal(buckets2.length, 1);
+  assert.equal(buckets2[0].length, 10);
+  
+  const buckets3 = groupByBuckets(arr, 5.99);
+  assert.equal(buckets3.length, 11);
+  assert.equal(buckets3[10].length, 5);
+
+  assert.throws(() => groupByBuckets(), TypeError);
+  assert.throws(() => groupByBuckets([], -22), TypeError);
+
   assert.end();
 });

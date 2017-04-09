@@ -80,7 +80,12 @@ const obj = {
     this._it = value;
   },
   *[Symbol.iterator]() {
-    yield 1;
+    yield {
+      some: [...'stuff'],
+    };
+    yield {
+      some: [...'things'],
+    };
   },
 };
 
