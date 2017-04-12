@@ -261,7 +261,7 @@ function parseFunctionSignature(fct) {
   if (lambdas && lambdas.length) {
     return toStringifyInstance(
       {
-        parameters: parseParams(lambdas[1] ? lambdas[1] : lambdas[2]),
+        parameters: parseParams(lambdas[1] ? lambdas[1] : lambdas[2] || ''),
         body: parseBody(lambdas[3]),
         isLambda: true,
       },

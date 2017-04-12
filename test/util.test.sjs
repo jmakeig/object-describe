@@ -264,6 +264,19 @@ test('parseFunctionSignature', assert => {
     parameters: [],
   });
 
+  function Snake() {}
+  Snake.prototype.constructor = Snake;
+  Snake.prototype.toString = () => `I’m a snake with ${this.legs} legs`;
+  // '() => `I’m a snake with ${this.legs} legs`'
+  assert.equal(
+    parseFunctionSignature(Snake.prototype.toString).parameters.length,
+    0
+  );
+  assert.equal(
+    parseFunctionSignature(Snake.prototype.toString).body,
+    '`I’m a snake with ${this.legs} legs`'
+  );
+
   assert.end();
 });
 
