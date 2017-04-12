@@ -290,18 +290,22 @@ test('getPropertyValue', assert => {
 });
 
 test('groupByBuckets', assert => {
-  const arr = new Array(55).fill('0').map(() => Math.random());
+  const arr = new Array(55).fill('0').map((item, index) => index);
   const buckets = groupByBuckets(arr, 25, 100);
   assert.equal(buckets.length, 3);
-  assert.equal(buckets[2].length, 5);
+  assert.equal(buckets[2].items.length, 5);
 
   const buckets2 = groupByBuckets(arr, 25, 10);
   assert.equal(buckets2.length, 1);
-  assert.equal(buckets2[0].length, 10);
-  
-  const buckets3 = groupByBuckets(arr, 5.99);
-  assert.equal(buckets3.length, 11);
-  assert.equal(buckets3[10].length, 5);
+  assert.equal(buckets2[0].items.length, 10);
+
+  const buckets3 = groupByBuckets(arr, 4.99, 100);
+  assert.equal(buckets3.length, 14);
+  assert.equal(buckets3[13].items.length, 3);
+
+  const buckets4 = groupByBuckets(arr, 4);
+  assert.equal(buckets4.length, 13);
+  assert.equal(buckets4[12].items.length, 2);
 
   assert.throws(() => groupByBuckets(), TypeError);
   assert.throws(() => groupByBuckets([], -22), TypeError);

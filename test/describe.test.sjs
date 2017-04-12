@@ -121,7 +121,7 @@ test('array of primitives', assert => {
   const descrip = describe(obj);
 
   assert.equal(descrip.is, 'Array');
-  assert.equal(descrip.properties.length, 4); // 3 values + length
+  assert.equal(descrip.properties.length, 4 - obj.length); // just length
   assert.equal(descrip.prototype.is, 'Array');
   const props = [
     'Symbol(Symbol.iterator)',
@@ -261,13 +261,16 @@ test('circular', assert => {
 
 test('iterable', assert => {
   assert.equal(describe([1, 2, 3]).prototype.isIterable, true);
+  const generator = (function*() {
+    yield 1;
+  })();
+  assert.true(describe(generator).isIterable);
+  assert.true(describe(generator).prototype.isIterable);
+  assert.true(describe(generator).prototype.prototype.isIterable);
+  assert.true(describe(generator).prototype.prototype.prototype.isIterable);
   assert.equal(
-    describe(
-      (function*() {
-        yield 1;
-      })()
-    ).prototype.prototype.prototype.isIterable,
-    true
+    describe(generator).prototype.prototype.prototype.prototype.isIterable,
+    undefined
   );
   assert.end();
 });

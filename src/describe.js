@@ -61,7 +61,7 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
     object.isPrimitive = true;
     return object;
   }
-  if (isIterable(obj) && 0 === history.length) {
+  if (isIterable(obj)) {
     object.isIterable = true;
   }
 
@@ -111,11 +111,9 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
       property.value = describe(value, ignore, history);
     }
     object.properties.push(property);
-
-    object.iterables = expandIterables(obj, prototypes, o =>
-      describe(o, ignore, history));
   }
-
+  object.iterables = expandIterables(obj, prototypes, o =>
+    describe(o, ignore, history));
   const proto = Object.getPrototypeOf(obj);
   if (proto && !isIgnored(proto)) {
     object.prototype = describe(proto, ignore, history, [...prototypes, obj]);
@@ -132,23 +130,40 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
  * @returns {Iterable<any>}
  */
 function expandIterables(obj, prototypes, desc) {
-  // console.log('      ' + prototypes.map(instanceType).join(' > '));
-
-  // Has something higher up on the prototype chain alredy implemented Iterable?
-  // If something higher isn’t Iterable and the current object is
-  // history[history.length - 1] === obj, necessarily
-  const shouldIterate = isIterable(obj);
-
+  const shouldIterate = isIterable(obj) &&
+    0 === prototypes.slice(1).filter(isIterable).length;
+  // console.log(
+  //   [obj, ...prototypes]
+  //     .map(p => `${instanceType(p)}: ${isIterable(p)}`)
+  //     .join(' > '),
+  //   shouldIterate
+  // );
   if (shouldIterate) {
-    // TODO: There must be a cleaner way to do this
-    const buckets = groupByBuckets(obj);
-    return Object.assign(
-      buckets.map(bucket => ({
-        bounds: bucket.bounds,
-        items: bucket.items.map(item => desc(item)),
-      })),
-      { truncated: buckets.truncated }
-    );
+    try {
+      const buckets = groupByBuckets(obj);
+      return Object.assign(
+        buckets.map(bucket => ({
+          bounds: bucket.bounds,
+          items: bucket.items.map(item => desc(item)),
+        })),
+        { truncated: buckets.truncated }
+      );
+    } catch (error) {
+      // return error.stack.split(/\n/);
+      // "TypeError: Method [Generator].prototype.next called on incompatible receiver [object Generator]",
+      // "    at next (<anonymous>)",
+      // "    at groupByBuckets (/MarkLogic/appservices/qconsole/util.js:351:19)",
+      // "    at expandIterables (/MarkLogic/appservices/qconsole/describe.js:144:23)",
+      // "    at describe (/MarkLogic/appservices/qconsole/describe.js:115:22)",
+      // "    at describe (/MarkLogic/appservices/qconsole/describe.js:119:24)",
+      // "    at module.exports.describe (/MarkLogic/appservices/qconsole/describe.js:184:10)",
+      // "    at eval (eval at <anonymous> (/MarkLogic/appservices/qconsole/qconsole-js-amped.sjs:42:17), <anonymous>:3:1)",
+      // "    at /MarkLogic/appservices/qconsole/qconsole-js-amped.sjs:42:17",
+      // "    at /MarkLogic/appservices/qconsole/qconsole-js-amped.sjs:30:21",
+      // "    at /MarkLogic/appservices/qconsole/qconsole-js-amped.sjs:32:25"
+      // TODO: There must be a cleaner way to do this
+      return undefined;
+    }
   }
   return undefined;
 }
