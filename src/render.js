@@ -191,9 +191,23 @@ function renderHTML(obj) {
   <head>
     <title>Object Properties and Prototypes—HTML</title>
     <link type="text/css" rel="stylesheet" href="object-describe.css" />
+    <style type="text/css">
+      body {
+        padding: 1em;
+        font-family: Helvetica;
+        color: #333;
+        font-size: 12pt;
+      }
+      h2 { margin: 0.5em 0; }
+    </style>
   </head>
   <body>
-    <div id="describe-object">${renderObject(obj)}</div>
+    <div class="toggleable">
+      <h2 style="display: inline;">Describe</h2>
+      <div class="toggle-group" style="border: none;">
+        <div id="describe-object">${renderObject(obj)}</div>
+      </div>
+    </div>
     <script type="text/javascript" src="ui.js">//</script>
     <div class="toggleable toggle-none">
       <h2 style="display: inline;">Raw Report</h2>

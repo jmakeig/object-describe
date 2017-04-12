@@ -14,12 +14,6 @@
  * limitations under the License.                                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-body {
-  font-family: Helvetica;
-  color: #333;
-  font-size: 12pt;
-}
-
 .toggleable:before {
   content: '▾';
   color: #ccc;
