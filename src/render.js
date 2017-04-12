@@ -59,14 +59,20 @@ function iis(test, success) {
  * @returns 
  */
 function renderProperty(prop, objInstance) {
+  const isOverridden = prop.overriddenBy && prop.overriddenBy.length > 0;
   const classNames = [
     'property',
     iis(!hasAccessor(prop), `is-${prop.is}`),
     iis(prop.enumerable, 'enumerable'),
     iis(prop.configurable, 'configurable'),
+    iis(isOverridden, 'overridden'),
     iis(hasAccessor(prop), 'toggleable toggle-none'),
   ];
-  const title = iif(prop.name, `${objInstance}#${prop.name}`, objInstance);
+  const title = iif(
+    prop.name,
+    `${objInstance}#${prop.name}${iis(isOverridden, () => ` overridden by ${prop.overriddenBy[0]}`)}`,
+    objInstance
+  );
   const value = `${renderValue(prop.value, prop.is, prop.name)}`;
   return `
 <div class="${classNames.join(' ')}">

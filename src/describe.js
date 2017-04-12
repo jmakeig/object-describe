@@ -93,7 +93,8 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
   ].filter(nonNumericArrayProperties)) {
     // console.log('  - ' + String(name));
     const property = getPropertyDescriptor(obj, name);
-    property.from = instanceType(obj); // What is this really supposed to convey?
+    property.from = instanceType(obj);
+    property.overriddenBy = overriddenBy(name, prototypes);
     const value = getPropertyValue(obj, name);
     property.is = instanceType(value);
 
@@ -119,6 +120,22 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
     object.prototype = describe(proto, ignore, history, [...prototypes, obj]);
   }
   return object;
+}
+
+/**
+ * 
+ * 
+ * @param {string} name 
+ * @param {Object[]} prototypes 
+ * @returns 
+ */
+function overriddenBy(name, prototypes) {
+  if (undefined === prototypes || 0 === prototypes.length) return undefined;
+  const overrides = prototypes.filter(
+    p => Object.getOwnPropertyNames(p).indexOf(name) > -1
+  );
+  if (0 === overrides.length) return undefined;
+  return overrides.map(instanceType);
 }
 
 /**

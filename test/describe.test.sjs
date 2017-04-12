@@ -274,3 +274,45 @@ test('iterable', assert => {
   );
   assert.end();
 });
+
+test('overrides', assert => {
+  function Animal() {}
+  Animal.prototype.constructor = Animal;
+  Object.defineProperty(Animal.prototype, 'legs', {
+    get() {
+      return 4;
+    },
+  });
+  Animal.prototype.toString = function() {};
+  function Snake() {}
+  Snake.prototype = Object.create(Animal.prototype);
+  Snake.prototype.constructor = Snake;
+  Object.defineProperty(Snake.prototype, 'legs', {
+    get() {
+      return 0;
+    },
+  });
+  Snake.prototype.toString = () => `I’m a snake with ${this.legs} legs`;
+  const snake = new Snake();
+  const descrip = describe(snake);
+  assert.deepEqual(
+    descrip.prototype.prototype.properties.find(
+      p => 'legs' === p.name
+    ).overriddenBy,
+    ['Snake']
+  );
+  assert.deepEqual(
+    descrip.prototype.prototype.prototype.properties.find(
+      p => 'toString' === p.name
+    ).overriddenBy,
+    ['Snake', 'Animal']
+  );
+
+  assert.deepEqual(
+    describe([1]).prototype.properties.find(
+      p => 'length' === p.name
+    ).overriddenBy,
+    ['Array']
+  );
+  assert.end();
+});
