@@ -151,7 +151,7 @@ function renderValue(value, type = 'Object', name) {
 }
 
 function renderFunction(fct) {
-  return `<span class="value">${fct}</span>`;
+  return `<span class="value">${escapeHTML(String(fct))}</span>`;
 }
 
 function renderObject(obj, name, state = {}) {
@@ -164,16 +164,16 @@ function renderObject(obj, name, state = {}) {
   // TODO: Implement primitives
   const classNames = [
     'object',
-    'toggleable',
+    iis(obj.properties, 'toggleable'),
     iis('none' === state.toggle, 'toggle-none'),
     iis(PROTOTYPE === name, 'prototype toggle-none'),
     iis(obj.isIterable, 'iterable'),
   ];
   return `
   <div class="${classNames.join(' ')}">
-    ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, `<span class="name" title="Prototype">Proto</span>`))}
-    <span class="is is-${obj.is}">${obj.is}</span><!-- iterable--><span></span>
-    <div class="toggle-group">
+    ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, '<span class="name" title="Prototype">Proto</span>'))}
+    <span class="is is-${obj.is}">${obj.is}</span>
+    <div class="${iis(obj.properties, 'toggle-group')}">
       ${iis(obj.properties, () => `
         <div class="properties">
           ${obj.properties.map(prop => renderProperty(prop, obj.is)).join('')}
@@ -212,7 +212,7 @@ function renderHTML(obj) {
     <div class="toggleable toggle-none">
       <h2 style="display: inline;">Raw Report</h2>
       <div class="toggle-group">
-        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${JSON.stringify(obj, null, 2)}</pre>
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${escapeHTML(JSON.stringify(obj, null, 2))}</pre>
       </div>
     </div>
   </body>
@@ -228,7 +228,24 @@ function renderHTML(obj) {
  */
 // eslint-disable-next-line no-unused-vars
 function serializeFunctionSignature(signature) {
-  return `function ${signature.name} (${signature.parameters.join[', ']})`;
+  return escapeHTML(
+    `function ${signature.name} (${signature.parameters.join[', ']})`
+  );
+}
+
+/**
+ * Escpaes strings for HTML. Make sure not to escape HTML
+ * strings twice.
+ * 
+ * @param {string} str - raw string (not HTML)
+ * @returns {string} - escaped string
+ * @throws {TypeError} - non-string input
+ */
+function escapeHTML(str) {
+  if ('string' !== typeof str) {
+    throw new TypeError(`${typeof str} is not a string`);
+  }
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 module.exports.renderHTML = renderHTML;
