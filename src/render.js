@@ -66,12 +66,12 @@ function renderProperty(prop, objInstance) {
     iis(prop.configurable, 'configurable'),
     iis(hasAccessor(prop), 'toggleable toggle-none'),
   ];
-  const title = `${objInstance}#${prop.name}`;
+  const title = iif(prop.name, `${objInstance}#${prop.name}`, objInstance);
   const value = `${renderValue(prop.value, prop.is, prop.name)}`;
   return `
 <div class="${classNames.join(' ')}">
   ${iis(!(prop.value && prop.value.properties), `
-      <span class="name" title="${title}">${prop.name}</span> 
+      ${iis(prop.name, () => `<span class="name" title="${escapeHTML(title)}">${escapeHTML(prop.name)}</span>`)}
       ${iis(!hasAccessor(prop), `<span class="is">${prop.is}</span>`)}
     `)}
   ${iis(!hasAccessor(prop), value)}
