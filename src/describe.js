@@ -58,6 +58,7 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
 
   if (isNullOrUndefined(obj) || isPrimitiveOrNull(obj)) {
     object.value = serialize(obj);
+    object.isPrimitive = true;
     return object;
   }
   if (isIterable(obj) && 0 === history.length) {
@@ -102,6 +103,7 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
       } else {
         property.value = serialize(value);
       }
+      property.isPrimitive = true;
     } else if (isCycle) {
       property.value = CircularReference(value);
       property.isCircular = true;

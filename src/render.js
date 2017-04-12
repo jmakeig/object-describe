@@ -156,6 +156,11 @@ function renderFunction(fct) {
 
 function renderObject(obj, name, state = {}) {
   if (undefined === obj) return '';
+  if (obj.isPrimitive) {
+    // For primitives, the name is only relevant as part of an iterable
+    const named = Object.assign(obj, { name: name });
+    return renderProperty(named, obj.is);
+  }
   // TODO: Implement primitives
   const classNames = [
     'object',
