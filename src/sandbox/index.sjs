@@ -72,6 +72,7 @@ const obj = {
     const x = 'X' + param;
     return x;
   },
+  und: undefined,
   lambda: p => p + p + p,
   get gettersetter() {
     return this._id;
