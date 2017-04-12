@@ -81,12 +81,9 @@ const obj = {
     this._it = value;
   },
   *[Symbol.iterator]() {
-    yield {
-      some: [...'stuff'],
-    };
-    yield {
-      some: [...'things'],
-    };
+    for (let i = 0; i < 10000; i++) {
+      yield Math.random();
+    }
   },
 };
 
