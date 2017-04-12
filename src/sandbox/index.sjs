@@ -101,21 +101,26 @@ const descrip = describe(obj);
 
 /* global xdmp cts */
 const format = xdmp.getRequestField('format');
-switch (format) {
-  case 'html':
-    xdmp.setResponseContentType('text/html');
-    const html = renderHTML(descrip);
-    xdmp.unquote(html);
-    html;
-    break;
-  case 'text':
-    xdmp.setResponseContentType('text/plain');
-    throw new Error('text formatting is not implemented yet');
-  case 'json':
-    xdmp.setResponseContentType('text/json');
-    JSON.stringify(descrip, null, 2);
-    break;
-  default:
-    xdmp.setResponseContentType('text/json');
-    descrip;
+try {
+  switch (format) {
+    case 'html':
+      xdmp.setResponseContentType('text/html');
+      xdmp.setResponseEncoding('utf-8');
+      const html = renderHTML(descrip);
+      xdmp.unquote(html);
+      html;
+      break;
+    case 'text':
+      xdmp.setResponseContentType('text/plain');
+      throw new Error('text formatting is not implemented yet');
+    case 'json':
+      xdmp.setResponseContentType('text/json');
+      JSON.stringify(descrip, null, 2);
+      break;
+    default:
+      xdmp.setResponseContentType('text/json');
+      descrip;
+  }
+} catch (error) {
+  error.stack;
 }
