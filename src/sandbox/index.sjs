@@ -88,6 +88,7 @@ const obj = {
       yield Math.random();
     }
   },
+  node: fn.head(xdmp.unquote('<asdf attr="asdf">asdf</asdf>')),
 };
 
 // const obj = Sequence.from([1, 2, 3]);
