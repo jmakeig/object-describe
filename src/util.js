@@ -157,9 +157,8 @@ function isIterator(obj) {
  * @throws {TypeError} - non-primitive
  */
 // eslint-disable-next-line consistent-return
-function serialize(obj, trunc = 50) {
+function serialize(obj, trunc = 100) {
   // TODO: Handle synthetic Symbol.for('Restricted function property')
-
   function truncate(str) {
     let suffix = '';
     if (str.length > trunc) suffix = '…';
@@ -183,9 +182,28 @@ function serialize(obj, trunc = 50) {
       if (obj instanceof Date) {
         return obj.toLocaleString();
       }
-      break;
+      // If the object has a `toString()` method somewhere
+      // on its prototype chain and it’s *not* the default
+      // inhertied from `Object`, then use it.
+      // Otherwise, just return an empty string.
+      if (
+        'function' === typeof obj.toString &&
+        Object.prototype.toString !== obj.toString
+      ) {
+        // TODO: Is there somehting we can do here?
+        //       This could get recursively complicated.
+        if (Array.prototype.toString === obj.toString) {
+          return '';
+        }
+        try {
+          return truncate(obj.toString() || '');
+        } catch (error) {
+          return error.stack;
+        }
+      }
+      return '';
     default:
-      throw new TypeError('Can’t format objects');
+      throw new TypeError(typeof obj);
   }
 }
 

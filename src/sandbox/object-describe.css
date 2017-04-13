@@ -23,7 +23,8 @@
 
 .is,
 .name,
-.value {
+.value,
+.summary {
   font-family: "SF Mono", "Consolas", monospace;
   color: #000;
 }
@@ -47,7 +48,8 @@
   border-radius: 0.5em;
 }
 
-.value {
+.value,
+.summary {
   font-style: italic;
 }
 

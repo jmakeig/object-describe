@@ -179,6 +179,7 @@ function renderObject(obj, name, state = {}) {
   <div class="${classNames.join(' ')}">
     ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, '<span class="name" title="Prototype">Proto</span>'))}
     <span class="is is-${obj.is}">${obj.is}</span>
+    <span class="summary">${escapeHTML(obj.summary)}</span>
     <div class="${iis(obj.properties, 'toggle-group')}">
       ${iis(obj.properties, () => `
         <div class="properties">

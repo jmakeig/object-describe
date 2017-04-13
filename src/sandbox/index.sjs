@@ -54,6 +54,9 @@ function Animal() {}
 Animal.prototype.speak = function(words = 'growl') {
   return words;
 };
+Animal.prototype.toString = function() {
+  return 'Hey, I’m an Animal!';
+};
 function Dog() {}
 Dog.prototype = new Animal();
 Dog.prototype.constructor = Dog;

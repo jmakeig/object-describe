@@ -61,6 +61,9 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
     object.isPrimitive = true;
     return object;
   }
+
+  object.summary = serialize(obj);
+
   if (isIterable(obj)) {
     object.isIterable = true;
   }
