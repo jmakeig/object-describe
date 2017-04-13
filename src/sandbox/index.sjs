@@ -91,17 +91,17 @@ const obj = {
 };
 
 // const obj = Sequence.from([1, 2, 3]);
-
-const descrip = describe(obj);
-
-// xdmp.save(
-//   '/Users/jmakeig/Workspaces/object-describe/rendered.html',
-//   xdmp.unquote(renderHTML(descrip))
-// );
-
-/* global xdmp cts */
-const format = xdmp.getRequestField('format');
 try {
+  const descrip = describe(obj);
+
+  // xdmp.save(
+  //   '/Users/jmakeig/Workspaces/object-describe/rendered.html',
+  //   xdmp.unquote(renderHTML(descrip))
+  // );
+
+  /* global xdmp cts */
+  const format = xdmp.getRequestField('format');
+
   switch (format) {
     case 'html':
       xdmp.setResponseContentType('text/html');
@@ -122,5 +122,7 @@ try {
       descrip;
   }
 } catch (error) {
+  xdmp.setResponseContentType('text/plain');
+  xdmp.setResponseCode(500, 'Some error');
   error.stack;
 }
