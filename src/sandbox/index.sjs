@@ -15,42 +15,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 'use strict';
-/*
-const obj = {
-  a: 'A',
-  b: [1, 2, { three: { iii: [3] } }],
-  c: null,
-  d: Date.now(),
-  e: undefined,
-  f: new Date(),
-};
-
-function Foo() {}
-Foo.prototype.fff = function() {};
-Foo.prototype[Symbol.toStringTag] = 'Foo';
-const foo = new Foo();
-
-class Bar extends Foo {
-  bbb() {}
-  fff() {}
-}
-const bar = new Bar();
-bar.obj = obj;
-
-const baz = Object.create(Bar.prototype);
-
-const dict = Object.create(null);
-dict['a'] = 'A';
-dict.constructor === undefined; // true
-
-const seq = Sequence.from([1, 2, 3, [Sequence.from([1, 2, 3]), 'a']]);
-const seq2 = Sequence.from(['a', 'b', 'c']);
-*/
 
 const { describe } = require('./describe');
-const { renderHTML } = require('./render.js');
+const { renderHTML, escapeHTML } = require('./render.js');
 
-function Animal() {}
+const input = `function Animal() {}
 Animal.prototype.speak = function(words = 'growl') {
   return words;
 };
@@ -62,7 +31,7 @@ Dog.prototype = new Animal();
 Dog.prototype.constructor = Dog;
 Dog.prototype.speak = function() {};
 
-const obj = {
+({
   str: 'string',
   nil: null,
   now: new Date(),
@@ -89,7 +58,8 @@ const obj = {
     }
   },
   node: fn.head(xdmp.unquote('<asdf attr="asdf">asdf</asdf>')),
-};
+});`;
+const obj = eval(input);
 
 // const obj = Sequence.from([1, 2, 3]);
 try {
@@ -107,7 +77,7 @@ try {
     case 'html':
       xdmp.setResponseContentType('text/html');
       xdmp.setResponseEncoding('utf-8');
-      const html = renderHTML(descrip);
+      const html = htmlDoc(input, descrip, renderHTML(descrip));
       xdmp.unquote(html);
       html;
       break;
@@ -126,4 +96,44 @@ try {
   xdmp.setResponseContentType('text/plain');
   xdmp.setResponseCode(500, 'Some error');
   error.stack;
+}
+
+function htmlDoc(input, description, html) {
+  return `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Object Properties and Prototypes—HTML</title>
+    <link type="text/css" rel="stylesheet" href="object-describe.css" />
+    <style type="text/css">
+      body {
+        padding: 1em;
+        font-family: Helvetica;
+        color: #333;
+        font-size: 12pt;
+      }
+      h2 { margin: 1.5em 0; }
+    </style>
+  </head>
+  <body>
+    <div class="toggleable">
+      <h2 style="display: inline;">Describe</h2>
+      <div class="toggle-group" style="border: none;">
+        <div id="describe-object">${html}</div>
+      </div>
+    </div>
+    <script type="text/javascript" src="ui.js">//</script>
+    <div class="toggleable toggle-none">
+      <h2 style="display: inline;">Input</h2>
+      <div class="toggle-group">
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${escapeHTML(input)}</pre>
+      </div>
+    </div>
+    <div class="toggleable toggle-none">
+      <h2 style="display: inline;">Raw Report</h2>
+      <div class="toggle-group">
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${escapeHTML(JSON.stringify(description, null, 2))}</pre>
+      </div>
+    </div>
+  </body>
+</html>`;
 }

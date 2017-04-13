@@ -192,37 +192,7 @@ function renderObject(obj, name, state = {}) {
 }
 
 function renderHTML(obj) {
-  return `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Object Properties and Prototypes—HTML</title>
-    <link type="text/css" rel="stylesheet" href="object-describe.css" />
-    <style type="text/css">
-      body {
-        padding: 1em;
-        font-family: Helvetica;
-        color: #333;
-        font-size: 12pt;
-      }
-      h2 { margin: 0.5em 0; }
-    </style>
-  </head>
-  <body>
-    <div class="toggleable">
-      <h2 style="display: inline;">Describe</h2>
-      <div class="toggle-group" style="border: none;">
-        <div id="describe-object">${renderObject(obj)}</div>
-      </div>
-    </div>
-    <script type="text/javascript" src="ui.js">//</script>
-    <div class="toggleable toggle-none">
-      <h2 style="display: inline;">Raw Report</h2>
-      <div class="toggle-group">
-        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">${escapeHTML(JSON.stringify(obj, null, 2))}</pre>
-      </div>
-    </div>
-  </body>
-</html>`;
+  return renderObject(obj);
 }
 
 /**
@@ -254,4 +224,4 @@ function escapeHTML(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-module.exports.renderHTML = renderHTML;
+module.exports = { renderHTML, escapeHTML };
