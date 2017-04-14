@@ -1,0 +1,12 @@
+{
+  "name": "object-describe",
+  "toc": [
+    "describe",
+    "renderHTML",
+    "ObjectDescription",
+    "PropertyDescription",
+    "FunctionDescription",
+    "IterablesDescription",
+    "Bucket"
+  ]
+}

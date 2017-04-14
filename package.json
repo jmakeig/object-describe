@@ -9,7 +9,9 @@
     "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'src/**.*js' && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'test/**.*js'",
     "lint": "eslint --config .eslintrc.js src/ test/",
     "pre-flight": "npm run format && npm run lint && npm run test",
-    "docs": "curl --digest -u admin:admin http://localhost:8642/sandbox/index.sjs?format=html > docs/index.html && cp src/sandbox/object-describe.css src/sandbox/ui.js docs/"
+    "docs": "documentation build src/*.*js --config documentation.json --name object-describe --format html --output docs/",
+    "readme": "documentation readme src/*.*js --config documentation.json --section Usage --quiet",
+    "postdocs": "curl --digest -u admin:admin http://localhost:8642/sandbox/index.sjs?format=html > docs/example.html && cp src/sandbox/object-describe.css src/sandbox/ui.js docs/"
   },
   "repository": {
     "type": "git",

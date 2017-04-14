@@ -1,0 +1,5193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Object Properties and Prototypes—HTML</title>
+    <link type="text/css" rel="stylesheet" href="object-describe.css" />
+    <style type="text/css">
+      body {
+        padding: 1em;
+        font-family: Helvetica;
+        color: #333;
+        font-size: 12pt;
+      }
+      h2 { margin: 1.5em 0; }
+    </style>
+  </head>
+  <body>
+    <div class="toggleable">
+      <h2 style="display: inline;">Describe</h2>
+      <div class="toggle-group" style="border: none;">
+        <div id="describe-object">
+  <div class="object toggleable   iterable">
+    
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-string enumerable configurable  ">
+  
+      <span class="name" title="Object#str">str</span>
+      <span class="is">string</span>
+    
+  <span class="value">"string"</span>
+  
+</div>
+<div class="property is-null enumerable configurable  ">
+  
+      <span class="name" title="Object#nil">nil</span>
+      <span class="is">null</span>
+    
+  <span class="value">null</span>
+  
+</div>
+<div class="property is-Date enumerable configurable  ">
+  
+      <span class="name" title="Object#now">now</span>
+      <span class="is">Date</span>
+    
+  <span class="value">4/13/2017, 11:17:13 PM</span>
+  
+</div>
+<div class="property is-number enumerable configurable  ">
+  
+      <span class="name" title="Object#num">num</span>
+      <span class="is">number</span>
+    
+  <span class="value">9,945,581</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#bool">bool</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">false</span>
+  
+</div>
+<div class="property is-Dog enumerable configurable  ">
+  
+  
+  <div class="object toggleable   ">
+    <span class="name">custom</span>
+    <span class="is is-Dog">Dog</span>
+    <span class="summary">Hey, I’m an Animal!</span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Dog">Dog</span>
+    <span class="summary">Hey, I’m an Animal!</span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Dog#constructor">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Dog() {}</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Dog#speak">speak</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function () {}</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Animal">Animal</span>
+    <span class="summary">Hey, I’m an Animal!</span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Animal#constructor overridden by Dog">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Animal() {}</span>
+  
+</div>
+<div class="property is-Function enumerable configurable overridden ">
+  
+      <span class="name" title="Animal#speak overridden by Dog">speak</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function (words = 'growl') {
+  return words;
+}</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Animal#toString">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function () {
+  return 'Hey, I’m an Animal!';
+}</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineGetter__">__defineGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineSetter__">__defineSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#hasOwnProperty">hasOwnProperty</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasOwnProperty() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupGetter__">__lookupGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupSetter__">__lookupSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#constructor overridden by Dog">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Object() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#toString overridden by Animal">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toLocaleString">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#valueOf">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#isPrototypeOf">isPrototypeOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isPrototypeOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#propertyIsEnumerable">propertyIsEnumerable</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function propertyIsEnumerable() { [native code] }</span>
+  
+</div>
+<div class="property   configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#__proto__">__proto__</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get __proto__() { [native code] }</span></div>
+      <div class="setter is-function"> set <span class="value">function set __proto__() { [native code] }</span></div>
+    </div>
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  
+</div>
+<div class="property is-Object enumerable configurable  ">
+  
+  
+  <div class="object toggleable   ">
+    <span class="name">obj</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-string enumerable configurable  ">
+  
+      <span class="name" title="Object#b">b</span>
+      <span class="is">string</span>
+    
+  <span class="value">"B"</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineGetter__">__defineGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineSetter__">__defineSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#hasOwnProperty">hasOwnProperty</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasOwnProperty() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupGetter__">__lookupGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupSetter__">__lookupSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#constructor">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Object() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toString">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toLocaleString">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#valueOf">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#isPrototypeOf">isPrototypeOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isPrototypeOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#propertyIsEnumerable">propertyIsEnumerable</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function propertyIsEnumerable() { [native code] }</span>
+  
+</div>
+<div class="property   configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#__proto__">__proto__</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get __proto__() { [native code] }</span></div>
+      <div class="setter is-function"> set <span class="value">function set __proto__() { [native code] }</span></div>
+    </div>
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+  
+</div>
+<div class="property is-Array enumerable configurable  ">
+  
+  
+  <div class="object toggleable   iterable">
+    <span class="name">arr</span>
+    <span class="is is-Array">Array</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-number    ">
+  
+      <span class="name" title="Array#length">length</span>
+      <span class="is">number</span>
+    
+  <span class="value">20</span>
+  
+</div>
+        </div>
+      
+    <div class="iterables toggleable">
+      <span class="name">Iterables</span>
+      <div class="buckets toggle-group">
+        
+    <div class="bucket toggleable toggle-none">
+      <span class="name">0–9</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#0">0</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#1">1</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#2">2</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#3">3</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#4">4</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#5">5</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#6">6</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#7">7</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#8">8</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#9">9</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+    <div class="bucket toggleable toggle-none">
+      <span class="name">10–19</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#10">10</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#11">11</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#12">12</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#13">13</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#14">14</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#15">15</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#16">16</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#17">17</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#18">18</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#19">19</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+        <div class="truncated" title="Values truncated for display"></div>
+      </div>
+    </div>
+  
+      
+  <div class="object toggleable  prototype toggle-none iterable">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Array">Array</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-number   overridden ">
+  
+      <span class="name" title="Array#length overridden by Array">length</span>
+      <span class="is">number</span>
+    
+  <span class="value">0</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#constructor">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Array() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#toString">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#toLocaleString">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#join">join</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function join() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#pop">pop</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function pop() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#push">push</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function push() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#reverse">reverse</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function reverse() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#shift">shift</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function shift() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#unshift">unshift</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function unshift() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#slice">slice</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function slice() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#splice">splice</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function splice() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#sort">sort</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function sort() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#filter">filter</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function filter() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#forEach">forEach</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function forEach() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#some">some</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function some() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#every">every</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function every() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#map">map</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function map() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#indexOf">indexOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function indexOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#lastIndexOf">lastIndexOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function lastIndexOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#reduce">reduce</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function reduce() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#reduceRight">reduceRight</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function reduceRight() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#copyWithin">copyWithin</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function copyWithin() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#find">find</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function find() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#findIndex">findIndex</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function findIndex() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#fill">fill</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function fill() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#includes">includes</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function includes() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#entries">entries</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function entries() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#keys">keys</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function keys() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#concat">concat</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function concat() { [native code] }</span>
+  
+</div>
+<div class="property is-Object  configurable  ">
+  
+  
+  <div class="object toggleable   ">
+    <span class="name">Symbol(Symbol.unscopables)</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#copyWithin">copyWithin</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#entries">entries</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#fill">fill</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#find">find</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#findIndex">findIndex</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#includes">includes</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+<div class="property is-boolean enumerable configurable  ">
+  
+      <span class="name" title="Object#keys">keys</span>
+      <span class="is">boolean</span>
+    
+  <span class="value">true</span>
+  
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Array#Symbol(Symbol.iterator)">Symbol(Symbol.iterator)</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function values() { [native code] }</span>
+  
+</div>
+        </div>
+      
+    <div class="iterables toggleable">
+      <span class="name">Iterables</span>
+      <div class="buckets toggle-group">
+        
+        <div class="truncated" title="Values truncated for display"></div>
+      </div>
+    </div>
+  
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineGetter__">__defineGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineSetter__">__defineSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#hasOwnProperty">hasOwnProperty</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasOwnProperty() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupGetter__">__lookupGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupSetter__">__lookupSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#constructor overridden by Array">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Object() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#toString overridden by Array">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#toLocaleString overridden by Array">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#valueOf">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#isPrototypeOf">isPrototypeOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isPrototypeOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#propertyIsEnumerable">propertyIsEnumerable</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function propertyIsEnumerable() { [native code] }</span>
+  
+</div>
+<div class="property   configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#__proto__">__proto__</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get __proto__() { [native code] }</span></div>
+      <div class="setter is-function"> set <span class="value">function set __proto__() { [native code] }</span></div>
+    </div>
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Object#fct">fct</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function (param = '') {
+    const x = 'X' + param;
+    return x;
+  }</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Object#und">und</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Object#lambda">lambda</span>
+      <span class="is">Function</span>
+    
+  <span class="value">p =&gt; p + p + p</span>
+  
+</div>
+<div class="property  enumerable configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#gettersetter">gettersetter</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get gettersetter() {
+    return this._id;
+  }</span></div>
+      <div class="setter is-function"> set <span class="value">function set gettersetter(value) {
+    this._it = value;
+  }</span></div>
+    </div>
+</div>
+<div class="property is-XMLDocument enumerable configurable  ">
+  
+  
+  <div class="object toggleable   ">
+    <span class="name">node</span>
+    <span class="is is-XMLDocument">XMLDocument</span>
+    <span class="summary">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;asdf attr="asdf"&gt;asdf&lt;/asdf&gt;</span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-XMLDocument">XMLDocument</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#documentURI">documentURI</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#documentElement">documentElement</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#localName">localName</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#prefix">prefix</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#namespaceURI">namespaceURI</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#ownerDocument">ownerDocument</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#attributes">attributes</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#nextSibling">nextSibling</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#previousSibling">previousSibling</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#lastChild">lastChild</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#firstChild">firstChild</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#childNodes">childNodes</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#parentNode">parentNode</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#textContent">textContent</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#nodeValue">nodeValue</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#nodeName">nodeName</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#hasChildNodes">hasChildNodes</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasChildNodes() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#normalize">normalize</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function normalize() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#hasAttributes">hasAttributes</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasAttributes() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#isSameNode">isSameNode</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isSameNode() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#isEqualNode">isEqualNode</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isEqualNode() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#insertBefore">insertBefore</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function insertBefore() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#replaceChild">replaceChild</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function replaceChild() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#removeChild">removeChild</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function removeChild() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#appendChild">appendChild</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function appendChild() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#getElementById">getElementById</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function getElementById() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#getElementsByTagName">getElementsByTagName</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function getElementsByTagName() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#getElementsByTagNameNS">getElementsByTagNameNS</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function getElementsByTagNameNS() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#normalizeDocument">normalizeDocument</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function normalizeDocument() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#importNode">importNode</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function importNode() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="XMLDocument#renameNode">renameNode</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function renameNode() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="XMLDocument#constructor">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function XMLDocument() { [native code] }</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Document">Document</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Document#root">root</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Document#documentFormat">documentFormat</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Document#constructor overridden by XMLDocument">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Document() { [native code] }</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Node">Node</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Node#nodeKind">nodeKind</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Node#nodeType">nodeType</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-undefined enumerable configurable  ">
+  
+      <span class="name" title="Node#baseURI">baseURI</span>
+      <span class="is">undefined</span>
+    
+  <span class="value">undefined</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Node#xpath">xpath</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function xpath() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Node#constructor overridden by XMLDocument">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Node() { [native code] }</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Value">Value</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Value#toString">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Value#valueOf">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Value#toObject">toObject</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toObject() { [native code] }</span>
+  
+</div>
+<div class="property is-Function enumerable configurable  ">
+  
+      <span class="name" title="Value#toJSON">toJSON</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toJSON() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Value#constructor overridden by XMLDocument">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Value() { [native code] }</span>
+  
+</div>
+        </div>
+      
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineGetter__">__defineGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineSetter__">__defineSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#hasOwnProperty">hasOwnProperty</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasOwnProperty() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupGetter__">__lookupGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupSetter__">__lookupSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#constructor overridden by XMLDocument">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Object() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#toString overridden by Value">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toLocaleString">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable overridden ">
+  
+      <span class="name" title="Object#valueOf overridden by Value">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#isPrototypeOf">isPrototypeOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isPrototypeOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#propertyIsEnumerable">propertyIsEnumerable</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function propertyIsEnumerable() { [native code] }</span>
+  
+</div>
+<div class="property   configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#__proto__">__proto__</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get __proto__() { [native code] }</span></div>
+      <div class="setter is-function"> set <span class="value">function set __proto__() { [native code] }</span></div>
+    </div>
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  
+</div>
+<div class="property is-GeneratorFunction enumerable configurable  ">
+  
+      <span class="name" title="Object#Symbol(Symbol.iterator)">Symbol(Symbol.iterator)</span>
+      <span class="is">GeneratorFunction</span>
+    
+  <span class="value">*() {
+    for (let i = 0; i &lt; 10000; i++) {
+      yield Math.random();
+    }
+  }</span>
+  
+</div>
+        </div>
+      
+    <div class="iterables toggleable">
+      <span class="name">Iterables</span>
+      <div class="buckets toggle-group">
+        
+    <div class="bucket toggleable toggle-none">
+      <span class="name">0–9</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#0">0</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.554</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#1">1</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.231</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#2">2</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.364</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#3">3</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.956</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#4">4</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.58</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#5">5</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.551</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#6">6</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.062</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#7">7</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.753</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#8">8</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.658</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#9">9</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.955</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+    <div class="bucket toggleable toggle-none">
+      <span class="name">10–19</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#10">10</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.499</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#11">11</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.524</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#12">12</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.448</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#13">13</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.811</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#14">14</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.189</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#15">15</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.472</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#16">16</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.954</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#17">17</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.834</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#18">18</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.351</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#19">19</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.636</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+    <div class="bucket toggleable toggle-none">
+      <span class="name">20–29</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#20">20</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.863</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#21">21</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.182</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#22">22</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.844</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#23">23</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.647</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#24">24</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.334</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#25">25</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.506</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#26">26</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.733</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#27">27</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.874</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#28">28</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.947</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#29">29</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.92</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+    <div class="bucket toggleable toggle-none">
+      <span class="name">30–39</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#30">30</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.93</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#31">31</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.59</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#32">32</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.51</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#33">33</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.913</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#34">34</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.618</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#35">35</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.315</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#36">36</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.299</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#37">37</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.582</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#38">38</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.843</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#39">39</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.863</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+    <div class="bucket toggleable toggle-none">
+      <span class="name">40–49</span>
+      <div class="toggle-group">
+        <div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#40">40</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.446</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#41">41</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.843</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#42">42</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.521</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#43">43</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.681</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#44">44</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.974</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#45">45</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.257</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#46">46</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.74</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#47">47</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.089</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#48">48</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.44</span>
+  
+</div></div><div class="item">
+<div class="property is-number    ">
+  
+      <span class="name" title="number#49">49</span>
+      <span class="is">number</span>
+    
+  <span class="value">0.309</span>
+  
+</div></div>
+      </div>
+    </div>
+  
+        <div class="truncated" title="Values truncated for display"><div class="truncated">…</div></div>
+      </div>
+    </div>
+  
+      
+  <div class="object toggleable  prototype toggle-none ">
+    <span class="name" title="Prototype">Proto</span>
+    <span class="is is-Object">Object</span>
+    <span class="summary"></span>
+    <div class="toggle-group">
+      
+        <div class="properties">
+          
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineGetter__">__defineGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__defineSetter__">__defineSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __defineSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#hasOwnProperty">hasOwnProperty</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function hasOwnProperty() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupGetter__">__lookupGetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupGetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#__lookupSetter__">__lookupSetter__</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function __lookupSetter__() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#constructor">constructor</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function Object() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toString">toString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#toLocaleString">toLocaleString</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function toLocaleString() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#valueOf">valueOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function valueOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#isPrototypeOf">isPrototypeOf</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function isPrototypeOf() { [native code] }</span>
+  
+</div>
+<div class="property is-Function  configurable  ">
+  
+      <span class="name" title="Object#propertyIsEnumerable">propertyIsEnumerable</span>
+      <span class="is">Function</span>
+    
+  <span class="value">function propertyIsEnumerable() { [native code] }</span>
+  
+</div>
+<div class="property   configurable  toggleable toggle-none">
+  
+      <span class="name" title="Object#__proto__">__proto__</span>
+      
+    
+  
+  
+    <div class="accessors toggle-group">
+      <div class="getter is-function"> get <span class="value">function get __proto__() { [native code] }</span></div>
+      <div class="setter is-function"> set <span class="value">function set __proto__() { [native code] }</span></div>
+    </div>
+</div>
+        </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="ui.js">//</script>
+    <div class="toggleable toggle-none">
+      <h2 style="display: inline;">Input</h2>
+      <div class="toggle-group">
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">function Animal() {}
+Animal.prototype.speak = function(words = 'growl') {
+  return words;
+};
+Animal.prototype.toString = function() {
+  return 'Hey, I’m an Animal!';
+};
+function Dog() {}
+Dog.prototype = new Animal();
+Dog.prototype.constructor = Dog;
+Dog.prototype.speak = function() {};
+
+({
+  str: 'string',
+  nil: null,
+  now: new Date(),
+  num: 9945581,
+  bool: false,
+  custom: new Dog(),
+  obj: { b: 'B' },
+  arr: new Array(20).fill(0),
+  fct: function(param = '') {
+    const x = 'X' + param;
+    return x;
+  },
+  und: undefined,
+  lambda: p =&gt; p + p + p,
+  get gettersetter() {
+    return this._id;
+  },
+  set gettersetter(value) {
+    this._it = value;
+  },
+  *[Symbol.iterator]() {
+    for (let i = 0; i &lt; 10000; i++) {
+      yield Math.random();
+    }
+  },
+  node: fn.head(xdmp.unquote('&lt;asdf attr="asdf"&gt;asdf&lt;/asdf&gt;')),
+});</pre>
+      </div>
+    </div>
+    <div class="toggleable toggle-none">
+      <h2 style="display: inline;">Raw Report</h2>
+      <div class="toggle-group">
+        <pre style="width: 100%; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.45;font-size: 85%;">{
+  "is": "Object",
+  "summary": "",
+  "isIterable": true,
+  "properties": [
+    {
+      "name": "str",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "string",
+      "value": "\"string\"",
+      "isPrimitive": true
+    },
+    {
+      "name": "nil",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "null",
+      "value": "null",
+      "isPrimitive": true
+    },
+    {
+      "name": "now",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Date",
+      "value": "4/13/2017, 11:17:13 PM",
+      "isPrimitive": true
+    },
+    {
+      "name": "num",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "number",
+      "value": "9,945,581",
+      "isPrimitive": true
+    },
+    {
+      "name": "bool",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "boolean",
+      "value": "false",
+      "isPrimitive": true
+    },
+    {
+      "name": "custom",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Dog",
+      "value": {
+        "is": "Dog",
+        "summary": "Hey, I’m an Animal!",
+        "properties": [],
+        "prototype": {
+          "is": "Dog",
+          "summary": "Hey, I’m an Animal!",
+          "properties": [
+            {
+              "name": "constructor",
+              "enumerable": true,
+              "configurable": true,
+              "from": "Dog",
+              "is": "Function",
+              "value": {
+                "name": "Dog",
+                "parameters": [],
+                "body": "",
+                "isNative": false,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "speak",
+              "enumerable": true,
+              "configurable": true,
+              "from": "Dog",
+              "is": "Function",
+              "value": {
+                "name": "",
+                "parameters": [],
+                "body": "",
+                "isNative": false,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            }
+          ],
+          "prototype": {
+            "is": "Animal",
+            "summary": "Hey, I’m an Animal!",
+            "properties": [
+              {
+                "name": "constructor",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Animal",
+                "overriddenBy": [
+                  "Dog"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "Animal",
+                  "parameters": [],
+                  "body": "",
+                  "isNative": false,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "speak",
+                "enumerable": true,
+                "configurable": true,
+                "from": "Animal",
+                "overriddenBy": [
+                  "Dog"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "",
+                  "parameters": [
+                    "words = 'growl'"
+                  ],
+                  "body": "  return words;",
+                  "isNative": false,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "toString",
+                "enumerable": true,
+                "configurable": true,
+                "from": "Animal",
+                "is": "Function",
+                "value": {
+                  "name": "",
+                  "parameters": [],
+                  "body": "  return 'Hey, I’m an Animal!';",
+                  "isNative": false,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              }
+            ],
+            "prototype": {
+              "is": "Object",
+              "summary": "",
+              "properties": [
+                {
+                  "name": "__defineGetter__",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "__defineGetter__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "__defineSetter__",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "__defineSetter__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "hasOwnProperty",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "hasOwnProperty",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "__lookupGetter__",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "__lookupGetter__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "__lookupSetter__",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "__lookupSetter__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "constructor",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "overriddenBy": [
+                    "Dog",
+                    "Animal"
+                  ],
+                  "is": "Function",
+                  "value": {
+                    "name": "Object",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "toString",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "overriddenBy": [
+                    "Animal"
+                  ],
+                  "is": "Function",
+                  "value": {
+                    "name": "toString",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "toLocaleString",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "toLocaleString",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "valueOf",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "valueOf",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "isPrototypeOf",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "isPrototypeOf",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "propertyIsEnumerable",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Object",
+                  "is": "Function",
+                  "value": {
+                    "name": "propertyIsEnumerable",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "__proto__",
+                  "enumerable": false,
+                  "configurable": true,
+                  "getter": {
+                    "name": "get __proto__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "setter": {
+                    "name": "set __proto__",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "from": "Object",
+                  "is": "null",
+                  "value": "null",
+                  "isPrimitive": true
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "obj",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Object",
+      "value": {
+        "is": "Object",
+        "summary": "",
+        "properties": [
+          {
+            "name": "b",
+            "enumerable": true,
+            "configurable": true,
+            "from": "Object",
+            "is": "string",
+            "value": "\"B\"",
+            "isPrimitive": true
+          }
+        ],
+        "prototype": {
+          "is": "Object",
+          "summary": "",
+          "properties": [
+            {
+              "name": "__defineGetter__",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "__defineGetter__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "__defineSetter__",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "__defineSetter__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "hasOwnProperty",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "hasOwnProperty",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "__lookupGetter__",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "__lookupGetter__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "__lookupSetter__",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "__lookupSetter__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "constructor",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "Object",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "toString",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "toString",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "toLocaleString",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "toLocaleString",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "valueOf",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "valueOf",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "isPrototypeOf",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "isPrototypeOf",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "propertyIsEnumerable",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Object",
+              "is": "Function",
+              "value": {
+                "name": "propertyIsEnumerable",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "__proto__",
+              "enumerable": false,
+              "configurable": true,
+              "getter": {
+                "name": "get __proto__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "setter": {
+                "name": "set __proto__",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "from": "Object",
+              "is": "null",
+              "value": "null",
+              "isPrimitive": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "arr",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Array",
+      "value": {
+        "is": "Array",
+        "summary": "",
+        "isIterable": true,
+        "properties": [
+          {
+            "name": "length",
+            "enumerable": false,
+            "configurable": false,
+            "from": "Array",
+            "is": "number",
+            "value": "20",
+            "isPrimitive": true
+          }
+        ],
+        "iterables": [
+          {
+            "bounds": [
+              0,
+              9
+            ],
+            "items": [
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "0"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "1"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "2"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "3"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "4"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "5"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "6"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "7"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "8"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "9"
+              }
+            ]
+          },
+          {
+            "bounds": [
+              10,
+              19
+            ],
+            "items": [
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "10"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "11"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "12"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "13"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "14"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "15"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "16"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "17"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "18"
+              },
+              {
+                "is": "number",
+                "value": "0",
+                "isPrimitive": true,
+                "name": "19"
+              }
+            ]
+          }
+        ],
+        "prototype": {
+          "is": "Array",
+          "summary": "",
+          "isIterable": true,
+          "properties": [
+            {
+              "name": "length",
+              "enumerable": false,
+              "configurable": false,
+              "from": "Array",
+              "overriddenBy": [
+                "Array"
+              ],
+              "is": "number",
+              "value": "0",
+              "isPrimitive": true
+            },
+            {
+              "name": "constructor",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "Array",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "toString",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "toString",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "toLocaleString",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "toLocaleString",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "join",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "join",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "pop",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "pop",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "push",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "push",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "reverse",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "reverse",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "shift",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "shift",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "unshift",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "unshift",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "slice",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "slice",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "splice",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "splice",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "sort",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "sort",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "filter",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "filter",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "forEach",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "forEach",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "some",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "some",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "every",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "every",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "map",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "map",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "indexOf",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "indexOf",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "lastIndexOf",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "lastIndexOf",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "reduce",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "reduce",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "reduceRight",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "reduceRight",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "copyWithin",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "copyWithin",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "find",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "find",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "findIndex",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "findIndex",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "fill",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "fill",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "includes",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "includes",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "entries",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "entries",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "keys",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "keys",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "concat",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "concat",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "Symbol(Symbol.unscopables)",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Object",
+              "value": {
+                "is": "Object",
+                "summary": "",
+                "properties": [
+                  {
+                    "name": "copyWithin",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "entries",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "fill",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "find",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "findIndex",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "includes",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "keys",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Object",
+                    "is": "boolean",
+                    "value": "true",
+                    "isPrimitive": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Symbol(Symbol.iterator)",
+              "enumerable": false,
+              "configurable": true,
+              "from": "Array",
+              "is": "Function",
+              "value": {
+                "name": "values",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            }
+          ],
+          "iterables": [],
+          "prototype": {
+            "is": "Object",
+            "summary": "",
+            "properties": [
+              {
+                "name": "__defineGetter__",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "__defineGetter__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "__defineSetter__",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "__defineSetter__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "hasOwnProperty",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "hasOwnProperty",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "__lookupGetter__",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "__lookupGetter__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "__lookupSetter__",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "__lookupSetter__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "constructor",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "overriddenBy": [
+                  "Array"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "Object",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "toString",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "overriddenBy": [
+                  "Array"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "toString",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "toLocaleString",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "overriddenBy": [
+                  "Array"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "toLocaleString",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "valueOf",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "valueOf",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "isPrototypeOf",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "isPrototypeOf",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "propertyIsEnumerable",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Object",
+                "is": "Function",
+                "value": {
+                  "name": "propertyIsEnumerable",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              },
+              {
+                "name": "__proto__",
+                "enumerable": false,
+                "configurable": true,
+                "getter": {
+                  "name": "get __proto__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "setter": {
+                  "name": "set __proto__",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "from": "Object",
+                "is": "null",
+                "value": "null",
+                "isPrimitive": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "fct",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Function",
+      "value": {
+        "name": "",
+        "parameters": [
+          "param = ''"
+        ],
+        "body": "    const x = 'X' + param;\n    return x;",
+        "isNative": false,
+        "isGenerator": false
+      },
+      "isPrimitive": true
+    },
+    {
+      "name": "und",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "undefined",
+      "value": "undefined",
+      "isPrimitive": true
+    },
+    {
+      "name": "lambda",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "Function",
+      "value": {
+        "parameters": [
+          "p"
+        ],
+        "body": "p + p + p",
+        "isLambda": true
+      },
+      "isPrimitive": true
+    },
+    {
+      "name": "gettersetter",
+      "enumerable": true,
+      "configurable": true,
+      "getter": {
+        "name": "get gettersetter",
+        "parameters": [],
+        "body": "    return this._id;",
+        "isNative": false,
+        "isGenerator": false
+      },
+      "setter": {
+        "name": "set gettersetter",
+        "parameters": [
+          "value"
+        ],
+        "body": "    this._it = value;",
+        "isNative": false,
+        "isGenerator": false
+      },
+      "from": "Object",
+      "is": "undefined",
+      "value": "undefined",
+      "isPrimitive": true
+    },
+    {
+      "name": "node",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "XMLDocument",
+      "value": {
+        "is": "XMLDocument",
+        "summary": "&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;\n&lt;asdf attr=\"asdf\"&gt;asdf&lt;/asdf&gt;",
+        "properties": [],
+        "prototype": {
+          "is": "XMLDocument",
+          "summary": "",
+          "properties": [
+            {
+              "name": "documentURI",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "documentElement",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "localName",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "prefix",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "namespaceURI",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "ownerDocument",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "attributes",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "nextSibling",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "previousSibling",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "lastChild",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "firstChild",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "childNodes",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "parentNode",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "textContent",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "nodeValue",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "nodeName",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "undefined",
+              "value": "undefined",
+              "isPrimitive": true
+            },
+            {
+              "name": "hasChildNodes",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "hasChildNodes",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "normalize",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "normalize",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "hasAttributes",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "hasAttributes",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "isSameNode",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "isSameNode",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "isEqualNode",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "isEqualNode",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "insertBefore",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "insertBefore",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "replaceChild",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "replaceChild",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "removeChild",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "removeChild",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "appendChild",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "appendChild",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "getElementById",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "getElementById",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "getElementsByTagName",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "getElementsByTagName",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "getElementsByTagNameNS",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "getElementsByTagNameNS",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "normalizeDocument",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "normalizeDocument",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "importNode",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "importNode",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "renameNode",
+              "enumerable": true,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "renameNode",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            },
+            {
+              "name": "constructor",
+              "enumerable": false,
+              "configurable": true,
+              "from": "XMLDocument",
+              "is": "Function",
+              "value": {
+                "name": "XMLDocument",
+                "parameters": [],
+                "body": "[native code]",
+                "isNative": true,
+                "isGenerator": false
+              },
+              "isPrimitive": true
+            }
+          ],
+          "prototype": {
+            "is": "Document",
+            "summary": "",
+            "properties": [
+              {
+                "name": "root",
+                "enumerable": true,
+                "configurable": true,
+                "from": "Document",
+                "is": "undefined",
+                "value": "undefined",
+                "isPrimitive": true
+              },
+              {
+                "name": "documentFormat",
+                "enumerable": true,
+                "configurable": true,
+                "from": "Document",
+                "is": "undefined",
+                "value": "undefined",
+                "isPrimitive": true
+              },
+              {
+                "name": "constructor",
+                "enumerable": false,
+                "configurable": true,
+                "from": "Document",
+                "overriddenBy": [
+                  "XMLDocument"
+                ],
+                "is": "Function",
+                "value": {
+                  "name": "Document",
+                  "parameters": [],
+                  "body": "[native code]",
+                  "isNative": true,
+                  "isGenerator": false
+                },
+                "isPrimitive": true
+              }
+            ],
+            "prototype": {
+              "is": "Node",
+              "summary": "",
+              "properties": [
+                {
+                  "name": "nodeKind",
+                  "enumerable": true,
+                  "configurable": true,
+                  "from": "Node",
+                  "is": "undefined",
+                  "value": "undefined",
+                  "isPrimitive": true
+                },
+                {
+                  "name": "nodeType",
+                  "enumerable": true,
+                  "configurable": true,
+                  "from": "Node",
+                  "is": "undefined",
+                  "value": "undefined",
+                  "isPrimitive": true
+                },
+                {
+                  "name": "baseURI",
+                  "enumerable": true,
+                  "configurable": true,
+                  "from": "Node",
+                  "is": "undefined",
+                  "value": "undefined",
+                  "isPrimitive": true
+                },
+                {
+                  "name": "xpath",
+                  "enumerable": true,
+                  "configurable": true,
+                  "from": "Node",
+                  "is": "Function",
+                  "value": {
+                    "name": "xpath",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                },
+                {
+                  "name": "constructor",
+                  "enumerable": false,
+                  "configurable": true,
+                  "from": "Node",
+                  "overriddenBy": [
+                    "XMLDocument",
+                    "Document"
+                  ],
+                  "is": "Function",
+                  "value": {
+                    "name": "Node",
+                    "parameters": [],
+                    "body": "[native code]",
+                    "isNative": true,
+                    "isGenerator": false
+                  },
+                  "isPrimitive": true
+                }
+              ],
+              "prototype": {
+                "is": "Value",
+                "summary": "",
+                "properties": [
+                  {
+                    "name": "toString",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Value",
+                    "is": "Function",
+                    "value": {
+                      "name": "toString",
+                      "parameters": [],
+                      "body": "[native code]",
+                      "isNative": true,
+                      "isGenerator": false
+                    },
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "valueOf",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Value",
+                    "is": "Function",
+                    "value": {
+                      "name": "valueOf",
+                      "parameters": [],
+                      "body": "[native code]",
+                      "isNative": true,
+                      "isGenerator": false
+                    },
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "toObject",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Value",
+                    "is": "Function",
+                    "value": {
+                      "name": "toObject",
+                      "parameters": [],
+                      "body": "[native code]",
+                      "isNative": true,
+                      "isGenerator": false
+                    },
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "toJSON",
+                    "enumerable": true,
+                    "configurable": true,
+                    "from": "Value",
+                    "is": "Function",
+                    "value": {
+                      "name": "toJSON",
+                      "parameters": [],
+                      "body": "[native code]",
+                      "isNative": true,
+                      "isGenerator": false
+                    },
+                    "isPrimitive": true
+                  },
+                  {
+                    "name": "constructor",
+                    "enumerable": false,
+                    "configurable": true,
+                    "from": "Value",
+                    "overriddenBy": [
+                      "XMLDocument",
+                      "Document",
+                      "Node"
+                    ],
+                    "is": "Function",
+                    "value": {
+                      "name": "Value",
+                      "parameters": [],
+                      "body": "[native code]",
+                      "isNative": true,
+                      "isGenerator": false
+                    },
+                    "isPrimitive": true
+                  }
+                ],
+                "prototype": {
+                  "is": "Object",
+                  "summary": "",
+                  "properties": [
+                    {
+                      "name": "__defineGetter__",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "__defineGetter__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "__defineSetter__",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "__defineSetter__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "hasOwnProperty",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "hasOwnProperty",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "__lookupGetter__",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "__lookupGetter__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "__lookupSetter__",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "__lookupSetter__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "constructor",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "overriddenBy": [
+                        "XMLDocument",
+                        "Document",
+                        "Node",
+                        "Value"
+                      ],
+                      "is": "Function",
+                      "value": {
+                        "name": "Object",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "toString",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "overriddenBy": [
+                        "Value"
+                      ],
+                      "is": "Function",
+                      "value": {
+                        "name": "toString",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "toLocaleString",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "toLocaleString",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "valueOf",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "overriddenBy": [
+                        "Value"
+                      ],
+                      "is": "Function",
+                      "value": {
+                        "name": "valueOf",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "isPrototypeOf",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "isPrototypeOf",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "propertyIsEnumerable",
+                      "enumerable": false,
+                      "configurable": true,
+                      "from": "Object",
+                      "is": "Function",
+                      "value": {
+                        "name": "propertyIsEnumerable",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "isPrimitive": true
+                    },
+                    {
+                      "name": "__proto__",
+                      "enumerable": false,
+                      "configurable": true,
+                      "getter": {
+                        "name": "get __proto__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "setter": {
+                        "name": "set __proto__",
+                        "parameters": [],
+                        "body": "[native code]",
+                        "isNative": true,
+                        "isGenerator": false
+                      },
+                      "from": "Object",
+                      "is": "null",
+                      "value": "null",
+                      "isPrimitive": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Symbol(Symbol.iterator)",
+      "enumerable": true,
+      "configurable": true,
+      "from": "Object",
+      "is": "GeneratorFunction",
+      "value": {
+        "name": "",
+        "parameters": [],
+        "body": "    for (let i = 0; i &lt; 10000; i++) {\n      yield Math.random();\n    }",
+        "isNative": false,
+        "isGenerator": true
+      },
+      "isPrimitive": true
+    }
+  ],
+  "iterables": [
+    {
+      "bounds": [
+        0,
+        9
+      ],
+      "items": [
+        {
+          "is": "number",
+          "value": "0.554",
+          "isPrimitive": true,
+          "name": "0"
+        },
+        {
+          "is": "number",
+          "value": "0.231",
+          "isPrimitive": true,
+          "name": "1"
+        },
+        {
+          "is": "number",
+          "value": "0.364",
+          "isPrimitive": true,
+          "name": "2"
+        },
+        {
+          "is": "number",
+          "value": "0.956",
+          "isPrimitive": true,
+          "name": "3"
+        },
+        {
+          "is": "number",
+          "value": "0.58",
+          "isPrimitive": true,
+          "name": "4"
+        },
+        {
+          "is": "number",
+          "value": "0.551",
+          "isPrimitive": true,
+          "name": "5"
+        },
+        {
+          "is": "number",
+          "value": "0.062",
+          "isPrimitive": true,
+          "name": "6"
+        },
+        {
+          "is": "number",
+          "value": "0.753",
+          "isPrimitive": true,
+          "name": "7"
+        },
+        {
+          "is": "number",
+          "value": "0.658",
+          "isPrimitive": true,
+          "name": "8"
+        },
+        {
+          "is": "number",
+          "value": "0.955",
+          "isPrimitive": true,
+          "name": "9"
+        }
+      ]
+    },
+    {
+      "bounds": [
+        10,
+        19
+      ],
+      "items": [
+        {
+          "is": "number",
+          "value": "0.499",
+          "isPrimitive": true,
+          "name": "10"
+        },
+        {
+          "is": "number",
+          "value": "0.524",
+          "isPrimitive": true,
+          "name": "11"
+        },
+        {
+          "is": "number",
+          "value": "0.448",
+          "isPrimitive": true,
+          "name": "12"
+        },
+        {
+          "is": "number",
+          "value": "0.811",
+          "isPrimitive": true,
+          "name": "13"
+        },
+        {
+          "is": "number",
+          "value": "0.189",
+          "isPrimitive": true,
+          "name": "14"
+        },
+        {
+          "is": "number",
+          "value": "0.472",
+          "isPrimitive": true,
+          "name": "15"
+        },
+        {
+          "is": "number",
+          "value": "0.954",
+          "isPrimitive": true,
+          "name": "16"
+        },
+        {
+          "is": "number",
+          "value": "0.834",
+          "isPrimitive": true,
+          "name": "17"
+        },
+        {
+          "is": "number",
+          "value": "0.351",
+          "isPrimitive": true,
+          "name": "18"
+        },
+        {
+          "is": "number",
+          "value": "0.636",
+          "isPrimitive": true,
+          "name": "19"
+        }
+      ]
+    },
+    {
+      "bounds": [
+        20,
+        29
+      ],
+      "items": [
+        {
+          "is": "number",
+          "value": "0.863",
+          "isPrimitive": true,
+          "name": "20"
+        },
+        {
+          "is": "number",
+          "value": "0.182",
+          "isPrimitive": true,
+          "name": "21"
+        },
+        {
+          "is": "number",
+          "value": "0.844",
+          "isPrimitive": true,
+          "name": "22"
+        },
+        {
+          "is": "number",
+          "value": "0.647",
+          "isPrimitive": true,
+          "name": "23"
+        },
+        {
+          "is": "number",
+          "value": "0.334",
+          "isPrimitive": true,
+          "name": "24"
+        },
+        {
+          "is": "number",
+          "value": "0.506",
+          "isPrimitive": true,
+          "name": "25"
+        },
+        {
+          "is": "number",
+          "value": "0.733",
+          "isPrimitive": true,
+          "name": "26"
+        },
+        {
+          "is": "number",
+          "value": "0.874",
+          "isPrimitive": true,
+          "name": "27"
+        },
+        {
+          "is": "number",
+          "value": "0.947",
+          "isPrimitive": true,
+          "name": "28"
+        },
+        {
+          "is": "number",
+          "value": "0.92",
+          "isPrimitive": true,
+          "name": "29"
+        }
+      ]
+    },
+    {
+      "bounds": [
+        30,
+        39
+      ],
+      "items": [
+        {
+          "is": "number",
+          "value": "0.93",
+          "isPrimitive": true,
+          "name": "30"
+        },
+        {
+          "is": "number",
+          "value": "0.59",
+          "isPrimitive": true,
+          "name": "31"
+        },
+        {
+          "is": "number",
+          "value": "0.51",
+          "isPrimitive": true,
+          "name": "32"
+        },
+        {
+          "is": "number",
+          "value": "0.913",
+          "isPrimitive": true,
+          "name": "33"
+        },
+        {
+          "is": "number",
+          "value": "0.618",
+          "isPrimitive": true,
+          "name": "34"
+        },
+        {
+          "is": "number",
+          "value": "0.315",
+          "isPrimitive": true,
+          "name": "35"
+        },
+        {
+          "is": "number",
+          "value": "0.299",
+          "isPrimitive": true,
+          "name": "36"
+        },
+        {
+          "is": "number",
+          "value": "0.582",
+          "isPrimitive": true,
+          "name": "37"
+        },
+        {
+          "is": "number",
+          "value": "0.843",
+          "isPrimitive": true,
+          "name": "38"
+        },
+        {
+          "is": "number",
+          "value": "0.863",
+          "isPrimitive": true,
+          "name": "39"
+        }
+      ]
+    },
+    {
+      "bounds": [
+        40,
+        49
+      ],
+      "items": [
+        {
+          "is": "number",
+          "value": "0.446",
+          "isPrimitive": true,
+          "name": "40"
+        },
+        {
+          "is": "number",
+          "value": "0.843",
+          "isPrimitive": true,
+          "name": "41"
+        },
+        {
+          "is": "number",
+          "value": "0.521",
+          "isPrimitive": true,
+          "name": "42"
+        },
+        {
+          "is": "number",
+          "value": "0.681",
+          "isPrimitive": true,
+          "name": "43"
+        },
+        {
+          "is": "number",
+          "value": "0.974",
+          "isPrimitive": true,
+          "name": "44"
+        },
+        {
+          "is": "number",
+          "value": "0.257",
+          "isPrimitive": true,
+          "name": "45"
+        },
+        {
+          "is": "number",
+          "value": "0.74",
+          "isPrimitive": true,
+          "name": "46"
+        },
+        {
+          "is": "number",
+          "value": "0.089",
+          "isPrimitive": true,
+          "name": "47"
+        },
+        {
+          "is": "number",
+          "value": "0.44",
+          "isPrimitive": true,
+          "name": "48"
+        },
+        {
+          "is": "number",
+          "value": "0.309",
+          "isPrimitive": true,
+          "name": "49"
+        }
+      ]
+    }
+  ],
+  "prototype": {
+    "is": "Object",
+    "summary": "",
+    "properties": [
+      {
+        "name": "__defineGetter__",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "__defineGetter__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "__defineSetter__",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "__defineSetter__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "hasOwnProperty",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "hasOwnProperty",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "__lookupGetter__",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "__lookupGetter__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "__lookupSetter__",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "__lookupSetter__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "constructor",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "Object",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "toString",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "toString",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "toLocaleString",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "toLocaleString",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "valueOf",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "valueOf",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "isPrototypeOf",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "isPrototypeOf",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "propertyIsEnumerable",
+        "enumerable": false,
+        "configurable": true,
+        "from": "Object",
+        "is": "Function",
+        "value": {
+          "name": "propertyIsEnumerable",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "isPrimitive": true
+      },
+      {
+        "name": "__proto__",
+        "enumerable": false,
+        "configurable": true,
+        "getter": {
+          "name": "get __proto__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "setter": {
+          "name": "set __proto__",
+          "parameters": [],
+          "body": "[native code]",
+          "isNative": true,
+          "isGenerator": false
+        },
+        "from": "Object",
+        "is": "null",
+        "value": "null",
+        "isPrimitive": true
+      }
+    ]
+  }
+}</pre>
+      </div>
+    </div>
+  </body>
+</html>

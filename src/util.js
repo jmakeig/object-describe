@@ -14,8 +14,10 @@
  * limitations under the License.                                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
+
 /**
  * @constant
+ * @private
  */
 const RESTRICTED_FUNCTION_PROPERTY = Symbol('RESTRICTED_FUNCTION_PROPERTY');
 
@@ -25,6 +27,8 @@ const RESTRICTED_FUNCTION_PROPERTY = Symbol('RESTRICTED_FUNCTION_PROPERTY');
  * 
  * @param {any} obj  - any object or primitive, including `null` and `undefined`
  * @returns {string} - the type of the objet
+ * 
+ * @private
  */
 function instanceType(obj) {
   const typeOf = typeof obj;
@@ -60,6 +64,8 @@ function instanceType(obj) {
  * 
  * @param {any} obj - any object
  * @returns {string|undefined} - the type name or `undefined`
+ * 
+ * @private
  */
 function toStringTagImmediate(obj) {
   function tst(o) {
@@ -77,6 +83,8 @@ function toStringTagImmediate(obj) {
  *
  * @param {any} value - the value to test
  * @return {boolean}  
+ * 
+ * @private
  */
 function isPrimitiveOrNull(value) {
   if (null === value) return true;
@@ -99,6 +107,8 @@ function isPrimitiveOrNull(value) {
  * 
  * @param {any} value 
  * @returns {boolean}
+ * 
+ * @private
  */
 function isNullOrUndefined(value) {
   return 'undefined' === typeof value || null === value;
@@ -109,6 +119,8 @@ function isNullOrUndefined(value) {
  * 
  * @param {any} obj 
  * @returns {boolean}
+ * 
+ * @private
  */
 function isArrayLike(obj) {
   if (isNullOrUndefined(obj)) return false;
@@ -122,6 +134,8 @@ function isArrayLike(obj) {
  * @param {any} obj - any object
  * @param {boolean} [includeStrings=false] - consider `string` instances iterable (probably not what you want)
  * @returns {boolean}
+ * 
+ * @private
  */
 function isIterable(obj, includeStrings = false) {
   if (isNullOrUndefined(obj)) return false;
@@ -134,11 +148,14 @@ function isIterable(obj, includeStrings = false) {
   }
   return false;
 }
+
 /**
  * Duck types an object with a `next()` method.
  * 
  * @param {any} obj 
  * @returns {boolean}
+ * 
+ * @private
  */
 function isIterator(obj) {
   if (isNullOrUndefined(obj)) return false;
@@ -154,7 +171,9 @@ function isIterator(obj) {
  * @param {any} obj 
  * @param {number} [trunc=50] - maximum length of `string` serialization 
  * @returns {string}
- * @throws {TypeError} - non-primitive
+ * @throws {TypeError} - unhandled type
+ * 
+ * @private
  */
 // eslint-disable-next-line consistent-return
 function serialize(obj, trunc = 100) {
@@ -223,11 +242,17 @@ function serialize(obj, trunc = 100) {
  * 
  * @param {any} obj 
  * @returns {boolean}
+ * 
+ * @private
  */
 function isFunction(obj) {
   return obj instanceof Function;
 }
 
+/**
+ * @param {string} [msg='Missing required parameter'] 
+ * @private
+ */
 function requiredParameter(msg = 'Missing required parameter') {
   throw new ReferenceError(msg);
 }
@@ -237,6 +262,8 @@ function requiredParameter(msg = 'Missing required parameter') {
  * @param {any} obj 
  * @param {any} toString 
  * @returns 
+ * 
+ * @private
  */
 function toStringifyInstance(
   obj,
@@ -255,6 +282,8 @@ function toStringifyInstance(
  * @returns {object|undefined} - an object with `name` (`string`) and `parameters` (`string[]`) properties
  * @throws {TypeError} - for a non-function
  * @see serializeFunctionSignature
+ * 
+ * @private
  */
 function parseFunctionSignature(fct) {
   if (undefined === fct) return undefined;
@@ -302,6 +331,7 @@ function parseFunctionSignature(fct) {
   }
   throw new Error(`Unable to parse ${fstr}`);
 }
+
 /**
  * Gets a descriptor using `Object.getOwnPropertyDescriptor()` 
  * for an object’s property.
@@ -309,6 +339,8 @@ function parseFunctionSignature(fct) {
  * @param {any} obj 
  * @param {string} property 
  * @returns {object}
+ * 
+ * @private
  */
 function getPropertyDescriptor(obj, property) {
   const descriptor = Object.getOwnPropertyDescriptor(obj, property);
@@ -331,6 +363,8 @@ function getPropertyDescriptor(obj, property) {
  * @returns {any} - any value or `undefined` if the 
  *                  property doesn’t exist or throws an error
  * @throws {Error} - any errors that aren’t “restricted function properties”
+ * 
+ * @private
  */
 function getPropertyValue(obj, property) {
   if (undefined === property)
@@ -357,6 +391,8 @@ function getPropertyValue(obj, property) {
  * @param {number} [maxTotal=100] - the total number items in all buckets
  * @returns {Array<Array>} - two-dimensional `Array` of buckets and values
  * @throws {TypeError} - non-`Iterable`
+ * 
+ * @private
  */
 function groupByBuckets(itr, size = 10, maxTotal = 50) {
   if (!isIterable(itr)) throw new TypeError('Must be Iterable');
@@ -386,6 +422,10 @@ function groupByBuckets(itr, size = 10, maxTotal = 50) {
   return buckets;
 }
 
+/**
+ * @module util
+ * @ignore
+ */
 module.exports = {
   instanceType,
   isPrimitiveOrNull,

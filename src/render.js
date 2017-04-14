@@ -17,6 +17,14 @@
 
 const PROTOTYPE = Symbol('PROTOTYPE');
 
+/**
+ * 
+ * 
+ * @param {any} obj 
+ * @returns {boolean} - whether the object is callable as a function
+ * 
+ * @private
+ */
 function isCallable(obj) {
   return 'function' === typeof obj;
 }
@@ -31,6 +39,8 @@ function isCallable(obj) {
  *                                 return the value, or if `success` is a function call that 
  *                                 function and return its value
  * @returns {any}
+ * 
+ * @private
  */
 function iif(test, success, failure) {
   if (test) {
@@ -46,6 +56,8 @@ function iif(test, success, failure) {
  * @param {any|function} success 
  * @returns {any|string}
  * @see iif
+ * 
+ * @private
  */
 function iis(test, success) {
   return iif(test, undefined === success ? test : success, '');
@@ -57,6 +69,8 @@ function iis(test, success) {
  * @param {any} prop 
  * @param {string} objInstance 
  * @returns 
+ * 
+ * @private
  */
 function renderProperty(prop, objInstance) {
   const isOverridden = prop.overriddenBy && prop.overriddenBy.length > 0;
@@ -85,6 +99,14 @@ function renderProperty(prop, objInstance) {
 </div>`;
 }
 
+/**
+ * 
+ * 
+ * @param {any} prop 
+ * @returns 
+ * 
+ * @private
+ */
 function renderAccessors(prop) {
   if (!hasAccessor(prop)) return '';
   return `
@@ -99,6 +121,8 @@ function renderAccessors(prop) {
  * 
  * @param {any} iterables 
  * @returns {string}
+ * 
+ * @private
  */
 function renderIterables(iterables) {
   if (undefined === iterables) return '';
@@ -113,6 +137,14 @@ function renderIterables(iterables) {
   `;
 }
 
+/**
+ * 
+ * 
+ * @param {any} bucket 
+ * @returns 
+ * 
+ * @private
+ */
 function renderBucket(bucket) {
   const lower = bucket.bounds[0];
   const upper = bucket.bounds[1];
@@ -137,11 +169,21 @@ function renderBucket(bucket) {
 /**
  * @param {Object} prop 
  * @returns {boolean}
+ * 
+ * @private
  */
 function hasAccessor(prop) {
   return Boolean(prop.getter || prop.setter);
 }
 
+/**
+ * @param {any} value 
+ * @param {string} [type='Object'] 
+ * @param {any} name 
+ * @returns 
+ * 
+ * @private
+ */
 function renderValue(value, type = 'Object', name) {
   switch (type) {
     // Would this be better handled by a custom class
@@ -156,10 +198,24 @@ function renderValue(value, type = 'Object', name) {
   }
 }
 
+/**
+ * @param {any} fct 
+ * @returns {string}
+ * 
+ * @private
+ */
 function renderFunction(fct) {
   return `<span class="value">${escapeHTML(String(fct))}</span>`;
 }
 
+/**
+ * @param {any} obj 
+ * @param {string} name 
+ * @param {Object[]} [state={}] 
+ * @returns {string}
+ * 
+ * @private
+ */
 function renderObject(obj, name, state = {}) {
   if (undefined === obj) return '';
   if (obj.isPrimitive) {
@@ -190,7 +246,14 @@ function renderObject(obj, name, state = {}) {
     </div>
   </div>`;
 }
-
+/**
+ * 
+ * 
+ * @param {describe:Description} obj 
+ * @returns {string}
+ * 
+ * @since 0.1.0
+ */
 function renderHTML(obj) {
   return renderObject(obj);
 }
@@ -201,6 +264,8 @@ function renderHTML(obj) {
  * @param {object} signature - an object with `name` (`string`) and `parameters` (`string[]`) properties
  * @returns {string}
  * @see parseFunctionSignature
+ * 
+ * @private
  */
 // eslint-disable-next-line no-unused-vars
 function serializeFunctionSignature(signature) {
@@ -216,6 +281,8 @@ function serializeFunctionSignature(signature) {
  * @param {string} str - raw string (not HTML)
  * @returns {string} - escaped string
  * @throws {TypeError} - non-string input
+ * 
+ * @private
  */
 function escapeHTML(str) {
   if ('string' !== typeof str) {
