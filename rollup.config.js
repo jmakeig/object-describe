@@ -16,7 +16,7 @@ export default [
     //input: 'src/describe.js',
     input: 'docs/example.js',
     output: {
-      file: 'dist/bundle.js',
+      file: 'docs/bundle.js',
       format: 'iife',
       name: 'describe',
       sourcemap: true

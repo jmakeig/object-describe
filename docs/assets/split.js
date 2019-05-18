@@ -193,6 +193,7 @@
       // make sure you calculate the gutter size by hand.
       var style = elementStyle(dimension, size, gutSize);
 
+      // eslint-disable-next-line no-param-reassign
       Object.keys(style).forEach(function(prop) {
         return (el.style[prop] = style[prop]);
       });
@@ -201,6 +202,7 @@
     function setGutterSize(gutterElement, gutSize) {
       var style = gutterStyle(dimension, gutSize);
 
+      // eslint-disable-next-line no-param-reassign
       Object.keys(style).forEach(function(prop) {
         return (gutterElement.style[prop] = style[prop]);
       });
