@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -19,18 +19,20 @@
  * @constant
  * @private
  */
-const RESTRICTED_FUNCTION_PROPERTY = Symbol('RESTRICTED_FUNCTION_PROPERTY');
+export const RESTRICTED_FUNCTION_PROPERTY = Symbol(
+  'RESTRICTED_FUNCTION_PROPERTY'
+);
 
 /**
  * Get the type of any object. Primitives return primitive name.
- * Objects use `constructor.name` or fallback to `Object.prototype.toString()`. 
- * 
+ * Objects use `constructor.name` or fallback to `Object.prototype.toString()`.
+ *
  * @param {any} obj  - any object or primitive, including `null` and `undefined`
  * @returns {string} - the type of the objet
- * 
+ *
  * @private
  */
-function instanceType(obj) {
+export function instanceType(obj) {
   const typeOf = typeof obj;
   switch (typeOf) {
     case 'undefined':
@@ -59,15 +61,15 @@ function instanceType(obj) {
 
 /**
  * Looks at the instance and its immediate prototype for `Symbol.toStringTag`.
- * The default behavior looks all the way up the prototype chain. This probably 
+ * The default behavior looks all the way up the prototype chain. This probably
  * isn’t the intent.
- * 
+ *
  * @param {any} obj - any object
  * @returns {string|undefined} - the type name or `undefined`
- * 
+ *
  * @private
  */
-function toStringTagImmediate(obj) {
+export function toStringTagImmediate(obj) {
   function tst(o) {
     if (Object.getOwnPropertySymbols(o).indexOf(Symbol.toStringTag) > -1) {
       return o[Symbol.toStringTag];
@@ -79,14 +81,14 @@ function toStringTagImmediate(obj) {
 /**
  * A pragmatic, not strictly correct interpretation of “primitive”.
  * The difference here is that `Function` and `Date` instances are
- * considered primitive. 
+ * considered primitive.
  *
  * @param {any} value - the value to test
- * @return {boolean}  
- * 
+ * @return {boolean}
+ *
  * @private
  */
-function isPrimitiveOrNull(value) {
+export function isPrimitiveOrNull(value) {
   if (null === value) return true;
   switch (typeof value) {
     case 'undefined':
@@ -104,25 +106,25 @@ function isPrimitiveOrNull(value) {
 
 /**
  * Whether a value is either `null` or `undefined`.
- * 
- * @param {any} value 
+ *
+ * @param {any} value
  * @returns {boolean}
- * 
+ *
  * @private
  */
-function isNullOrUndefined(value) {
+export function isNullOrUndefined(value) {
   return 'undefined' === typeof value || null === value;
 }
 
 /**
  * Poor man’s Iterable interface. Captures `Array` and `String`.
- * 
- * @param {any} obj 
+ *
+ * @param {any} obj
  * @returns {boolean}
- * 
+ *
  * @private
  */
-function isArrayLike(obj) {
+export function isArrayLike(obj) {
   if (isNullOrUndefined(obj)) return false;
   if (Array.isArray(obj)) return true;
   return 'number' === typeof obj.length && obj.length >= 0;
@@ -130,14 +132,14 @@ function isArrayLike(obj) {
 
 /**
  * Whether an object is iterable.
- * 
+ *
  * @param {any} obj - any object
  * @param {boolean} [includeStrings=false] - consider `string` instances iterable (probably not what you want)
  * @returns {boolean}
- * 
+ *
  * @private
  */
-function isIterable(obj, includeStrings = false) {
+export function isIterable(obj, includeStrings = false) {
   if (isNullOrUndefined(obj)) return false;
 
   if ('function' === typeof obj[Symbol.iterator]) {
@@ -151,13 +153,13 @@ function isIterable(obj, includeStrings = false) {
 
 /**
  * Duck types an object with a `next()` method.
- * 
- * @param {any} obj 
+ *
+ * @param {any} obj
  * @returns {boolean}
- * 
+ *
  * @private
  */
-function isIterator(obj) {
+export function isIterator(obj) {
   if (isNullOrUndefined(obj)) return false;
   if ('function' === obj.next) return true;
   return false;
@@ -167,16 +169,15 @@ function isIterator(obj) {
  * Serializes a primitive value as a string. This is optimized for human
  * consumption, not machine interoperability. Thus, it uses `.toLocaleString()`
  * for `number` and `date` instances.
- * 
- * @param {any} obj 
- * @param {number} [trunc=50] - maximum length of `string` serialization 
+ *
+ * @param {any} obj
+ * @param {number} [trunc=50] - maximum length of `string` serialization
  * @returns {string}
  * @throws {TypeError} - unhandled type
- * 
+ *
  * @private
  */
-// eslint-disable-next-line consistent-return
-function serialize(obj, trunc = 100) {
+export function serialize(obj, trunc = 100) {
   // TODO: Handle synthetic Symbol.for('Restricted function property')
   function truncate(str) {
     let suffix = '';
@@ -228,64 +229,64 @@ function serialize(obj, trunc = 100) {
 
 /**
  * Whether the object is a function, using `instanceof`.
- * 
+ *
  * @example
  * Object.getPrototypeOf(       // null
  *   Object.getPrototypeOf(     // Object
  *     Object.getPrototypeOf(   // Function
  *       Object.getPrototypeOf( // (Generator)Function
- *         function(){}
+ *         function*(){}
  *       )
  *     )
  *   )
  * )
- * 
- * @param {any} obj 
+ *
+ * @param {any} obj
  * @returns {boolean}
- * 
+ *
  * @private
  */
-function isFunction(obj) {
+export function isFunction(obj) {
   return obj instanceof Function;
 }
 
 /**
- * @param {string} [msg='Missing required parameter'] 
+ * @param {string} [msg='Missing required parameter']
  * @private
  */
-function requiredParameter(msg = 'Missing required parameter') {
+export function requiredParameter(msg = 'Missing required parameter') {
   throw new ReferenceError(msg);
 }
 /**
  * Adds a `toString()` method to the instance.
- * 
- * @param {any} obj 
- * @param {any} toString 
- * @returns 
- * 
+ *
+ * @param {any} obj
+ * @param {any} toString
+ * @returns
+ *
  * @private
  */
-function toStringifyInstance(
+export function toStringifyInstance(
   obj,
   toString = requiredParameter('Missing toString as a function')
 ) {
   return Object.defineProperty(obj, 'toString', {
     enumerable: false,
-    value: toString,
+    value: toString
   });
 }
 
 /**
  * Parse the signature of a function.
- * 
- * @param {function} fct 
+ *
+ * @param {function} fct
  * @returns {object|undefined} - an object with `name` (`string`) and `parameters` (`string[]`) properties
  * @throws {TypeError} - for a non-function
  * @see serializeFunctionSignature
- * 
+ *
  * @private
  */
-function parseFunctionSignature(fct) {
+export function parseFunctionSignature(fct) {
   if (undefined === fct) return undefined;
   if ('function' !== typeof fct) {
     throw new TypeError(`${typeof fct} is not a function`);
@@ -310,7 +311,7 @@ function parseFunctionSignature(fct) {
       {
         parameters: parseParams(lambdas[1] ? lambdas[1] : lambdas[2] || ''),
         body: parseBody(lambdas[3]),
-        isLambda: true,
+        isLambda: true
       },
       () => fstr
     );
@@ -324,7 +325,7 @@ function parseFunctionSignature(fct) {
         parameters: parseParams(matches[3]),
         body: body,
         isNative: /\[native code]/.test(body),
-        isGenerator: '*' === matches[1] || 'function*' === matches[1],
+        isGenerator: '*' === matches[1] || 'function*' === matches[1]
       },
       () => fstr
     );
@@ -333,49 +334,46 @@ function parseFunctionSignature(fct) {
 }
 
 /**
- * Gets a descriptor using `Object.getOwnPropertyDescriptor()` 
+ * Gets a descriptor using `Object.getOwnPropertyDescriptor()`
  * for an object’s property.
- * 
- * @param {any} obj 
- * @param {string} property 
+ *
+ * @param {any} obj
+ * @param {string} property
  * @returns {object}
- * 
+ *
  * @private
  */
-function getPropertyDescriptor(obj, property) {
+export function getPropertyDescriptor(obj, property) {
   const descriptor = Object.getOwnPropertyDescriptor(obj, property);
   return {
     name: String(property), // Casts Symbols as strings, `Symbol(Symbol.iterator)`
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,
     getter: parseFunctionSignature(descriptor.get),
-    setter: parseFunctionSignature(descriptor.set),
+    setter: parseFunctionSignature(descriptor.set)
   };
 }
 
 /**
- * Gets the value of a property `obj[property]`. Wraps in a 
+ * Gets the value of a property `obj[property]`. Wraps in a
  * try/catch for the corner case where `caller` and `arguments`
- * properties aren’t available in certain contexts. 
- * 
+ * properties aren’t available in certain contexts.
+ *
  * @param {any} obj - any object
  * @param {string} property - a property name
- * @returns {any} - any value or `undefined` if the 
+ * @returns {any} - any value or `undefined` if the
  *                  property doesn’t exist or throws an error
  * @throws {Error} - any errors that aren’t “restricted function properties”
- * 
+ *
  * @private
  */
-function getPropertyValue(obj, property) {
+export function getPropertyValue(obj, property) {
   if (undefined === property)
     throw new ReferenceError('property must be defined');
   try {
     return obj[property];
   } catch (error) {
-    if (
-      error instanceof TypeError &&
-      /restricted function properties/.test(error.message)
-    ) {
+    if (error instanceof TypeError) {
       return RESTRICTED_FUNCTION_PROPERTY;
     }
     throw error;
@@ -383,18 +381,18 @@ function getPropertyValue(obj, property) {
 }
 
 /**
- * Group a flat `Iterable` into fixed-sized buckets, truncating for 
+ * Group a flat `Iterable` into fixed-sized buckets, truncating for
  * conveniece/efficiency.
- * 
+ *
  * @param {Iterable<any>} itr - any `Iterable`
  * @param {number} [size=25] - the size of each bucket
  * @param {number} [maxTotal=100] - the total number items in all buckets
  * @returns {Array<Array>} - two-dimensional `Array` of buckets and values
  * @throws {TypeError} - non-`Iterable`
- * 
+ *
  * @private
  */
-function groupByBuckets(itr, size = 10, maxTotal = 50) {
+export function groupByBuckets(itr, size = 10, maxTotal = 50) {
   if (!isIterable(itr)) throw new TypeError('Must be Iterable');
   size = Math.floor(size);
   if (size < 1) throw new TypeError('size must be positive');
@@ -414,30 +412,10 @@ function groupByBuckets(itr, size = 10, maxTotal = 50) {
       buckets[bucket] = {
         // Zero-based index boundaries of the bucket relative to the original iterator
         bounds: [bucket * size, Math.min((bucket + 1) * size, maxTotal) - 1],
-        items: [item],
+        items: [item]
       };
     }
     i++;
   }
   return buckets;
 }
-
-/**
- * @module util
- * @ignore
- */
-module.exports = {
-  instanceType,
-  isPrimitiveOrNull,
-  isNullOrUndefined,
-  isArrayLike,
-  isIterable,
-  isIterator,
-  isFunction,
-  serialize,
-  parseFunctionSignature,
-  getPropertyDescriptor,
-  getPropertyValue,
-  RESTRICTED_FUNCTION_PROPERTY,
-  groupByBuckets,
-};

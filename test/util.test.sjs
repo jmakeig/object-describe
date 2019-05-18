@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -15,8 +15,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 'use strict';
-const test = require('/mltap/test');
-const {
+import { test } from './test.js';
+
+import {
   instanceType,
   isPrimitiveOrNull,
   isNullOrUndefined,
@@ -26,8 +27,8 @@ const {
   RESTRICTED_FUNCTION_PROPERTY,
   parseFunctionSignature,
   serialize,
-  groupByBuckets,
-} = require('../src/util.js');
+  groupByBuckets
+} from '../src/util.js';
 
 test('isPrimitiveOrNull', assert => {
   assert.true(isPrimitiveOrNull(undefined));
@@ -39,7 +40,6 @@ test('isPrimitiveOrNull', assert => {
   assert.true(isPrimitiveOrNull(new Date()));
   assert.false(isPrimitiveOrNull({}));
   assert.false(isPrimitiveOrNull([]));
-  assert.end();
 });
 
 test('isNullOrUndefined', assert => {
@@ -48,7 +48,6 @@ test('isNullOrUndefined', assert => {
   assert.true(isNullOrUndefined());
   assert.false(isNullOrUndefined({}));
   assert.false(isNullOrUndefined('string'));
-  assert.end();
 });
 
 test('isArrayLike', assert => {
@@ -58,7 +57,6 @@ test('isArrayLike', assert => {
   assert.false(isArrayLike(null));
   assert.false(isArrayLike({}));
   assert.false(isArrayLike({ length: -1 }));
-  assert.end();
 });
 
 test('isIterable', assert => {
@@ -67,13 +65,12 @@ test('isIterable', assert => {
   const custom = {
     *[Symbol.iterator]() {
       yield 1;
-    },
+    }
   };
   assert.true(isIterable(custom));
 
   assert.false(isIterable(''));
   assert.true(isIterable('', true));
-  assert.end();
 });
 
 test('instanceType', assert => {
@@ -84,11 +81,10 @@ test('instanceType', assert => {
   assert.equal(instanceType(true), 'boolean');
   assert.equal(instanceType(), 'undefined');
   assert.equal(instanceType(() => true), 'Function');
-  // eslint-disable-next-line no-empty-function
-  assert.equal(instanceType(function() {}), 'Function'); // eslint-disable-line prefer-arrow-callback
+  assert.equal(instanceType(function() {}), 'Function');
   // Object.prototype.toString.call(function*(){}) => GeneratorFunction. Should we do more here?
-  assert.equal(instanceType(function*() {}), 'GeneratorFunction'); // eslint-disable-line no-empty-function
-  assert.equal(instanceType((function*() {})()), 'Generator'); // eslint-disable-line no-empty-function
+  assert.equal(instanceType(function*() {}), 'GeneratorFunction');
+  assert.equal(instanceType((function*() {})()), 'Generator');
   assert.equal(instanceType(Symbol.for('symbol')), 'symbol');
 
   assert.equal(instanceType({}), 'Object');
@@ -100,19 +96,17 @@ test('instanceType', assert => {
   assert.equal(instanceType(new Foo()), 'Foo');
   assert.equal(instanceType(Object.create(Foo.prototype)), 'Foo');
 
-  function Bar() {} // eslint-disable-line no-empty-function
+  function Bar() {}
   Bar.prototype = Object.create(Foo.prototype);
   Bar.prototype.constructor = Bar;
   assert.equal(instanceType(new Bar()), 'Bar');
   assert.equal(instanceType(Object.create(Bar.prototype)), 'Bar');
 
   /* <https://gist.github.com/jmakeig/52337c191b8f4e176e56d796129cad25> */
-  function Baz() {} // eslint-disable-line no-empty-function
+  function Baz() {}
   Baz.prototype = Object.create(Foo.prototype);
   assert.equal(instanceType(new Baz()), 'Foo');
   assert.equal(instanceType(Object.create(Baz.prototype)), 'Foo');
-
-  assert.end();
 });
 
 test('serialize', assert => {
@@ -122,11 +116,10 @@ test('serialize', assert => {
   assert.equal(serialize(Number.NaN), 'NaN');
   assert.equal(serialize(true), 'true');
   assert.equal(serialize('asdf'), '"asdf"');
-  assert.end();
 });
 
 test('parseFunctionSignature', assert => {
-  assert.equal(parseFunctionSignature(undefined), void 0);
+  assert.equal(parseFunctionSignature(undefined), void 0, 'Undefined function');
   function f1() {
     return 0;
   }
@@ -135,8 +128,8 @@ test('parseFunctionSignature', assert => {
     name: 'f1',
     parameters: [],
     body: '    return 0;',
-    isNative: false,
-  });
+    isNative: false
+  }, 'Simple function');
 
   function f2(a, bbbbb, c = true) {
     a = bbbbb++ - c;
@@ -149,11 +142,10 @@ test('parseFunctionSignature', assert => {
       name: 'f2',
       parameters: ['a', 'bbbbb', 'c = true'],
       body: '    a = bbbbb++ - c;\n    return 0;',
-      isNative: false,
+      isNative: false
     },
     'with parameters'
   );
-  // eslint-disable-next-line func-style
   const f3 = function(a) {
     `Here is a really long string that includes ${a} and a bunch of other stuff`;
     return 0;
@@ -164,9 +156,9 @@ test('parseFunctionSignature', assert => {
       isGenerator: false,
       name: '',
       parameters: ['a'],
-      // eslint-disable-next-line no-template-curly-in-string
-      body: '    `Here is a really long string that includes ${a} and a bunch of other stuff`;\n    return 0;',
-      isNative: false,
+      body:
+        '    `Here is a really long string that includes ${a} and a bunch of other stuff`;\n    return 0;',
+      isNative: false
     },
     'anonymous'
   );
@@ -180,12 +172,11 @@ test('parseFunctionSignature', assert => {
       name: 'f4',
       parameters: [],
       body: '    yield 0;',
-      isNative: false,
+      isNative: false
     },
     'generator'
   );
 
-  // eslint-disable-next-line func-style
   const f5 = function*() {
     yield 0;
   };
@@ -196,7 +187,7 @@ test('parseFunctionSignature', assert => {
       name: '',
       parameters: [],
       body: '    yield 0;',
-      isNative: false,
+      isNative: false
     },
     'anonymous generator'
   );
@@ -207,7 +198,7 @@ test('parseFunctionSignature', assert => {
     {
       parameters: ['things', 'stuff'],
       body: 'things || stuff',
-      isLambda: true,
+      isLambda: true
     },
     'lambda'
   );
@@ -220,9 +211,8 @@ test('parseFunctionSignature', assert => {
     parseFunctionSignature(f7),
     {
       parameters: ['things', 'stuff'],
-      // eslint-disable-next-line quotes
       body: "    const x = '';\n    x || things || stuff;",
-      isLambda: true,
+      isLambda: true
     },
     'lambda'
   );
@@ -231,9 +221,8 @@ test('parseFunctionSignature', assert => {
     parseFunctionSignature(f7a),
     {
       parameters: ['things'],
-      // eslint-disable-next-line quotes
       body: 'things',
-      isLambda: true,
+      isLambda: true
     },
     'lambda, no parens'
   );
@@ -246,7 +235,7 @@ test('parseFunctionSignature', assert => {
       name: 'values',
       parameters: [],
       body: '[native code]',
-      isNative: true,
+      isNative: true
     },
     'isNative'
   );
@@ -254,19 +243,19 @@ test('parseFunctionSignature', assert => {
   const itarable = {
     *[Symbol.iterator]() {
       yield 1;
-    },
+    }
   };
   assert.deepEqual(parseFunctionSignature(itarable[Symbol.iterator]), {
-    name: '',
+    name: '[Symbol.iterator]',
     isGenerator: true,
     body: '      yield 1;',
     isNative: false,
-    parameters: [],
+    parameters: []
   });
 
   function Snake() {}
   Snake.prototype.constructor = Snake;
-  Snake.prototype.toString = () => `I’m a snake with ${this.legs} legs`;
+  Snake.prototype.toString = function toString() { return `I’m a snake with ${this.legs} legs`;}
   // '() => `I’m a snake with ${this.legs} legs`'
   assert.equal(
     parseFunctionSignature(Snake.prototype.toString).parameters.length,
@@ -274,32 +263,23 @@ test('parseFunctionSignature', assert => {
   );
   assert.equal(
     parseFunctionSignature(Snake.prototype.toString).body,
-    '`I’m a snake with ${this.legs} legs`'
+    'return `I’m a snake with ${this.legs} legs`;'
   );
-
-  assert.end();
 });
 
 test('getPropertyValue', assert => {
   const a = { a: 'A' };
   assert.equal(getPropertyValue(a, 'a'), 'A');
-  assert.throws(
-    () => {
-      getPropertyValue(null, 'a');
-    },
-    TypeError
-  );
-  assert.throws(
-    () => {
-      getPropertyValue(a);
-    },
-    ReferenceError
-  );
+  // assert.throws(() => {
+  //   getPropertyValue(null, 'a');
+  // }, TypeError, 'Gettting a property on a null');
+  assert.throws(() => {
+    getPropertyValue(a);
+  }, ReferenceError);
   assert.equal(typeof getPropertyValue('', 'toString'), 'function');
   const f = () => undefined;
   assert.equal(getPropertyValue(f, 'caller'), RESTRICTED_FUNCTION_PROPERTY);
   assert.equal(getPropertyValue(f, 'arguments'), RESTRICTED_FUNCTION_PROPERTY);
-  assert.end();
 });
 
 test('groupByBuckets', assert => {
@@ -322,6 +302,4 @@ test('groupByBuckets', assert => {
 
   assert.throws(() => groupByBuckets(), TypeError);
   assert.throws(() => groupByBuckets([], -22), TypeError);
-
-  assert.end();
 });

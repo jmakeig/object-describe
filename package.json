@@ -4,14 +4,16 @@
   "description": "A way to inspect the entire type hierarchy of an object, including properties inherited (and potentially overridden) from its prototype chain.",
   "main": "index.sjs",
   "scripts": {
-    "test": "mltap test/*.test.sjs",
-    "test-pretty": "npm run test | tap-notify",
-    "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'src/**.*js' && prettier --write --single-quote --tab-width 2 --list-different --trailing-comma es5  'test/**.*js'",
-    "lint": "eslint --config .eslintrc.js src/ test/",
-    "pre-flight": "npm run format && npm run lint && npm run test",
-    "docs": "documentation build src/*.*js --config documentation.json --name object-describe --format html --output docs/",
+    "build": "rollup -c rollup.config.js",
+    "test": "node -r esm test/index.js",
+    "test:dev": "node -r esm test/index.js | tap-notify | tap-diff; exit 0;",
+    "test:watch": "find . -name '*.*js' | grep -v node_modules/ | grep -v dist/ | entr npm run test:dev",
+    "test:browser": "npm run build && cp test/tests.html dist/ && open dist/tests.html",
+    "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --list-different './{src,test}/**.*js'",
+    "pre-flight": "npm run format && npm run test",
+    "docs": "documentation build src/*.*js --config documentation.json --format html --output docs/",
     "readme": "documentation readme src/*.*js --config documentation.json --section Usage --quiet",
-    "postdocs": "curl --digest -u admin:admin http://localhost:8642/sandbox/index.sjs?format=html > docs/example.html && cp src/sandbox/object-describe.css src/sandbox/ui.js docs/"
+    "Xpostdocs": "curl --digest -u admin:admin http://localhost:8642/sandbox/index.sjs?format=html > docs/example.html && cp src/sandbox/object-describe.css src/sandbox/ui.js docs/"
   },
   "repository": {
     "type": "git",
@@ -29,14 +31,17 @@
   },
   "homepage": "https://github.com/jmakeig/object-describe#readme",
   "devDependencies": {
-    "documentation": "^4.0.0-beta.19",
-    "eslint": "^3.18.0",
-    "mltap": "git://github.com/jmakeig/mltap.git#develop",
-    "prettier": "^0.22.0",
-    "tape": "^4.6.3"
+    "documentation": "^11.0.0",
+    "esm": "^3.2.25",
+    "prettier": "^1.17.1",
+    "rollup": "^1.12.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "zora": "^3.0.1"
   },
   "optionalDependencies": {
     "tap-diff": "^0.1.1",
     "tap-notify": "^1.0.0"
-  }
+  },
+  "dependencies": {}
 }

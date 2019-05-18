@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -15,15 +15,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
 
-const test = require('/mltap/test');
-const { describe } = require('../src/describe.js');
-const { renderHTML } = require('../src/render.js');
+import { test } from './test.js';
+import describe from '../src/describe.js';
+import { renderHTML } from '../src/render.js';
 
 /**
  * XPath helper
- * 
- * @param {Node} node 
- * @param {string} path 
+ *
+ * @param {Node} node
+ * @param {string} path
  * @returns {Array<Node>}
  */
 function xpath(node, path) {

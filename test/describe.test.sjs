@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -15,15 +15,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 'use strict';
-const test = require('/mltap/test');
-const { describe } = require('../src/describe.js');
+import { test } from './test.js';
+import describe from '../src/describe.js';
 
 test('null', assert => {
   const report = describe(null);
   assert.equal(report.is, 'null');
   assert.equal(report.properties, undefined);
   assert.equal(report.value, 'null');
-  assert.end();
 });
 
 test('undefined', assert => {
@@ -31,7 +30,6 @@ test('undefined', assert => {
   assert.equal(report.is, 'undefined');
   assert.equal(report.properties, undefined);
   assert.equal(report.value, 'undefined');
-  assert.end();
 });
 
 test('boolean', assert => {
@@ -40,7 +38,6 @@ test('boolean', assert => {
   assert.equal(report.value, 'true');
   assert.equal(report.properties, undefined);
   assert.equal(report.prototype, undefined);
-  assert.end();
 });
 
 test('number', assert => {
@@ -48,12 +45,9 @@ test('number', assert => {
   assert.equal(report.is, 'number');
   assert.deepEqual(report.properties, undefined);
   assert.equal(report.value, (123456).toLocaleString());
-
-  assert.end();
 });
 
 test('function, anonymous', assert => {
-  // eslint-disable-next-line prefer-arrow-callback
   const descrip = describe(function() {});
   assert.equal(descrip.is, 'Function');
   assert.deepEqual(descrip.value, {
@@ -61,13 +55,11 @@ test('function, anonymous', assert => {
     name: '',
     parameters: [],
     body: '',
-    isNative: false,
+    isNative: false
   });
-  assert.end();
 });
 
 test('function, named', assert => {
-  // eslint-disable-next-line prefer-arrow-callback
   const descrip = describe(function asdf() {});
   assert.equal(descrip.is, 'Function');
   assert.deepEqual(descrip.value, {
@@ -75,13 +67,11 @@ test('function, named', assert => {
     name: 'asdf',
     parameters: [],
     body: '',
-    isNative: false,
+    isNative: false
   });
-  assert.end();
 });
 
 test('function, named, params', assert => {
-  // eslint-disable-next-line prefer-arrow-callback
   const descrip = describe(function asdf(a, b = 55) {
     return a + b;
   });
@@ -91,9 +81,8 @@ test('function, named, params', assert => {
     name: 'asdf',
     parameters: ['a', 'b = 55'],
     body: '    return a + b;',
-    isNative: false,
+    isNative: false
   });
-  assert.end();
 });
 
 test('simple object', assert => {
@@ -113,7 +102,6 @@ test('simple object', assert => {
 
   assert.equal(descrip.prototype.is, 'Object');
   assert.true(descrip.prototype.properties.length > 1);
-  assert.end();
 });
 
 test('array of primitives', assert => {
@@ -156,13 +144,13 @@ test('array of primitives', assert => {
     'toLocaleString',
     'toString',
     'unshift',
+    'values'
   ];
   assert.deepEqual(
     descrip.prototype.properties.map(item => item.name).sort(),
     props
   );
   assert.equal(descrip.prototype.prototype.is, 'Object');
-  assert.end();
 });
 
 test('getters and setters', assert => {
@@ -171,7 +159,7 @@ test('getters and setters', assert => {
     get() {
       return 'A';
     },
-    set(value) {}, // eslint-disable-line no-unused-vars
+    set(value) {}
   });
 
   const descrip = describe(obj);
@@ -183,7 +171,6 @@ test('getters and setters', assert => {
   assert.equal(a.getter.parameters.length, 0);
   assert.equal(a.setter.name, 'set');
   assert.deepEqual(a.setter.parameters, ['value']);
-  assert.end();
 });
 
 test('overridden and inherited properties', assert => {
@@ -197,7 +184,7 @@ test('overridden and inherited properties', assert => {
   Object.defineProperty(Animal.prototype, 'legs', {
     get() {
       return 4;
-    },
+    }
   });
 
   function Dog() {}
@@ -242,8 +229,6 @@ test('overridden and inherited properties', assert => {
   const legs = descrip.prototype.prototype.properties.filter(pred('legs'))[0];
   assert.deepEqual(legs.from, 'Animal');
   assert.equal(legs.getter.name, 'get');
-
-  assert.end();
 });
 
 test('circular', assert => {
@@ -255,8 +240,6 @@ test('circular', assert => {
   assert.true(
     descrip.properties[0].value.properties[0].value.properties[0].isCircular
   );
-
-  assert.end();
 });
 
 test('iterable', assert => {
@@ -272,7 +255,6 @@ test('iterable', assert => {
     describe(generator).prototype.prototype.prototype.prototype.isIterable,
     undefined
   );
-  assert.end();
 });
 
 test('overrides', assert => {
@@ -281,7 +263,7 @@ test('overrides', assert => {
   Object.defineProperty(Animal.prototype, 'legs', {
     get() {
       return 4;
-    },
+    }
   });
   Animal.prototype.toString = function() {};
   function Snake() {}
@@ -290,15 +272,16 @@ test('overrides', assert => {
   Object.defineProperty(Snake.prototype, 'legs', {
     get() {
       return 0;
-    },
+    }
   });
-  Snake.prototype.toString = () => `I’m a snake with ${this.legs} legs`;
+  Snake.prototype.toString = function() {
+    `I’m a snake with ${this.legs} legs`;
+  };
   const snake = new Snake();
   const descrip = describe(snake);
   assert.deepEqual(
-    descrip.prototype.prototype.properties.find(
-      p => 'legs' === p.name
-    ).overriddenBy,
+    descrip.prototype.prototype.properties.find(p => 'legs' === p.name)
+      .overriddenBy,
     ['Snake']
   );
   assert.deepEqual(
@@ -309,10 +292,8 @@ test('overrides', assert => {
   );
 
   assert.deepEqual(
-    describe([1]).prototype.properties.find(
-      p => 'length' === p.name
-    ).overriddenBy,
+    describe([1]).prototype.properties.find(p => 'length' === p.name)
+      .overriddenBy,
     ['Array']
   );
-  assert.end();
 });

@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -18,11 +18,11 @@
 const PROTOTYPE = Symbol('PROTOTYPE');
 
 /**
- * 
- * 
- * @param {any} obj 
+ *
+ *
+ * @param {any} obj
  * @returns {boolean} - whether the object is callable as a function
- * 
+ *
  * @private
  */
 function isCallable(obj) {
@@ -30,16 +30,16 @@ function isCallable(obj) {
 }
 
 /**
- * 
+ *
  * @param {boolean} test         - whether to return `success` or `failure`
  * @param {any|function} success - if `test` evaluates to `true` (or truth-y)
- *                                 return the value, or if `success` is a function call that 
+ *                                 return the value, or if `success` is a function call that
  *                                 function and return its value
- * @param {any|function} failure - if `test` evaluates to `false` (or false-y) 
- *                                 return the value, or if `success` is a function call that 
+ * @param {any|function} failure - if `test` evaluates to `false` (or false-y)
+ *                                 return the value, or if `success` is a function call that
  *                                 function and return its value
  * @returns {any}
- * 
+ *
  * @private
  */
 function iif(test, success, failure) {
@@ -51,12 +51,12 @@ function iif(test, success, failure) {
 
 /**
  * Like `iif`, but falls back to an empty `string`
- * 
- * @param {boolean} test 
- * @param {any|function} success 
+ *
+ * @param {boolean} test
+ * @param {any|function} success
  * @returns {any|string}
  * @see iif
- * 
+ *
  * @private
  */
 function iis(test, success) {
@@ -64,12 +64,12 @@ function iis(test, success) {
 }
 
 /**
- * 
- * 
- * @param {any} prop 
- * @param {string} objInstance 
- * @returns 
- * 
+ *
+ *
+ * @param {any} prop
+ * @param {string} objInstance
+ * @returns
+ *
  * @private
  */
 function renderProperty(prop, objInstance) {
@@ -80,48 +80,70 @@ function renderProperty(prop, objInstance) {
     iis(prop.enumerable, 'enumerable'),
     iis(prop.configurable, 'configurable'),
     iis(isOverridden, 'overridden'),
-    iis(hasAccessor(prop), 'toggleable toggle-none'),
+    iis(hasAccessor(prop), 'toggleable toggle-none')
   ];
   const title = iif(
     prop.name,
-    `${objInstance}#${prop.name}${iis(isOverridden, () => ` overridden by ${prop.overriddenBy[0]}`)}`,
+    `${objInstance}#${prop.name}${iis(
+      isOverridden,
+      () => ` overridden by ${prop.overriddenBy[0]}`
+    )}`,
     objInstance
   );
   const value = `${renderValue(prop.value, prop.is, prop.name)}`;
   return `
 <div class="${classNames.join(' ')}">
-  ${iis(!(prop.value && prop.value.properties), `
-      ${iis(prop.name, () => `<span class="name" title="${escapeHTML(title)}">${escapeHTML(prop.name)}</span>`)}
+  ${iis(
+    !(prop.value && prop.value.properties),
+    `
+      ${iis(
+        prop.name,
+        () =>
+          `<span class="name" title="${escapeHTML(title)}">${escapeHTML(
+            prop.name
+          )}</span>`
+      )}
       ${iis(!hasAccessor(prop), `<span class="is">${prop.is}</span>`)}
-    `)}
+    `
+  )}
   ${iis(!hasAccessor(prop), value)}
   ${renderAccessors(prop)}
 </div>`;
 }
 
 /**
- * 
- * 
- * @param {any} prop 
- * @returns 
- * 
+ *
+ *
+ * @param {any} prop
+ * @returns
+ *
  * @private
  */
 function renderAccessors(prop) {
   if (!hasAccessor(prop)) return '';
   return `
     <div class="accessors toggle-group">
-      ${iis(prop.getter, `<div class="getter is-function"> get <span class="value">${prop.getter}</span></div>`)}
-      ${iis(prop.setter, `<div class="setter is-function"> set <span class="value">${prop.setter}</span></div>`)}
+      ${iis(
+        prop.getter,
+        `<div class="getter is-function"> get <span class="value">${
+          prop.getter
+        }</span></div>`
+      )}
+      ${iis(
+        prop.setter,
+        `<div class="setter is-function"> set <span class="value">${
+          prop.setter
+        }</span></div>`
+      )}
     </div>`;
 }
 
 /**
- * 
- * 
- * @param {any} iterables 
+ *
+ *
+ * @param {any} iterables
  * @returns {string}
- * 
+ *
  * @private
  */
 function renderIterables(iterables) {
@@ -131,18 +153,21 @@ function renderIterables(iterables) {
       <span class="name">Iterables</span>
       <div class="buckets toggle-group">
         ${iterables.map(renderBucket).join('')}
-        <div class="truncated" title="Values truncated for display">${iis(iterables.truncated, '<div class="truncated">…</div>')}</div>
+        <div class="truncated" title="Values truncated for display">${iis(
+          iterables.truncated,
+          '<div class="truncated">…</div>'
+        )}</div>
       </div>
     </div>
   `;
 }
 
 /**
- * 
- * 
- * @param {any} bucket 
- * @returns 
- * 
+ *
+ *
+ * @param {any} bucket
+ * @returns
+ *
  * @private
  */
 function renderBucket(bucket) {
@@ -150,26 +175,28 @@ function renderBucket(bucket) {
   const upper = bucket.bounds[1];
   return `
     <div class="bucket toggleable toggle-none">
-      <span class="name">${lower}–${Math.min(upper, lower + bucket.items.length - 1)}</span>
+      <span class="name">${lower}–${Math.min(
+    upper,
+    lower + bucket.items.length - 1
+  )}</span>
       <div class="toggle-group">
         ${bucket.items
-    .map((item, index) => `<div class="item">${renderObject(
-          item,
-          String(lower + index),
-          {
-            toggle: 'none',
-          }
-        )}</div>`)
-    .join('')}
+          .map(
+            (item, index) =>
+              `<div class="item">${renderObject(item, String(lower + index), {
+                toggle: 'none'
+              })}</div>`
+          )
+          .join('')}
       </div>
     </div>
   `;
 }
 
 /**
- * @param {Object} prop 
+ * @param {Object} prop
  * @returns {boolean}
- * 
+ *
  * @private
  */
 function hasAccessor(prop) {
@@ -177,11 +204,11 @@ function hasAccessor(prop) {
 }
 
 /**
- * @param {any} value 
- * @param {string} [type='Object'] 
- * @param {any} name 
- * @returns 
- * 
+ * @param {any} value
+ * @param {string} [type='Object']
+ * @param {any} name
+ * @returns
+ *
  * @private
  */
 function renderValue(value, type = 'Object', name) {
@@ -199,9 +226,9 @@ function renderValue(value, type = 'Object', name) {
 }
 
 /**
- * @param {any} fct 
+ * @param {any} fct
  * @returns {string}
- * 
+ *
  * @private
  */
 function renderFunction(fct) {
@@ -209,11 +236,11 @@ function renderFunction(fct) {
 }
 
 /**
- * @param {any} obj 
- * @param {string} name 
- * @param {Object[]} [state={}] 
+ * @param {any} obj
+ * @param {string} name
+ * @param {Object[]} [state={}]
  * @returns {string}
- * 
+ *
  * @private
  */
 function renderObject(obj, name, state = {}) {
@@ -229,29 +256,40 @@ function renderObject(obj, name, state = {}) {
     iis(obj.properties, 'toggleable'),
     iis('none' === state.toggle, 'toggle-none'),
     iis(PROTOTYPE === name, 'prototype toggle-none'),
-    iis(obj.isIterable, 'iterable'),
+    iis(obj.isIterable, 'iterable')
   ];
   return `
   <div class="${classNames.join(' ')}">
-    ${iif('string' === typeof name, () => `<span class="name">${name}</span>`, () => iis(PROTOTYPE === name, '<span class="name" title="Prototype">Proto</span>'))}
+    ${iif(
+      'string' === typeof name,
+      () => `<span class="name">${name}</span>`,
+      () =>
+        iis(
+          PROTOTYPE === name,
+          '<span class="name" title="Prototype">Proto</span>'
+        )
+    )}
     <span class="is is-${obj.is}">${obj.is}</span>
     <span class="summary">${escapeHTML(obj.summary)}</span>
     <div class="${iis(obj.properties, 'toggle-group')}">
-      ${iis(obj.properties, () => `
+      ${iis(
+        obj.properties,
+        () => `
         <div class="properties">
           ${obj.properties.map(prop => renderProperty(prop, obj.is)).join('')}
-        </div>`)}
+        </div>`
+      )}
       ${renderIterables(obj.iterables)}
       ${iis(obj.prototype, () => `${renderObject(obj.prototype, PROTOTYPE)}`)}
     </div>
   </div>`;
 }
 /**
- * 
- * 
- * @param {describe:Description} obj 
+ *
+ *
+ * @param {describe:Description} obj
  * @returns {string}
- * 
+ *
  * @since 0.1.0
  */
 function renderHTML(obj) {
@@ -259,15 +297,14 @@ function renderHTML(obj) {
 }
 
 /**
- * 
- * 
+ *
+ *
  * @param {object} signature - an object with `name` (`string`) and `parameters` (`string[]`) properties
  * @returns {string}
  * @see parseFunctionSignature
- * 
+ *
  * @private
  */
-// eslint-disable-next-line no-unused-vars
 function serializeFunctionSignature(signature) {
   return escapeHTML(
     `function ${signature.name} (${signature.parameters.join[', ']})`
@@ -277,18 +314,21 @@ function serializeFunctionSignature(signature) {
 /**
  * Escpaes strings for HTML. Make sure not to escape HTML
  * strings twice.
- * 
+ *
  * @param {string} str - raw string (not HTML)
  * @returns {string} - escaped string
  * @throws {TypeError} - non-string input
- * 
+ *
  * @private
  */
 function escapeHTML(str) {
   if ('string' !== typeof str) {
     throw new TypeError(`${typeof str} is not a string`);
   }
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
-module.exports = { renderHTML, escapeHTML };
+export { renderHTML, escapeHTML };

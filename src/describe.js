@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -15,7 +15,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
 
-const {
+import {
   isPrimitiveOrNull,
   isNullOrUndefined,
   isIterable,
@@ -25,8 +25,8 @@ const {
   getPropertyValue,
   RESTRICTED_FUNCTION_PROPERTY,
   groupByBuckets,
-  serialize,
-} = require('./util');
+  serialize
+} from './util';
 
 /**
  * @constant
@@ -36,21 +36,20 @@ const DEFAULT_IGNORE = [];
 
 /**
  * {@see describe}
- * 
+ *
  * @param {any} obj - any object or primitive
  * @param {Array<Object>} [ignore=DEFAULT_IGNORE] - prototypes to ignore
  * @param {Array<Object>} [history=[]] - a record of the traversal used to idenify cycles
  * @param {Array<Object>} [prototypes=[]] - prototype chain
  * @returns {Description} - a report of the types
- * 
+ *
  * @private
  */
-// eslint-disable-next-line max-params
 function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
   /**
-   * @param {Obejct} instance 
+   * @param {Obejct} instance
    * @returns {boolean} - whether the instance’s constructor is in the ignored list
-   * 
+   *
    * @inner
    */
   const isIgnored = instance =>
@@ -88,10 +87,10 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
 
   /**
    * Is `Array` and property is numeric.
-   * 
+   *
    * @param {string} name
    * @returns {boolean}
-   * 
+   *
    * @inner
    */
   const nonNumericArrayProperties = name =>
@@ -100,7 +99,7 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
   object.properties = [];
   for (const name of [
     ...Object.getOwnPropertyNames(obj),
-    ...Object.getOwnPropertySymbols(obj),
+    ...Object.getOwnPropertySymbols(obj)
   ].filter(nonNumericArrayProperties)) {
     // console.log('  - ' + String(name));
     const property = getPropertyDescriptor(obj, name);
@@ -135,12 +134,12 @@ function describe(obj, ignore = DEFAULT_IGNORE, history = [], prototypes = []) {
 }
 
 /**
- * 
- * 
- * @param {string} name 
- * @param {Object[]} prototypes 
- * @returns 
- * 
+ *
+ *
+ * @param {string} name
+ * @param {Object[]} prototypes
+ * @returns
+ *
  * @private
  */
 function overriddenBy(name, prototypes) {
@@ -153,13 +152,13 @@ function overriddenBy(name, prototypes) {
 }
 
 /**
- * 
- * 
- * @param {Object} obj 
- * @param {Object[]} prototypes 
+ *
+ *
+ * @param {Object} obj
+ * @param {Object[]} prototypes
  * @param {function} desc
  * @returns {Iterable<any>}
- * 
+ *
  * @private
  */
 function expandIterables(obj, prototypes, desc) {
@@ -177,7 +176,7 @@ function expandIterables(obj, prototypes, desc) {
       return Object.assign(
         buckets.map(bucket => ({
           bounds: bucket.bounds,
-          items: bucket.items.map(item => desc(item)),
+          items: bucket.items.map(item => desc(item))
         })),
         { truncated: buckets.truncated }
       );
@@ -203,10 +202,10 @@ function expandIterables(obj, prototypes, desc) {
 
 /**
  * @constructor
- * 
- * @param {any} reference 
- * @returns 
- * 
+ *
+ * @param {any} reference
+ * @returns
+ *
  * @private
  * @since 0.1.0
  */
@@ -217,7 +216,7 @@ function CircularReference(reference) {
   Object.defineProperty(this, 'reference', {
     get() {
       return reference;
-    },
+    }
   });
 }
 CircularReference.prototype.constructor = CircularReference;
@@ -227,68 +226,68 @@ CircularReference.prototype.toString = function toString() {
 
 /**
  * Recursively traverses an object’s properties, including along
- * its prototype chain. Handles cycles. 
- * 
+ * its prototype chain. Handles cycles.
+ *
  * @name describe
  * @param {any} obj - any object or primitive
  * @param {Array<Object>} [ignore=DEFAULT_IGNORE] - prototypes to ignore
  * @returns {Description} - a report of the types
- * 
+ *
  * @since 0.1.0
  */
-module.exports.describe = function(obj, ignore = []) {
+export default function(obj, ignore = []) {
   // Prevent external function from calling `describe` with more
   // than two arguments, i.e. overriding the `history` parameter.
   return describe(obj, ignore);
-};
+}
 
 /**
  * Description goes here
  * @typedef {Object} ObjectDescription
- * 
+ *
  * @property {string} is - the name of the object’s type
  * @property {string} summary - a short summary of a potentially complicated object hierarchy
- * @property {boolean} [isIterable] - whether an object, all the way along its prototype chain, is iterable 
+ * @property {boolean} [isIterable] - whether an object, all the way along its prototype chain, is iterable
  * @property {ObjectDescription[]|PrimitiveDescription[]} properties - all of the instance’s own propties and symbols
- * @property {ObjectDescription} [prototype] - the instance’s prototype 
- * 
+ * @property {ObjectDescription} [prototype] - the instance’s prototype
+ *
  * @since 0.1.0
  */
 
 /**
  * Description goes here
-   * @typedef {Bucket[]} IterablesDescription
- * 
+ * @typedef {Bucket[]} IterablesDescription
+ *
  * @property {boolean} truncated - whether the underlying iterable has been truncated
- * 
+ *
  * @since 0.1.0
  */
 
 /**
  * Description goes here
  * @typedef {Object} Bucket
- * 
+ *
  * @property {number[]} bounds - lower and upper bounds of bucket relative to the iteratable
  * @property {ObjectDescriptor[]} items
- * 
+ *
  * @since 0.1.0
  */
 
 /**
  * Description goes here
  * @typedef {Object} FunctionDescription
- * 
+ *
  * @property {string} is - the name of the object’s type
  * @property {Object[]} properties
  * @property {Object} prototype
- * 
+ *
  * @since 0.1.0
  */
 
 /**
  * Description goes here
  * @typedef {Object} PropertyDescription
- * 
+ *
  * @example
  * {
  *   "name": "str",
@@ -298,8 +297,8 @@ module.exports.describe = function(obj, ignore = []) {
  *   "is": "string",
  *   "value": "\"string\"",
  *   "isPrimitive": true
- * }, 
- * 
+ * },
+ *
  * @property {string} name - the name of the property
  * @property {boolean} enumerable - whether it’s enumerable, as defined in `Object.defineProperty()`
  * @property {string} configurable - whether it’s configurable, as defined in `Object.defineProperty()`
@@ -307,6 +306,6 @@ module.exports.describe = function(obj, ignore = []) {
  * @property {ObjectDescription|FunctionDescription|string} is - the name of the object’s type
  * @property {string} value - the serialized value
  * @property {boolean} isPrimitive - `true`
- * 
+ *
  * @since 0.1.0
  */

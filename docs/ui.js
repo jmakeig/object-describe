@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -20,3 +20,19 @@ document.body.addEventListener('click', evt => {
     evt.target.classList.toggle('toggle-none');
   }
 });
+
+const doit = evt => {
+  let obj;
+  try {
+    obj = eval(document.querySelector('.input').value);
+    const html = describe.renderHTML(describe.describe(obj));
+    document.querySelector('.output').innerHTML = html;
+  } catch (err) {
+    document.querySelector('.output').innerHTML =
+      err.message + '\n' + err.stack;
+  }
+};
+
+for (const item of document.querySelectorAll('.doit')) {
+  item.addEventListener('click', doit);
+}

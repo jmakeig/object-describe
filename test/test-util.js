@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright 2017 MarkLogic Corp.                                             *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License");            *
@@ -17,11 +17,11 @@
 const deepEqual = require('/mltap/_modules/deep-equal/index');
 
 /**
- * 
- * 
- * @param {Set} aaa 
- * @param {Set} bbb 
- * @param {function} [comparator] 
+ *
+ *
+ * @param {Set} aaa
+ * @param {Set} bbb
+ * @param {function} [comparator]
  * @returns {boolean}
  */
 function equalSets(aaa, bbb, comparator = (x, y) => x === y) {
@@ -51,9 +51,9 @@ function equalSets(aaa, bbb, comparator = (x, y) => x === y) {
 /**
  * Clones a new set with a specific entry.
  * Doesn’t modify `set`.
- * 
- * @param {Set} set 
- * @param {any} entry 
+ *
+ * @param {Set} set
+ * @param {any} entry
  * @returns {Set}
  * @throws {TypeError}
  */
@@ -73,7 +73,7 @@ function cloneWithout(set, entry) {
  * copy with only the keys specified in the key names collection. Or
  * all the keys *not* in the collection when the `inverse` flag is set
  * to `true`.
- * 
+ *
  * @example
  * select({a: 'A', b: 'B', c: 'C'}, ['b', 'c']); // {b: 'B', c: 'C'}
  * select({a: 'A', b: 'B', c: 'C'}, ['b', 'c'], true); // {a: 'A'}
