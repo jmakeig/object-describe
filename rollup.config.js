@@ -33,6 +33,15 @@ export default [
     plugins
   },
   {
+    input: 'src/render.js',
+    output: {
+      file: 'marklogic-describe/public/javascripts/render.js',
+      format: 'iife',
+      name: 'render'
+    },
+    plugins
+  },
+  {
     //input: 'src/describe.js',
     input: 'test/index.js',
     output: {

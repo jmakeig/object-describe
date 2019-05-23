@@ -1,13 +1,60 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Express</title>
+    <link rel="stylesheet" type="text/css" href="/css/object-describe.css" />
+    <script type="application/javascript" src="/js/render.js"></script>
+    <style type="text/css">
+      body {
+        padding: 0.5em 1em;
+        font-family: 'Helvitica Neue', 'Helvetica', sans-serif;
+        font-size: 12pt;
+      }
+      h2 {
+        margin: 0;
+      }
+      textarea#input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 20em;
+        font-family: monospace;
+        font-size: 12pt;
+        padding: 0.5em;
+        line-height: 1.25;
+      }
+    </style>
+  </head>
 
-<head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
+  <body>
+    <h2>Input</h2>
+    <form>
+      <textarea id="input">const asdf = { asdf: "asdf"}; asdf;</textarea>
+      <button id="doEval">Eval</button>
+    </form>
+    <h2>Output</h2>
+    <div id="output"><!-- --></div>
 
-<body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
-</body>
-
+    <script type="application/javascript">
+      document.body.addEventListener('click', evt => {
+        if (evt.target && evt.target.matches('.toggleable')) {
+          evt.target.classList.toggle('toggle-none');
+        }
+      });
+      document.querySelector('#doEval').addEventListener('click', evt => {
+        evt.preventDefault();
+        doEval(document.querySelector('#input').value).then(json => {
+          console.dir(json);
+          document.querySelector('#output').innerHTML = render.renderHTML(json);
+        });
+      });
+      function doEval(js) {
+        return fetch('/eval', {
+          method: 'POST',
+          cache: 'no-cache',
+          headers: { 'Content-Type': 'application/javascript' },
+          body: js
+        }).then(res => res.json());
+      }
+    </script>
+  </body>
 </html>
