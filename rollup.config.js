@@ -24,6 +24,15 @@ export default [
     plugins
   },
   {
+    input: 'src/describe.js',
+    output: {
+      file: 'marklogic-describe/public/javascripts/describe.js',
+      format: 'iife',
+      name: 'describe'
+    },
+    plugins
+  },
+  {
     //input: 'src/describe.js',
     input: 'test/index.js',
     output: {

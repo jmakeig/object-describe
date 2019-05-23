@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+const fs = require('fs');
+
 const marklogic = require('marklogic');
 
+// FIXME: This is a total hack
 const db = marklogic.createDatabaseClient({
   host: 'localhost',
   port: '8000',
@@ -12,14 +15,19 @@ const db = marklogic.createDatabaseClient({
   authType: 'DIGEST'
 });
 
-/* GET users listing. */
+// FIXME: This is a total hack
+const describe = (function _memo() {
+  const d = fs.readFileSync('public/javascripts/describe.js', 'utf8');
+  // Note: We’re already doing eval, so this doesn’t introduce any new
+  //       security issues
+  return (js = '') => `${d}\ndescribe(eval("${js.replace(/"/g, '\\"')}"));`;
+})();
+
 router.post('/', function(req, res, next) {
-  console.log(
-    db
-      .eval('const asdf={asdf:"asdf"}; asdf;')
-      .result(response => res.json(response[0].value))
-  );
-  //res.json(JSON.stringify({ asdf: 'asdf' }));
+  // res.send(describe(`const asdf={asdf:"asdf"}; asdf;`));
+  db.eval(describe(`const asdf={asdf:"asdf"}; asdf;`))
+    .result()
+    .then(response => res.json(response[0].value));
 });
 
 module.exports = router;
