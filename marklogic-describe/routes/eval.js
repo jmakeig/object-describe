@@ -24,8 +24,9 @@ const describe = (function _memo() {
 })();
 
 router.post('/', function(req, res, next) {
+  console.log(req.body);
   // res.send(describe(`const asdf={asdf:"asdf"}; asdf;`));
-  db.eval(describe(`const asdf={asdf:"asdf"}; asdf;`))
+  db.eval(describe(req.body))
     .result()
     .then(response => res.json(response[0].value));
 });
