@@ -74,6 +74,12 @@ Sequence.from([asdf, asdf, asdf]);
       </section>
     </div>
     <script type="application/javascript">
+      document.addEventListener('keydown', function(evt) {
+        if (evt.ctrlKey && evt.key === 'Enter') {
+          document.querySelector('#doEval').click();
+          evt.preventDefault();
+        }
+      });
       document.body.addEventListener('click', evt => {
         if (evt.target && evt.target.matches('.toggleable')) {
           evt.target.classList.toggle('toggle-none');
