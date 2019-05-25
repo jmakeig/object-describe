@@ -20,15 +20,17 @@ const describe = (function _memo() {
   const d = fs.readFileSync('public/js/describe.js', 'utf8');
   // Note: We’re already doing eval, so this doesn’t introduce any new
   //       security issues
-  return (js = '') => `${d}\ndescribe(eval("${js.replace(/"/g, '\\"')}"));`;
+  return (js = '') => `${d}\ndescribe(eval(\`${js.replace(/`/g, '\\`')}\`));`;
 })();
 
 router.post('/', function(req, res, next) {
   console.log(req.body);
+  console.log(describe(req.body));
   // res.send(describe(`const asdf={asdf:"asdf"}; asdf;`));
   db.eval(describe(req.body))
     .result()
-    .then(response => res.json(response[0].value));
+    .then(response => res.json(response[0].value))
+    .catch(err => res.status(400).send(JSON.stringify(err)));
 });
 
 module.exports = router;

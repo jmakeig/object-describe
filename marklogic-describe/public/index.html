@@ -22,19 +22,29 @@
         padding: 0.5em;
         line-height: 1.25;
       }
+      #output.error {
+        color: red;
+      }
     </style>
   </head>
 
   <body>
     <h2>Input</h2>
     <form>
-      <textarea id="input">const asdf = { asdf: "asdf"}; asdf;</textarea>
+      <textarea spellcheck="false" id="input">
+const asdf = { asdf: 'asdf' };
+Sequence.from([asdf, asdf, asdf]);</textarea
+      >
       <button id="doEval">Eval</button>
     </form>
     <h2>Output</h2>
     <div id="output"><!-- --></div>
 
     <script type="application/javascript">
+      function cleanUp(js = '') {
+        return js.replace(/\r/g, '/n');
+      }
+
       document.body.addEventListener('click', evt => {
         if (evt.target && evt.target.matches('.toggleable')) {
           evt.target.classList.toggle('toggle-none');
@@ -42,10 +52,23 @@
       });
       document.querySelector('#doEval').addEventListener('click', evt => {
         evt.preventDefault();
-        doEval(document.querySelector('#input').value).then(json => {
-          console.dir(json);
-          document.querySelector('#output').innerHTML = render.renderHTML(json);
-        });
+        doEval(document.querySelector('#input').value)
+          .then(json => {
+            // FIXME: How do you cancel a Promise chain?
+            if (json) {
+              document.querySelector('#output').classList.remove('error');
+              document.querySelector('#output').innerHTML = render.renderHTML(
+                json
+              );
+            }
+          })
+          .catch(err =>
+            err.then(e => {
+              document.querySelector('#output').innerHTML =
+                e.body.errorResponse.message;
+              document.querySelector('#output').classList.add('error');
+            })
+          );
       });
       function doEval(js) {
         return fetch('/eval', {
@@ -53,7 +76,14 @@
           cache: 'no-cache',
           headers: { 'Content-Type': 'application/javascript' },
           body: js
-        }).then(res => res.json());
+        })
+          .then(res => {
+            if (res.status > 300) {
+              throw res.json();
+            }
+            return res;
+          })
+          .then(res => res.json());
       }
     </script>
   </body>
