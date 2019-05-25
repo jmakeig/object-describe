@@ -74,10 +74,6 @@ Sequence.from([asdf, asdf, asdf]);
       </section>
     </div>
     <script type="application/javascript">
-      function cleanUp(js = '') {
-        return js.replace(/\r/g, '/n');
-      }
-
       document.body.addEventListener('click', evt => {
         if (evt.target && evt.target.matches('.toggleable')) {
           evt.target.classList.toggle('toggle-none');
@@ -97,8 +93,9 @@ Sequence.from([asdf, asdf, asdf]);
           })
           .catch(err =>
             err.then(e => {
-              document.querySelector('#output').innerHTML =
-                e.body.errorResponse.message;
+              document.querySelector('#output').innerHTML = parseError(
+                e.body.errorResponse
+              ).toString();
               document.querySelector('#output').classList.add('error');
             })
           );
@@ -117,6 +114,23 @@ Sequence.from([asdf, asdf, asdf]);
             return res;
           })
           .then(res => res.json());
+      }
+      function parseError(error) {
+        console.dir(error);
+        if ('JS-JAVASCRIPT' === error.messageCode) {
+          const messageMatcher = /JS-JAVASCRIPT: (.+) -- Error running JavaScript request: (.+)/;
+          const matches = messageMatcher.exec(error.message);
+          if (3 == matches.length) {
+            return {
+              input: matches[1],
+              error: matches[2],
+              toString: function() {
+                return `${this.input} — ${this.error}`;
+              }
+            };
+          }
+        }
+        return error.message || error.toString();
       }
     </script>
   </body>
