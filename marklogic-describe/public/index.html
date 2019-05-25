@@ -81,6 +81,7 @@ Sequence.from([asdf, asdf, asdf]);
       });
       document.querySelector('#doEval').addEventListener('click', evt => {
         evt.preventDefault();
+        console.time('eval');
         doEval(document.querySelector('#input').value)
           .then(json => {
             // FIXME: How do you cancel a Promise chain?
@@ -98,7 +99,10 @@ Sequence.from([asdf, asdf, asdf]);
               ).toString();
               document.querySelector('#output').classList.add('error');
             })
-          );
+          )
+          .finally(() => {
+            console.timeEnd('eval');
+          });
       });
       function doEval(js) {
         return fetch('/eval', {
@@ -109,7 +113,7 @@ Sequence.from([asdf, asdf, asdf]);
         })
           .then(res => {
             if (res.status > 300) {
-              throw res.json();
+              throw res.json(); // Throws a Promise
             }
             return res;
           })
