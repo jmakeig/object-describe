@@ -25,21 +25,54 @@
       #output.error {
         color: red;
       }
+
+      /** Layout **/
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .container > section {
+        box-sizing: border-box;
+        flex: 1;
+        margin-right: 1em;
+      }
+      .container > section:last-child {
+        margin-right: 0;
+      }
+
+      @media (max-width: 800px) {
+        .container {
+          display: block;
+        }
+        .container > section {
+          margin-right: 0;
+          margin-bottom: 1em;
+        }
+        .container > section:last-child {
+          margin-bottom: 0;
+        }
+      }
     </style>
   </head>
-
   <body>
-    <h2>Input</h2>
-    <form>
-      <textarea spellcheck="false" id="input">
+    <h1>ASDF</h1>
+    <div class="container">
+      <section>
+        <h2>Input</h2>
+        <form>
+          <textarea spellcheck="false" id="input">
 const asdf = { asdf: 'asdf' };
-Sequence.from([asdf, asdf, asdf]);</textarea
-      >
-      <button id="doEval">Eval</button>
-    </form>
-    <h2>Output</h2>
-    <div id="output"><!-- --></div>
-
+Sequence.from([asdf, asdf, asdf]);
+        </textarea
+          >
+          <button id="doEval">Eval</button>
+        </form>
+      </section>
+      <section>
+        <h2>Output</h2>
+        <div id="output"><!-- --></div>
+      </section>
+    </div>
     <script type="application/javascript">
       function cleanUp(js = '') {
         return js.replace(/\r/g, '/n');
