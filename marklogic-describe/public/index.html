@@ -3,6 +3,7 @@
   <head>
     <title>Express</title>
     <link rel="stylesheet" type="text/css" href="/css/object-describe.css" />
+    <script type="application/javascript" src="/js/describe.js"></script>
     <script type="application/javascript" src="/js/render.js"></script>
     <style type="text/css">
       body {
@@ -30,6 +31,14 @@
         padding: 0.5em;
         line-height: 1.25;
       }
+      button {
+        font-size: 1.25em;
+        background: rgb(34, 196, 61);
+        border-radius: 1em;
+        padding: 0.5em 1em;
+        border: none;
+        color: white;
+      }
       #output.error {
         color: red;
       }
@@ -46,6 +55,18 @@
       }
       .container > section:last-child {
         margin-right: 0;
+      }
+
+      .group {
+        display: flex;
+      }
+      .group > * {
+        flex: 1;
+      }
+      .group fieldset {
+        text-align: right;
+        border: none;
+        padding: 0;
       }
 
       @media (max-width: 800px) {
@@ -70,8 +91,25 @@
         <form>
           <textarea spellcheck="false" id="input">
 const asdf = { asdf: 'asdf' };
-Sequence.from([asdf, asdf, asdf]);</textarea>
-          <button id="doEval">Eval</button>
+Sequence.from([asdf, asdf, asdf]);</textarea
+          >
+          <div class="group">
+            <div>
+              <button id="doEval" title="Eval the code and describe its output">
+                Eval
+              </button>
+            </div>
+            <fieldset>
+              <label
+                ><input type="radio" name="run" value="marklogic" checked />
+                MarkLogic</label
+              >
+              <label
+                ><input type="radio" name="run" value="browser" />
+                Browser</label
+              >
+            </fieldset>
+          </div>
         </form>
       </section>
       <section>
@@ -94,6 +132,10 @@ Sequence.from([asdf, asdf, asdf]);</textarea>
       document.querySelector('#doEval').addEventListener('click', evt => {
         evt.preventDefault();
         console.time('eval');
+
+        const run = document.querySelector('form').run.value;
+        const doEval = 'marklogic' === run ? doEvalMarkLogic : doEvalBrowser;
+
         doEval(document.querySelector('#input').value)
           .then(json => {
             // FIXME: How do you cancel a Promise chain?
@@ -116,7 +158,19 @@ Sequence.from([asdf, asdf, asdf]);</textarea>
             console.timeEnd('eval');
           });
       });
-      function doEval(js) {
+      function doEvalBrowser(js) {
+        console.log('Evaluating in locally in the browser');
+        try {
+          const json = describe(eval(js));
+          return Promise.resolve(Promise.resolve(json));
+        } catch (err) {
+          return Promise.reject(
+            Promise.resolve({ body: { errorResponse: err } })
+          );
+        }
+      }
+      function doEvalMarkLogic(js) {
+        console.log('Evaluating in MarkLogic');
         return fetch('/eval', {
           method: 'POST',
           cache: 'no-cache',
@@ -132,7 +186,6 @@ Sequence.from([asdf, asdf, asdf]);</textarea>
           .then(res => res.json());
       }
       function parseError(error) {
-        console.dir(error);
         if ('JS-JAVASCRIPT' === error.messageCode) {
           const messageMatcher = /JS-JAVASCRIPT: (.+) -- Error running JavaScript request: (.+)/;
           const matches = messageMatcher.exec(error.message);

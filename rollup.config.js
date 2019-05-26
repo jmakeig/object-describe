@@ -26,7 +26,7 @@ export default [
   {
     input: 'src/describe.js',
     output: {
-      file: 'marklogic-describe/public/javascripts/describe.js',
+      file: 'marklogic-describe/public/js/describe.js',
       format: 'iife',
       name: 'describe'
     },
@@ -35,7 +35,7 @@ export default [
   {
     input: 'src/render.js',
     output: {
-      file: 'marklogic-describe/public/javascripts/render.js',
+      file: 'marklogic-describe/public/js/render.js',
       format: 'iife',
       name: 'render'
     },
