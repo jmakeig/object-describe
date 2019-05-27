@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JavaScrip Type Discovery Prototype</title>
+    <link rel="stylesheet" type="text/css" href="/css/object-describe.css" />
+    <script type="application/javascript" src="/js/describe.js"></script>
+    <script type="application/javascript" src="/js/render.js"></script>
+    <style type="text/css">
+      body {
+        padding: 0.5em 1em;
+        font-family: 'Helvitica Neue', 'Helvetica', sans-serif;
+        font-size: 12pt;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0.25em 0;
+      }
+      h1 {
+        font-size: 0.85em;
+      }
+      textarea#input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 20em;
+        font-family: monospace;
+        font-size: 12pt;
+        padding: 0.5em;
+        line-height: 1.25;
+      }
+      button {
+        font-size: 1.25em;
+        background: rgb(34, 196, 61);
+        border-radius: 1em;
+        padding: 0.5em 1em;
+        border: none;
+        color: white;
+      }
+      #output.error {
+        color: red;
+      }
+
+      /** Layout **/
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .container > section {
+        box-sizing: border-box;
+        flex: 1;
+        margin-right: 1em;
+      }
+      .container > section:last-child {
+        margin-right: 0;
+      }
+
+      .group {
+        display: flex;
+      }
+      .group > * {
+        flex: 1;
+      }
+      .group fieldset {
+        text-align: right;
+        border: none;
+        padding: 0;
+      }
+
+      @media (max-width: 800px) {
+        .container {
+          display: block;
+        }
+        .container > section {
+          margin-right: 0;
+          margin-bottom: 1em;
+        }
+        .container > section:last-child {
+          margin-bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Type Discovery</h1>
+    <div class="container">
+      <section>
+        <h2>Input</h2>
+        <form>
+          <textarea spellcheck="false" id="input">
+const asdf = { asdf: 'asdf' };
+new Set([asdf, asdf, asdf]);</textarea
+          >
+          <div class="group">
+            <div>
+              <button id="doEval" title="Eval the code and describe its output">
+                Eval
+              </button>
+            </div>
+            <fieldset>
+              <label
+                ><input type="radio" name="run" value="marklogic" checked />
+                MarkLogic</label
+              >
+              <label
+                ><input type="radio" name="run" value="browser" />
+                Browser</label
+              >
+            </fieldset>
+          </div>
+        </form>
+      </section>
+      <section>
+        <h2>Output</h2>
+        <div id="output"><!-- --></div>
+      </section>
+    </div>
+    <script type="application/javascript">
+      document.addEventListener('keydown', function(evt) {
+        if (evt.ctrlKey && evt.key === 'Enter') {
+          document.querySelector('#doEval').click();
+          evt.preventDefault();
+        }
+      });
+      document.body.addEventListener('click', evt => {
+        if (evt.target && evt.target.matches('.toggleable')) {
+          evt.target.classList.toggle('toggle-none');
+        }
+      });
+      document.querySelector('#doEval').addEventListener('click', evt => {
+        evt.preventDefault();
+        console.time('eval');
+
+        const run = document.querySelector('form').run.value;
+        const doEval = 'marklogic' === run ? doEvalMarkLogic : doEvalBrowser;
+
+        doEval(document.querySelector('#input').value)
+          .then(json => {
+            // FIXME: How do you cancel a Promise chain?
+            if (json) {
+              document.querySelector('#output').classList.remove('error');
+              document.querySelector('#output').innerHTML = render.renderHTML(
+                json
+              );
+            }
+          })
+          .catch(err => {
+            // Render error
+            if (err instanceof Error) throw err;
+            err.then(e => {
+              document.querySelector('#output').innerHTML = parseError(
+                e.body.errorResponse
+              ).toString();
+              document.querySelector('#output').classList.add('error');
+            });
+          })
+          // Render error
+          // FIXME: This should be some sort of global error. (It’s not user-serviceable.)
+          .catch(err => console.error(err.message, err))
+          .finally(() => {
+            console.timeEnd('eval');
+          });
+      });
+      function doEvalBrowser(js) {
+        console.log('Evaluating locally in the browser');
+        try {
+          const json = describe(eval(js));
+          return Promise.resolve(Promise.resolve(json));
+        } catch (err) {
+          return Promise.reject(
+            Promise.resolve({ body: { errorResponse: err } })
+          );
+        }
+      }
+      function doEvalMarkLogic(js) {
+        console.log('Evaluating in MarkLogic');
+        return fetch('/eval', {
+          method: 'POST',
+          cache: 'no-cache',
+          headers: { 'Content-Type': 'application/javascript' },
+          body: js
+        })
+          .then(res => {
+            if (res.status > 300) {
+              throw res.json(); // Throws a Promise
+            }
+            return res;
+          })
+          .then(res => res.json());
+      }
+      function parseError(error) {
+        if ('JS-JAVASCRIPT' === error.messageCode) {
+          const messageMatcher = /JS-JAVASCRIPT: (.+) -- Error running JavaScript request: (.+)/;
+          const matches = messageMatcher.exec(error.message);
+          if (3 == matches.length) {
+            return {
+              input: matches[1],
+              error: matches[2],
+              toString: function() {
+                return `${this.input} — ${this.error}`;
+              }
+            };
+          }
+        }
+        return error.message || error.toString();
+      }
+    </script>
+  </body>
+</html>

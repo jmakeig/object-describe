@@ -212,6 +212,9 @@ function hasAccessor(prop) {
  * @private
  */
 function renderValue(value, type = 'Object', name) {
+  if ('symbol' === typeof value) {
+    return `<span class="resticted">Restricted</span>`;
+  }
   switch (type) {
     // Would this be better handled by a custom class
     case 'Function':
