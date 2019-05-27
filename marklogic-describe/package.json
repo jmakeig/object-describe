@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "DEBUG=marklogic:* node ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "docopt": "^0.6.2",
     "express": "~4.17.0",
     "marklogic": "^2.2.0",
     "morgan": "~1.9.1"

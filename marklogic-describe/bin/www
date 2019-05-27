@@ -4,34 +4,32 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('marklogic:server');
-var http = require('http');
+const app = require('../app.js');
+const debug = require('debug')('marklogic:server');
+const http = require('http');
 
-/**
- * Get port from environment and store in Express.
- */
+const { docopt } = require('docopt');
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const doc = `
+Start the web server that connets to MarkLogic via port and host
 
-/**
- * Create HTTP server.
- */
+Usage:
+  www [options]
 
-var server = http.createServer(app);
+Options:
+  --port=<port>      Port number [default: 3000]
+  --host=<host>      MarkLogic host [default: localhost]
+  --user=<user>      MarkLogic username
+  --password=<pass>  MarkLogic password
+`;
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+const options = docopt(doc);
 
+const server = http.createServer(app);
+const port = normalizePort(options['--port'] || process.env.PORT || '3000');
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -49,18 +47,12 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -77,14 +69,8 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
