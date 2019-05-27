@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Express</title>
+    <title>JavaScrip Type Discovery Prototype</title>
     <link rel="stylesheet" type="text/css" href="/css/object-describe.css" />
     <script type="application/javascript" src="/js/describe.js"></script>
     <script type="application/javascript" src="/js/render.js"></script>
@@ -91,7 +91,7 @@
         <form>
           <textarea spellcheck="false" id="input">
 const asdf = { asdf: 'asdf' };
-Sequence.from([asdf, asdf, asdf]);</textarea
+new Set([asdf, asdf, asdf]);</textarea
           >
           <div class="group">
             <div>
@@ -146,14 +146,19 @@ Sequence.from([asdf, asdf, asdf]);</textarea
               );
             }
           })
-          .catch(err =>
+          .catch(err => {
+            // Render error
+            if (err instanceof Error) throw err;
             err.then(e => {
               document.querySelector('#output').innerHTML = parseError(
                 e.body.errorResponse
               ).toString();
               document.querySelector('#output').classList.add('error');
-            })
-          )
+            });
+          })
+          // Render error
+          // FIXME: This should be some sort of global error. (It’s not user-serviceable.)
+          .catch(err => console.error(err.message, err))
           .finally(() => {
             console.timeEnd('eval');
           });
