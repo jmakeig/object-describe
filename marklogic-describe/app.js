@@ -1,25 +1,38 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var evalRouter = require('./routes/eval');
+const marklogic = require('marklogic');
+const evalRouter = require('./routes/eval');
 
-var app = express();
+function createApp(host, user, password) {
+  const app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  app.use(logger('dev'));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use(
-  '/eval',
-  bodyParser.text({ type: 'application/javascript' }),
-  evalRouter
-);
+  app.use(
+    '/eval',
+    bodyParser.text({ type: 'application/javascript' }),
+    evalRouter
+  );
 
-module.exports = app;
+  const db = marklogic.createDatabaseClient({
+    host,
+    port: '8000',
+    database: 'Documents',
+    user,
+    password,
+    authType: 'DIGEST'
+  });
+
+  app.locals.db = db;
+  return app;
+}
+
+module.exports = createApp;

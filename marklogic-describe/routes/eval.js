@@ -3,18 +3,6 @@ const router = express.Router();
 
 const fs = require('fs');
 
-const marklogic = require('marklogic');
-
-// FIXME: This is a total hack
-const db = marklogic.createDatabaseClient({
-  host: 'localhost',
-  port: '8000',
-  database: 'Documents',
-  user: 'admin',
-  password: '********',
-  authType: 'DIGEST'
-});
-
 // FIXME: This is a total hack
 const describe = (function _memo() {
   const d = fs.readFileSync('public/js/describe.js', 'utf8');
@@ -24,7 +12,8 @@ const describe = (function _memo() {
 })();
 
 router.post('/', function(req, res, next) {
-  db.eval(describe(req.body))
+  req.app.locals.db
+    .eval(describe(req.body))
     .result()
     .then(response => res.json(response[0].value))
     .catch(err => res.status(400).send(JSON.stringify(err)));
