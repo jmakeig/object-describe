@@ -42,3 +42,7 @@ Options:
     --user=<user>   MarkLogic user name
     --pass=<pass>   MarkLogic password
 ```
+
+## Develop
+
+In development you’ll need to run `npm run build` *in the parent directory* to build the `describe.js` and `render.js` packages from source. For better or worse, these are checked in, so you don’t need to build them initially.
