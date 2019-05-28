@@ -1,12 +1,39 @@
 # MarkLogic Prototype
 
-A prototype of visualizing JavaScript object hierarchies in MarkLogic or the browser.
+A prototype visualization of JavaScript object hierarchies in MarkLogic or the browser.
+
+![Screenshot](./screenshot.png)
+
+## Install
 
 MacOS:
 
 ```shell
 git clone https://github.com/jmakeig/object-describe.git
 cd object-describe/marklogic-describe
+npm install
+```
+
+## Run
+
+MacOS:
+
+```shell
 npm start -- marklogic --user 'sally' --pass '********'
 open http://localhost:3000/
+```
+
+Start the web server that connects to MarkLogic via port and host. 
+
+```text
+Usage:
+  npm start -- [--port=<port>]
+  npm start -- [--port=<port>] marklogic [--host=<host>] [--user=<user>] [--pass=<pass>]
+
+Options:
+  --port=<port>     Port to listen on [default: 3000]
+  marklogic:
+    --host=<host>   MarkLogic host to connect to [default: localhost]
+    --user=<user>   MarkLogic user name
+    --pass=<pass>   MarkLogic password
 ```
