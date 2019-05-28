@@ -15,28 +15,35 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 .toggleable:before {
-  content: '▾';
-  color: #ccc;
   display: block;
   float: left;
+
   width: 0.75em;
+
+  color: #ccc;
+
+  content: '▾';
+}
+
+.describe-container {
+  white-space: nowrap;
 }
 
 .is,
 .name,
 .value,
 .summary {
-  font-family: "SF Mono", "Consolas", monospace;
   color: #000;
+  font-family: 'SF Mono', 'Consolas', monospace;
 }
 
-.prototype>.name,
-.iterables>.name {
+.prototype > .name,
+.iterables > .name {
+  color: #999;
   font-family: inherit;
-  text-transform: uppercase;
   font-size: 65%;
   font-weight: unset;
-  color: #999;
+  text-transform: uppercase;
 }
 
 .name {
@@ -44,9 +51,11 @@
 }
 
 .is {
-  background: #eee;
   padding: 0.25em 0.5em;
+
   border-radius: 0.5em;
+
+  background: #eee;
 }
 
 .value,
@@ -55,12 +64,13 @@
 }
 
 .toggleable.toggle-none:before {
-  content: '▸';
   font-family: monosapce;
+
+  content: '▸';
   cursor: pointer;
 }
 
-.toggle-none>.toggle-group {
+.toggle-none > .toggle-group {
   display: none;
 }
 
@@ -69,19 +79,21 @@
 }
 
 .toggle-group,
-.buckets>.truncated {
-  margin-left: .25em;
+.buckets > .truncated {
+  margin-left: 0.25em;
 }
 
 .toggle-group {
-  border-left: dotted 1px #ddd;
   padding-left: 0.75em;
+
+  border-left: dotted 1px #ddd;
 }
 
-.iterables>.toggle-group,
-.prototype>.toggle-group {
+.iterables > .toggle-group,
+.prototype > .toggle-group {
   margin-left: 0;
   padding-left: 0;
+
   border-left-color: transparent;
 }
 
@@ -104,62 +116,76 @@
 .is-Date:before,
 .is-number:before,
 .is-undefined:before,
-.iterable>.is+span:after {
-  display: inline-block;
-  width: 1em;
-  border-radius: 4em;
-  padding: 0.1em 0.45em;
-  text-align: center;
-  font-size: 60%;
-  border-width: 0.5px;
-  border-style: solid;
-  line-height: 1.25;
-  font-weight: bold;
+.iterable > .is + span:after {
   position: relative;
   top: -0.1em;
+
+  display: inline-block;
+
+  width: 1em;
+  padding: 0.1em 0.45em;
+
+  border-width: 0.5px;
+  border-style: solid;
+  border-radius: 4em;
+
   color: #fff;
-  font-family: "SF Mono", "Consolas", monospace;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 60%;
+  font-weight: bold;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .is-string:before {
   content: 'S';
-  background: #FF715B;
+
+  background: #ff715b;
 }
 
 .is-Function:before,
 .is-GeneratorFunction:before {
   content: 'F';
-  background: #BCED09;
+
+  background: #bced09;
 }
 
 .is-null:before {
   content: 'N';
-  background: #2F52E0;
+
+  background: #2f52e0;
 }
 
 .is-boolean:before {
   content: 'B';
-  background: #F9CB40;
+
+  background: #f9cb40;
 }
 
 .is-Date:before {
   content: 'D';
-  background: #4C5B5C;
+
+  background: #4c5b5c;
 }
 
 .is-number:before {
   content: '#';
-  background: #DBB4AD;
+
+  background: #dbb4ad;
 }
 
 .is-undefined:before {
-  color: #ddd;
-  content: 'U';
   border: solid 0.5px #ddd;
+
+  color: #ddd;
+
+  content: 'U';
 }
 
-.iterable>.is+span:after {
-  content: 'I';
-  background: darkslateblue;
+.iterable > .is + span:after {
   margin-left: 0.75em;
+
+  content: 'I';
+
+  background: darkslateblue;
 }

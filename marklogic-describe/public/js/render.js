@@ -298,7 +298,7 @@ var render = (function (exports) {
    * @since 0.1.0
    */
   function renderHTML(obj) {
-    return renderObject(obj);
+    return `<div class="describe-container">${renderObject(obj)}</div>`;
   }
 
   /**
