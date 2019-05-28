@@ -80,12 +80,16 @@
         text-align: right;
         border: none;
         padding: 0;
+        flex: auto;
       }
 
       @media (max-width: 800px) {
         body,
         html {
           overflow: auto;
+        }
+        body {
+          padding-right: 1em;
         }
         .container {
           display: block;
@@ -123,8 +127,11 @@ new Set([asdf, asdf, asdf]);</textarea
           >
           <div class="group">
             <div>
-              <button id="doEval" title="Eval the code and describe its output">
-                Eval
+              <button
+                id="doEval"
+                title="Run the code in the specified environment and describe its output"
+              >
+                Run
               </button>
             </div>
             <fieldset>
