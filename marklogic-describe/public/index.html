@@ -113,6 +113,22 @@
       .container {
         flex: 1;
       }
+      .message {
+        max-width: 20em;
+        padding: 1em;
+        background: rgb(216, 231, 250);
+        line-height: 1.55;
+        margin: 10% auto;
+        box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+      }
+      ol,
+      ul {
+        margin: 0;
+        padding-left: 0.5em;
+        padding-inline-start: 0.5em;
+        margin-left: 1em;
+        margin-inline-start: 1em;
+      }
     </style>
   </head>
   <body>
@@ -149,7 +165,21 @@ new Set([asdf, asdf, asdf]);</textarea
       </section>
       <section>
         <h2>Output</h2>
-        <div id="output"><!-- --></div>
+        <div id="output">
+          <div class="message">
+            <ol>
+              <li>Write some JavaScript in the <strong>Input</strong></li>
+              <li>
+                Select the environment in which to run it
+                <ul>
+                  <li>A MarkLogic instance</li>
+                  <li>Locally in the current browser</li>
+                </ul>
+              </li>
+              <li>Click the <strong>Run</strong> button (or Ctl+Enter)</li>
+            </ol>
+          </div>
+        </div>
       </section>
     </div>
     <script type="application/javascript">
