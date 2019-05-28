@@ -16,13 +16,15 @@ const doc = `
 Start the web server that connets to MarkLogic via port and host
 
 Usage:
-  www [options]
+  www [--port=<port>]
+  www [--port=<port>] marklogic [--host=<host>] [--user=<user>] [--pass=<pass>]
 
 Options:
-  --port=<port>      Port number [default: ${defaultPort}]
-  --host=<host>      MarkLogic host [default: localhost]
-  --user=<user>      MarkLogic username
-  --password=<pass>  MarkLogic password
+  --port=<port>     Port to listen on [default: 3000]
+  marklogic:
+    --host=<host>   MarkLogic host to connect to [default: localhost]
+    --user=<user>   MarkLogic user name
+    --pass=<pass>   MarkLogic password
 `;
 
 const options = docopt(doc);
@@ -30,7 +32,7 @@ const options = docopt(doc);
 const app = createApp(
   options['--host'],
   options['--user'],
-  options['--password'] // FIXME: Yuck!
+  options['--pass'] // FIXME: Yuck!
 );
 
 const server = http.createServer(app);
