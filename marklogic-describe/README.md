@@ -4,6 +4,11 @@ A prototype visualization of JavaScript object hierarchies in MarkLogic or the b
 
 ![Screenshot](./screenshot.png)
 
+## Requirements
+
+* [MarkLogic 9](https://developer.marklogic.com/products)
+* [Node.js 10](https://nodejs.org/en/download/)
+
 ## Install
 
 MacOS:
