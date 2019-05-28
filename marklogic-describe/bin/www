@@ -4,43 +4,51 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('marklogic:server');
-var http = require('http');
+const createApp = require('../app.js');
+const debug = require('debug')('marklogic:server');
+const http = require('http');
 
-/**
- * Get port from environment and store in Express.
- */
+const { docopt } = require('docopt');
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const defaultPort = '3000';
 
-/**
- * Create HTTP server.
- */
+const doc = `
+Start the web server that connets to MarkLogic via port and host
 
-var server = http.createServer(app);
+Usage:
+  www [--port=<port>]
+  www [--port=<port>] marklogic [--host=<host>] [--user=<user>] [--pass=<pass>]
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+Options:
+  --port=<port>     Port to listen on [default: 3000]
+  marklogic:
+    --host=<host>   MarkLogic host to connect to [default: localhost]
+    --user=<user>   MarkLogic user name
+    --pass=<pass>   MarkLogic password
+`;
 
+const options = docopt(doc);
+
+const app = createApp(
+  options['--host'],
+  options['--user'],
+  options['--pass'] // FIXME: Yuck!
+);
+
+const server = http.createServer(app);
+const port = normalizePort(
+  options['--port'] || process.env.PORT || defaultPort
+);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
 function normalizePort(val) {
-  var port = parseInt(val, 10);
-
+  const port = parseInt(val, 10);
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-
   if (port >= 0) {
     // port number
     return port;
@@ -49,18 +57,12 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -77,14 +79,8 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
