@@ -99,6 +99,10 @@
         return 'file:' === new URL(href).protocol;
       }
 
+      function isGitHub(href) {
+        return 'jmakeig.github.io' == new URL(location.href).host;
+      }
+
       function initialize({ js, environment }) {
         if (environment) {
           input.environment = environment;
@@ -114,7 +118,8 @@
       function getInitialStateFromURL({ search, href }) {
         return {
           js: new URLSearchParams(search).get('input'),
-          environment: isFileProtocol(href) ? 'browser' : 'marklogic'
+          environment:
+            isFileProtocol(href) || isGitHub(href) ? 'browser' : 'marklogic'
         };
       }
 
