@@ -28,6 +28,8 @@ npm start -- marklogic --user 'sally' --pass '********'
 open http://localhost:3000/
 ```
 
+Visit [http://locahost:3000/](http://locahost:3000/) in your browser.
+
 Start the web server that connects to MarkLogic via port and host. 
 
 ```text
