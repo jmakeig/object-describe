@@ -28,7 +28,9 @@ npm start -- marklogic --user 'sally' --pass '********'
 open http://localhost:3000/
 ```
 
-Visit [http://locahost:3000/](http://locahost:3000/) in your browser.
+where `sally` is a user with `eval` privileges in your MarkLogic instance.
+
+Visit [http://localhost:3000/](http://localhost:3000/) in your browser.
 
 Start the web server that connects to MarkLogic via port and host. 
 
