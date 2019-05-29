@@ -68,12 +68,36 @@
         (hierarchy, js, quiet = false) => {
           output.hierarchy = hierarchy;
           if (!quiet) {
-            history.pushState(js, 'Yo!', `/?input=${encodeURIComponent(js)}`);
+            pushState(js);
           }
         },
         error => (output.message = { type: 'error', text: error })
         //js => (output.message = { text: undefined })
       );
+
+      /**
+       * Wraps `history.pushState()` to ignore when served as `file:`
+       * and to provide a meaningful title.
+       *
+       */
+      function pushState(js = '') {
+        const title = document.title;
+        let trunc = js.slice(0, 10);
+        if (js.length > trunc) {
+          trunc = trunc + '…';
+        }
+        if (!isFileProtocol(window.location.href)) {
+          history.pushState(
+            js,
+            `${title}: ${trunc}`,
+            `/?input=${encodeURIComponent(js)}`
+          );
+        }
+      }
+
+      function isFileProtocol(href) {
+        return 'file:' === new URL(href).protocol;
+      }
 
       function initialize({ js, environment }) {
         if (environment) {
@@ -90,8 +114,7 @@
       function getInitialStateFromURL({ search, href }) {
         return {
           js: new URLSearchParams(search).get('input'),
-          environment:
-            'file:' === new URL(href).protocol ? 'browser' : 'marklogic'
+          environment: isFileProtocol(href) ? 'browser' : 'marklogic'
         };
       }
 
