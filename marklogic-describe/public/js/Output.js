@@ -5,11 +5,15 @@ function Output() {
       outputEl.innerHTML = render.renderHTML(h);
     },
     set message({ text, type }) {
-      outputEl.innerHTML = `
-      <div class="message ${type}">
-        ${text}
-      </div>
-      `;
+      if (text) {
+        outputEl.innerHTML = `
+          <div class="message ${type}">
+            ${text}
+          </div>
+        `;
+      } else {
+        outputEl.innerHTML = '';
+      }
     }
   };
 }

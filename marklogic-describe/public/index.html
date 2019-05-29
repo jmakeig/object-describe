@@ -26,8 +26,8 @@
               </button>
             </div>
             <fieldset>
-              <label
-                ><input type="radio" name="run" value="marklogic" checked />
+              <label>
+                <input type="radio" name="run" value="marklogic" checked />
                 MarkLogic</label
               >
               <label
@@ -65,9 +65,31 @@
       const input = Input(
         DEFAULTJS,
         'marklogic',
-        hierarchy => (output.hierarchy = hierarchy),
+        (hierarchy, js) => {
+          output.hierarchy = hierarchy;
+          history.pushState(js, 'Yo!', `/?input=${encodeURIComponent(js)}`);
+        },
         error => (output.message = { type: 'error', text: error })
+        //js => (output.message = { text: undefined })
       );
+
+      function initializeFromURL(js) {
+        if (!js) {
+          input.js = DEFAULTJS;
+        } else {
+          input.js = js;
+          input.run();
+        }
+      }
+
+      initializeFromURL(
+        new URLSearchParams(window.location.search).get('input')
+      );
+
+      window.addEventListener('popstate', evt => {
+        const state = evt.state;
+        initializeFromURL(evt.state);
+      });
 
       // TODO: Componentize me
       document.body.addEventListener('click', evt => {

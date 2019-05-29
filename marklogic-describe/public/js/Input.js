@@ -2,7 +2,8 @@ function Input(
   js = '',
   environment = 'marklogic',
   onRun = heirarchy => console.dir(heirarchy),
-  onError = error => console.dir(error)
+  onError = error => console.dir(error),
+  onChange = value => console.dir(value)
 ) {
   function doEvalBrowser(js) {
     console.info('Evaluating locally in the browser');
@@ -61,7 +62,7 @@ function Input(
       'marklogic' === environmentEl.value ? doEvalMarkLogic : doEvalBrowser;
 
     doEval(inputEl.value)
-      .then(onRun)
+      .then(hierarchy => onRun(hierarchy, inputEl.value))
       .catch(err => {
         // Render error
         if (err instanceof Error) throw err;
@@ -83,4 +84,19 @@ function Input(
       evt.preventDefault();
     }
   });
+
+  return {
+    set js(text) {
+      inputEl.value = text;
+      onChange(inputEl.value);
+    },
+    set environment(env) {
+      environmentEl.value = env;
+    },
+    run() {
+      if (inputEl.value) {
+        runEl.click();
+      }
+    }
+  };
 }
