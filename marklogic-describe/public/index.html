@@ -65,30 +65,41 @@
       const input = Input(
         DEFAULTJS,
         'marklogic',
-        (hierarchy, js) => {
+        (hierarchy, js, quiet = false) => {
           output.hierarchy = hierarchy;
-          history.pushState(js, 'Yo!', `/?input=${encodeURIComponent(js)}`);
+          if (!quiet) {
+            history.pushState(js, 'Yo!', `/?input=${encodeURIComponent(js)}`);
+          }
         },
         error => (output.message = { type: 'error', text: error })
         //js => (output.message = { text: undefined })
       );
 
-      function initializeFromURL(js) {
+      function initialize({ js, environment }) {
+        if (environment) {
+          input.environment = environment;
+        }
         if (!js) {
           input.js = DEFAULTJS;
         } else {
           input.js = js;
-          input.run();
+          input.run(true);
         }
       }
 
-      initializeFromURL(
-        new URLSearchParams(window.location.search).get('input')
-      );
+      function getInitialStateFromURL({ search, href }) {
+        return {
+          js: new URLSearchParams(search).get('input'),
+          environment:
+            'file:' === new URL(href).protocol ? 'browser' : 'marklogic'
+        };
+      }
+
+      initialize(getInitialStateFromURL(window.location));
 
       window.addEventListener('popstate', evt => {
         const state = evt.state;
-        initializeFromURL(evt.state);
+        initialize({ js: evt.state });
       });
 
       // TODO: Componentize me

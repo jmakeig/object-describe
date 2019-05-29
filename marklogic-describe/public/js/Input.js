@@ -53,16 +53,16 @@ function Input(
   inputEl.value = js;
   environmentEl.value = environment;
 
-  // Event listeners
-  runEl.addEventListener('click', evt => {
-    evt.preventDefault();
+  function runInternal(quiet = false) {
     console.time('eval');
 
     const doEval =
       'marklogic' === environmentEl.value ? doEvalMarkLogic : doEvalBrowser;
 
     doEval(inputEl.value)
-      .then(hierarchy => onRun(hierarchy, inputEl.value))
+      .then(hierarchy => {
+        onRun(hierarchy, inputEl.value, quiet);
+      })
       .catch(err => {
         // Render error
         if (err instanceof Error) throw err;
@@ -75,6 +75,12 @@ function Input(
       .finally(() => {
         console.timeEnd('eval');
       });
+  }
+
+  // Event listeners
+  runEl.addEventListener('click', evt => {
+    evt.preventDefault();
+    runInternal();
   });
 
   // TODO: Componentize
@@ -86,17 +92,26 @@ function Input(
   });
 
   return {
+    get js() {
+      return input.value;
+    },
     set js(text) {
       inputEl.value = text;
       onChange(inputEl.value);
     },
+    get environment() {
+      return environment.value;
+    },
     set environment(env) {
       environmentEl.value = env;
     },
-    run() {
-      if (inputEl.value) {
-        runEl.click();
-      }
+    /**
+     * Evaluate the JavaScript input and render the type hierarchy visualization
+     *
+     * @param {boolean} [quiet = false] Whether to suppress side effects
+     */
+    run(quiet = false) {
+      runInternal(quiet);
     }
   };
 }
