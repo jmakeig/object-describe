@@ -13,17 +13,6 @@ const plugins = [
 ];
 export default [
   {
-    //input: 'src/describe.js',
-    input: 'docs/example.js',
-    output: {
-      file: 'docs/bundle.js',
-      format: 'iife',
-      name: 'describe',
-      sourcemap: true
-    },
-    plugins
-  },
-  {
     input: 'src/describe.js',
     output: {
       file: 'marklogic-describe/public/js/describe.js',

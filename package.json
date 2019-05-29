@@ -11,7 +11,7 @@
     "test:browser": "npm run build && cp test/tests.html dist/ && open dist/tests.html",
     "format": "git diff-index --quiet HEAD -- && prettier --write --single-quote --list-different './{src,test}/**.*js'",
     "pre-flight": "npm run format && npm run test",
-    "docs": "npm run build && documentation build src/*.*js --config documentation.json --format html --output docs/",
+    "docs": "npm run build && documentation build src/*.*js --config documentation.json --format html --output docs/ && cp -R marklogic-describe/public docs/example",
     "readme": "documentation readme src/*.*js --config documentation.json --section Usage --quiet",
     "Xpostdocs": "curl --digest -u admin:admin http://localhost:8642/sandbox/index.sjs?format=html > docs/example.html && cp src/sandbox/object-describe.css src/sandbox/ui.js docs/"
   },
