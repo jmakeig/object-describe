@@ -121,13 +121,30 @@
         margin: 10% auto;
         box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
       }
-      ol,
-      ul {
+      .message ol,
+      .message ul {
         margin: 0;
         padding-left: 0.5em;
         padding-inline-start: 0.5em;
         margin-left: 1em;
         margin-inline-start: 1em;
+      }
+      #global-error {
+        position: absolute;
+        top: 2em;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 20em;
+        z-index: 10;
+        background: pink;
+        border: solid 1px red;
+        color: red;
+        display: none;
+        padding: 1em;
+      }
+      #global-error.is-error {
+        display: block;
       }
     </style>
   </head>
@@ -182,13 +199,16 @@ new Set([asdf, asdf, asdf]);</textarea
         </div>
       </section>
     </div>
+    <div id="global-error"></div>
     <script type="application/javascript">
-      document.addEventListener('keydown', function(evt) {
-        if (evt.ctrlKey && evt.key === 'Enter') {
-          document.querySelector('#doEval').click();
-          evt.preventDefault();
-        }
-      });
+      document
+        .querySelector('#input')
+        .addEventListener('keydown', function(evt) {
+          if (evt.ctrlKey && evt.key === 'Enter') {
+            document.querySelector('#doEval').click();
+            evt.preventDefault();
+          }
+        });
       document.body.addEventListener('click', evt => {
         if (evt.target && evt.target.matches('.toggleable')) {
           evt.target.classList.toggle('toggle-none');
@@ -223,13 +243,18 @@ new Set([asdf, asdf, asdf]);</textarea
           })
           // Render error
           // FIXME: This should be some sort of global error. (It’s not user-serviceable.)
-          .catch(err => console.error(err.message, err))
+          .catch(globalError)
           .finally(() => {
             console.timeEnd('eval');
           });
       });
+      function globalError(err) {
+        const errorMsg = document.querySelector('#global-error');
+        errorMsg.classList.add('is-error');
+        errorMsg.textContent = err.message;
+      }
       function doEvalBrowser(js) {
-        console.log('Evaluating locally in the browser');
+        console.info('Evaluating locally in the browser');
         try {
           const json = describe(eval(js));
           return Promise.resolve(Promise.resolve(json));
@@ -240,20 +265,18 @@ new Set([asdf, asdf, asdf]);</textarea
         }
       }
       function doEvalMarkLogic(js) {
-        console.log('Evaluating in MarkLogic');
+        console.info('Evaluating in MarkLogic');
         return fetch('/eval', {
           method: 'POST',
           cache: 'no-cache',
           headers: { 'Content-Type': 'application/javascript' },
           body: js
-        })
-          .then(res => {
-            if (res.status > 300) {
-              throw res.json(); // Throws a Promise
-            }
-            return res;
-          })
-          .then(res => res.json());
+        }).then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw res.json(); // Throws a Promise
+        });
       }
       function parseError(error) {
         if ('JS-JAVASCRIPT' === error.messageCode) {
