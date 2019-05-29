@@ -8,7 +8,10 @@ const describe = (function _memo() {
   const d = fs.readFileSync('public/js/describe.js', 'utf8');
   // Note: We’re already doing eval, so this doesn’t introduce any new
   //       security issues
-  return (js = '') => `${d}\ndescribe(eval(\`${js.replace(/`/g, '\\`')}\`));`;
+  return (js = '') => `
+    ${d}
+    describe(eval(\`${js.replace(/`/g, '\\`')}\`));
+  `;
 })();
 
 router.post('/', function(req, res, next) {
