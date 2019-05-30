@@ -61,6 +61,7 @@
     <div id="global-error"></div>
     <script type="application/javascript">
       const DEFAULTJS = `const asdf = { asdf: 'asdf' };\nnew Set([asdf, asdf, asdf]);`;
+      const TITLE = document.title;
 
       const output = Output();
       const input = Input(
@@ -83,15 +84,17 @@
        */
       function pushState(js = '') {
         const title = document.title;
-        let trunc = js.slice(0, 10);
-        if (js.length > trunc) {
+        let trunc = js.slice(0, 25);
+        if (js.length > trunc.length) {
           trunc = trunc + '…';
         }
+        document.title = `${TITLE}: ${trunc}`;
         if (!isFileProtocol(window.location.href)) {
+          const path = new URL(location.href).pathname || '/';
           history.pushState(
             js,
-            `${title}: ${trunc}`,
-            `/?input=${encodeURIComponent(js)}`
+            `${TITLE}: ${trunc}`,
+            `${path}?input=${encodeURIComponent(js)}`
           );
         }
       }
