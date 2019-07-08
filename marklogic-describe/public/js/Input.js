@@ -28,6 +28,18 @@ function Input(
       throw res.json(); // Throws a Promise
     });
   }
+
+  /**
+   * FIXME: This is ugly. Figure out how to refactor to account for the different
+   * types of possible errors:
+   *
+   *   1. Connection errors
+   *   2. Server errors (500)
+   *   3. User errors (400)
+   *   4. Unhandled exeception (bug)
+   *
+   * @param {*} error
+   */
   function parseError(error) {
     if ('JS-JAVASCRIPT' === error.messageCode) {
       const messageMatcher = /JS-JAVASCRIPT: (.+) -- Error running JavaScript request: (.+)/;
@@ -36,11 +48,18 @@ function Input(
         return {
           input: matches[1],
           error: matches[2],
-          toString: function() {
+          toString() {
             return `${this.input} — ${this.error}`;
           }
         };
       }
+    } else if ('ECONNREFUSED' === error.code) {
+      console.warn(error);
+      return {
+        toString() {
+          return 'Connection to MarkLogic was refused. Check that MarkLogic is runnning and the host and credentials that you used to start this application are correct.';
+        }
+      };
     }
     return error.message || error.toString();
   }
@@ -66,9 +85,18 @@ function Input(
       .catch(err => {
         // Render error
         if (err instanceof Error) throw err;
-        err.then(e => {
-          onError(parseError(e.body.errorResponse).toString());
-        });
+        err
+          .then(e => {
+            // Server-side error
+            if (e && e.body) {
+              onError(parseError(e.body.errorResponse).toString());
+            }
+            // Middle-tier error (?)
+            else {
+              onError(parseError(e).toString());
+            }
+          })
+          .catch(parseError(onError));
       })
       // Render error
       .catch(onError)
