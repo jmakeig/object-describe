@@ -33,10 +33,16 @@ function Input(
    * FIXME: This is ugly. Figure out how to refactor to account for the different
    * types of possible errors:
    *
-   *   1. Connection errors
-   *   2. Server errors (500)
-   *   3. User errors (400)
-   *   4. Unhandled exeception (bug)
+   *   1. Network errors: connection, auth, timeout
+   *   2. Server errors
+   *      - User (400)
+   *      - System (500)
+   *   3. Response parsing (async)
+   *   4. Render
+   *   5. Unhandled exeception (bug)
+   *
+   * - Normalize errors across 1 and 2
+   * - Provide error codes and resolution
    *
    * @param {*} error
    */
