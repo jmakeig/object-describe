@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/jmakeig/object-describe#readme",
   "devDependencies": {
-    "documentation": "^11.0.0",
+    "documentation": "^14.0.0",
     "esm": "^3.2.25",
     "prettier": "^1.17.1",
     "rollup": "^1.12.2",
